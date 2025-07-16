@@ -1,0 +1,2792 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.llamaindex.ai/en/stable/module_guides/storing/chat_stores/">
+      
+      
+        <link rel="prev" href="../index_stores/">
+      
+      
+        <link rel="next" href="../kv_stores/">
+      
+      
+      <link rel="icon" href="../../../_static/assets/LlamaLogoBrowserTab.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>聊天存储库 - LlamaIndex</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../css/style.css">
+    
+      <link rel="stylesheet" href="../../../css/algolia.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BYVB1ZVE6J"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BYVB1ZVE6J",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BYVB1ZVE6J",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="LlamaIndex" class="md-header__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LlamaIndex
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              聊天存储库
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="purple"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      
+
+<!-- Search interface -->
+<div id="docsearch"></div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../.." class="md-tabs__link">
+          
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../understanding/" class="md-tabs__link">
+          
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../use_cases/" class="md-tabs__link">
+          
+  
+    
+  
+  Use Cases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../examples/" class="md-tabs__link">
+          
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+    
+  
+  Component Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../optimizing/production_rag/" class="md-tabs__link">
+          
+  
+    
+  
+  Advanced Topics
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../api_reference/" class="md-tabs__link">
+          
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../community/integrations/" class="md-tabs__link">
+          
+  
+    
+  
+  Open-Source Community
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-tabs__link">
+        
+  
+    
+  
+  LlamaCloud
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="LlamaIndex" class="md-nav__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    LlamaIndex
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../.." class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../understanding/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Learn
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../use_cases/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Use Cases
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../examples/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Examples
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Component Guides
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Component Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../models/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Models
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../models/prompts/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Prompts
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../loading/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Loading
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../indexing/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Indexing
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Storing
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            Storing
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vector_stores/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    向量存储库
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docstores/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    文档存储
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index_stores/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    索引存储
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    聊天存储库
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    聊天存储库
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#simplechatstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      SimpleChatStore
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upstashchatstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      UpstashChatStore
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="UpstashChatStore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      安装
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#redischatstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      RedisChatStore
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azurechatstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      AzureChatStore
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamodbchatstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      DynamoDBChatStore
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DynamoDBChatStore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      安装
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgreschatstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      PostgresChatStore
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tablestorechatstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      TablestoreChatStore
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TablestoreChatStore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      安装
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#google-alloydb" class="md-nav__link">
+    <span class="md-ellipsis">
+      Google AlloyDB 聊天存储库
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Google AlloyDB 聊天存储库">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      安装
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#google-cloud-sql-for-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      Google Cloud SQL for PostgreSQL 聊天存储库
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Google Cloud SQL for PostgreSQL 聊天存储库">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      安装
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kv_stores/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    键值存储系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../save_load/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    数据持久化与加载
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../customization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    自定义存储配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../querying/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Querying
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../deploying/agents/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Agents
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../workflow/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Workflows
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../evaluating/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Evaluation
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../observability/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Observability
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supporting_modules/settings/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Settings
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../llama_deploy" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Llama Deploy
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../optimizing/production_rag/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Advanced Topics
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../api_reference/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../community/integrations/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Open-Source Community
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LlamaCloud
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#simplechatstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      SimpleChatStore
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upstashchatstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      UpstashChatStore
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="UpstashChatStore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      安装
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#redischatstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      RedisChatStore
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azurechatstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      AzureChatStore
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamodbchatstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      DynamoDBChatStore
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DynamoDBChatStore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      安装
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgreschatstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      PostgresChatStore
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tablestorechatstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      TablestoreChatStore
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TablestoreChatStore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      安装
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#google-alloydb" class="md-nav__link">
+    <span class="md-ellipsis">
+      Google AlloyDB 聊天存储库
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Google AlloyDB 聊天存储库">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      安装
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#google-cloud-sql-for-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      Google Cloud SQL for PostgreSQL 聊天存储库
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Google Cloud SQL for PostgreSQL 聊天存储库">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      安装
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="_1">聊天存储库<a class="headerlink" href="#_1" title="Permanent link">#</a></h1>
+<p>聊天存储库作为集中式接口用于存储聊天历史记录。与其他存储格式相比，聊天历史的独特之处在于消息顺序对于维持完整对话至关重要。</p>
+<p>聊天存储库可以通过键（如<code>user_ids</code>或其他唯一可识别字符串）组织聊天消息序列，并处理<code>delete</code>、<code>insert</code>和<code>get</code>操作。</p>
+<h2 id="simplechatstore">SimpleChatStore<a class="headerlink" href="#simplechatstore" title="Permanent link">#</a></h2>
+<p>最基础的聊天存储库是<code>SimpleChatStore</code>，它将消息存储在内存中，可以保存到磁盘/从磁盘加载，也可以序列化后存储在其他地方。</p>
+<p>通常，您会实例化一个聊天存储库并将其提供给内存模块。使用聊天存储库的内存模块在未提供时会默认使用<code>SimpleChatStore</code>。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.storage.chat_store</span> <span class="kn">import</span> <span class="n">SimpleChatStore</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.memory</span> <span class="kn">import</span> <span class="n">ChatMemoryBuffer</span>
+
+<span class="n">chat_store</span> <span class="o">=</span> <span class="n">SimpleChatStore</span><span class="p">()</span>
+
+<span class="n">chat_memory</span> <span class="o">=</span> <span class="n">ChatMemoryBuffer</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span>
+    <span class="n">token_limit</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span>
+    <span class="n">chat_store</span><span class="o">=</span><span class="n">chat_store</span><span class="p">,</span>
+    <span class="n">chat_store_key</span><span class="o">=</span><span class="s2">&quot;user1&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>创建内存后，您可以将其包含在代理或聊天引擎中：</p>
+<div class="highlight"><pre><span></span><code><span class="n">agent</span> <span class="o">=</span> <span class="n">OpenAIAgent</span><span class="o">.</span><span class="n">from_tools</span><span class="p">(</span><span class="n">tools</span><span class="p">,</span> <span class="n">memory</span><span class="o">=</span><span class="n">memory</span><span class="p">)</span>
+<span class="c1"># 或</span>
+<span class="n">chat_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_chat_engine</span><span class="p">(</span><span class="n">memory</span><span class="o">=</span><span class="n">memory</span><span class="p">)</span>
+</code></pre></div>
+<p>要保存聊天存储库供以后使用，您可以选择从磁盘保存/加载：</p>
+<div class="highlight"><pre><span></span><code><span class="n">chat_store</span><span class="o">.</span><span class="n">persist</span><span class="p">(</span><span class="n">persist_path</span><span class="o">=</span><span class="s2">&quot;chat_store.json&quot;</span><span class="p">)</span>
+<span class="n">loaded_chat_store</span> <span class="o">=</span> <span class="n">SimpleChatStore</span><span class="o">.</span><span class="n">from_persist_path</span><span class="p">(</span>
+    <span class="n">persist_path</span><span class="o">=</span><span class="s2">&quot;chat_store.json&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>或者转换为字符串/从字符串转换，在此过程中将字符串保存在其他地方：</p>
+<div class="highlight"><pre><span></span><code><span class="n">chat_store_string</span> <span class="o">=</span> <span class="n">chat_store</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="n">loaded_chat_store</span> <span class="o">=</span> <span class="n">SimpleChatStore</span><span class="o">.</span><span class="n">parse_raw</span><span class="p">(</span><span class="n">chat_store_string</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="upstashchatstore">UpstashChatStore<a class="headerlink" href="#upstashchatstore" title="Permanent link">#</a></h2>
+<p>使用<code>UpstashChatStore</code>，您可以通过Upstash Redis远程存储聊天历史记录，它提供无服务器Redis解决方案，非常适合需要可扩展且高效聊天存储的应用程序。
+此聊天存储库支持同步和异步操作。</p>
+<h3 id="_2">安装<a class="headerlink" href="#_2" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>llama-index-storage-chat-store-upstash
+</code></pre></div>
+<h3 id="_3">使用<a class="headerlink" href="#_3" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.storage.chat_store.upstash</span> <span class="kn">import</span> <span class="n">UpstashChatStore</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.memory</span> <span class="kn">import</span> <span class="n">ChatMemoryBuffer</span>
+
+<span class="n">chat_store</span> <span class="o">=</span> <span class="n">UpstashChatStore</span><span class="p">(</span>
+    <span class="n">redis_url</span><span class="o">=</span><span class="s2">&quot;YOUR_UPSTASH_REDIS_URL&quot;</span><span class="p">,</span>
+    <span class="n">redis_token</span><span class="o">=</span><span class="s2">&quot;YOUR_UPSTASH_REDIS_TOKEN&quot;</span><span class="p">,</span>
+    <span class="n">ttl</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>  <span class="c1"># 可选：生存时间（秒）</span>
+<span class="p">)</span>
+
+<span class="n">chat_memory</span> <span class="o">=</span> <span class="n">ChatMemoryBuffer</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span>
+    <span class="n">token_limit</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span>
+    <span class="n">chat_store</span><span class="o">=</span><span class="n">chat_store</span><span class="p">,</span>
+    <span class="n">chat_store_key</span><span class="o">=</span><span class="s2">&quot;user1&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>UpstashChatStore支持同步和异步操作。以下是使用异步方法的示例：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.llms</span> <span class="kn">import</span> <span class="n">ChatMessage</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># 添加消息</span>
+    <span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">ChatMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&quot;Hello&quot;</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">),</span>
+        <span class="n">ChatMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&quot;Hi there!&quot;</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="s2">&quot;assistant&quot;</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="k">await</span> <span class="n">chat_store</span><span class="o">.</span><span class="n">async_set_messages</span><span class="p">(</span><span class="s2">&quot;conversation1&quot;</span><span class="p">,</span> <span class="n">messages</span><span class="p">)</span>
+
+    <span class="c1"># 检索消息</span>
+    <span class="n">retrieved_messages</span> <span class="o">=</span> <span class="k">await</span> <span class="n">chat_store</span><span class="o">.</span><span class="n">async_get_messages</span><span class="p">(</span><span class="s2">&quot;conversation1&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">retrieved_messages</span><span class="p">)</span>
+
+    <span class="c1"># 删除最后一条消息</span>
+    <span class="n">deleted_message</span> <span class="o">=</span> <span class="k">await</span> <span class="n">chat_store</span><span class="o">.</span><span class="n">async_delete_last_message</span><span class="p">(</span>
+        <span class="s2">&quot;conversation1&quot;</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Deleted message: </span><span class="si">{</span><span class="n">deleted_message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div>
+<h2 id="redischatstore">RedisChatStore<a class="headerlink" href="#redischatstore" title="Permanent link">#</a></h2>
+<p>使用<code>RedisChatStore</code>，您可以远程存储聊天历史记录，无需担心手动持久化和加载聊天历史。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.storage.chat_store.redis</span> <span class="kn">import</span> <span class="n">RedisChatStore</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.memory</span> <span class="kn">import</span> <span class="n">ChatMemoryBuffer</span>
+
+<span class="n">chat_store</span> <span class="o">=</span> <span class="n">RedisChatStore</span><span class="p">(</span><span class="n">redis_url</span><span class="o">=</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">,</span> <span class="n">ttl</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+
+<span class="n">chat_memory</span> <span class="o">=</span> <span class="n">ChatMemoryBuffer</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span>
+    <span class="n">token_limit</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span>
+    <span class="n">chat_store</span><span class="o">=</span><span class="n">chat_store</span><span class="p">,</span>
+    <span class="n">chat_store_key</span><span class="o">=</span><span class="s2">&quot;user1&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<h2 id="azurechatstore">AzureChatStore<a class="headerlink" href="#azurechatstore" title="Permanent link">#</a></h2>
+<p>使用<code>AzureChatStore</code>，您可以在Azure表存储或CosmosDB中远程存储聊天历史记录，无需担心手动持久化和加载聊天历史。</p>
+<div class="highlight"><pre><span></span><code>pip install llama-index
+pip install llama-index-llms-azure-openai
+pip install llama-index-storage-chat-store-azure
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.chat_engine</span> <span class="kn">import</span> <span class="n">SimpleChatEngine</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.memory</span> <span class="kn">import</span> <span class="n">ChatMemoryBuffer</span>
+<span class="kn">from</span> <span class="nn">llama_index.storage.chat_store.azure</span> <span class="kn">import</span> <span class="n">AzureChatStore</span>
+
+<span class="n">chat_store</span> <span class="o">=</span> <span class="n">AzureChatStore</span><span class="o">.</span><span class="n">from_account_and_key</span><span class="p">(</span>
+    <span class="n">account_name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">account_key</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">chat_table_name</span><span class="o">=</span><span class="s2">&quot;ChatUser&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">memory</span> <span class="o">=</span> <span class="n">ChatMemoryBuffer</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span>
+    <span class="n">token_limit</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span>
+    <span class="n">chat_store</span><span class="o">=</span><span class="n">chat_store</span><span class="p">,</span>
+    <span class="n">chat_store_key</span><span class="o">=</span><span class="s2">&quot;conversation1&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">chat_engine</span> <span class="o">=</span> <span class="n">SimpleChatEngine</span><span class="p">(</span>
+    <span class="n">memory</span><span class="o">=</span><span class="n">memory</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="n">Settings</span><span class="o">.</span><span class="n">llm</span><span class="p">,</span> <span class="n">prefix_messages</span><span class="o">=</span><span class="p">[]</span>
+<span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">chat_engine</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span><span class="s2">&quot;Hello.&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="dynamodbchatstore">DynamoDBChatStore<a class="headerlink" href="#dynamodbchatstore" title="Permanent link">#</a></h2>
+<p>使用<code>DynamoDBChatStore</code>，您可以在AWS DynamoDB中存储聊天历史记录。</p>
+<h3 id="_4">安装<a class="headerlink" href="#_4" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>llama-index-storage-chat-store-dynamodb
+</code></pre></div>
+<h3 id="_5">使用<a class="headerlink" href="#_5" title="Permanent link">#</a></h3>
+<p>确保您已创建具有适当架构的DynamoDB表。以下是默认示例：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">boto3</span>
+
+<span class="c1"># 获取服务资源</span>
+<span class="n">dynamodb</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s2">&quot;dynamodb&quot;</span><span class="p">)</span>
+
+<span class="c1"># 创建DynamoDB表</span>
+<span class="n">table</span> <span class="o">=</span> <span class="n">dynamodb</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span>
+    <span class="n">TableName</span><span class="o">=</span><span class="s2">&quot;EXAMPLE_TABLE&quot;</span><span class="p">,</span>
+    <span class="n">KeySchema</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;AttributeName&quot;</span><span class="p">:</span> <span class="s2">&quot;SessionId&quot;</span><span class="p">,</span> <span class="s2">&quot;KeyType&quot;</span><span class="p">:</span> <span class="s2">&quot;HASH&quot;</span><span class="p">}],</span>
+    <span class="n">AttributeDefinitions</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;AttributeName&quot;</span><span class="p">:</span> <span class="s2">&quot;SessionId&quot;</span><span class="p">,</span> <span class="s2">&quot;AttributeType&quot;</span><span class="p">:</span> <span class="s2">&quot;S&quot;</span><span class="p">}</span>
+    <span class="p">],</span>
+    <span class="n">BillingMode</span><span class="o">=</span><span class="s2">&quot;PAY_PER_REQUEST&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>然后您可以使用<code>DynamoDBChatStore</code>类来持久化和检索聊天历史：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.llms</span> <span class="kn">import</span> <span class="n">ChatMessage</span><span class="p">,</span> <span class="n">MessageRole</span>
+<span class="kn">from</span> <span class="nn">llama_index.storage.chat_store.dynamodb.base</span> <span class="kn">import</span> <span class="n">DynamoDBChatStore</span>
+
+<span class="c1"># 初始化DynamoDB聊天存储</span>
+<span class="n">chat_store</span> <span class="o">=</span> <span class="n">DynamoDBChatStore</span><span class="p">(</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="s2">&quot;EXAMPLE_TABLE&quot;</span><span class="p">,</span> <span class="n">profile_name</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;AWS_PROFILE&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># 不存在的聊天历史返回空数组</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">chat_store</span><span class="o">.</span><span class="n">get_messages</span><span class="p">(</span><span class="s2">&quot;123&quot;</span><span class="p">))</span>
+<span class="c1"># &gt;&gt;&gt; []</span>
+
+<span class="c1"># 使用键&quot;SessionID = 123&quot;初始化聊天历史</span>
+<span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">ChatMessage</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">MessageRole</span><span class="o">.</span><span class="n">USER</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="s2">&quot;Who are you?&quot;</span><span class="p">),</span>
+    <span class="n">ChatMessage</span><span class="p">(</span>
+        <span class="n">role</span><span class="o">=</span><span class="n">MessageRole</span><span class="o">.</span><span class="n">ASSISTANT</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="s2">&quot;I am your helpful AI assistant.&quot;</span>
+    <span class="p">),</span>
+<span class="p">]</span>
+<span class="n">chat_store</span><span class="o">.</span><span class="n">set_messages</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;123&quot;</span><span class="p">,</span> <span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">chat_store</span><span class="o">.</span><span class="n">get_messages</span><span class="p">(</span><span class="s2">&quot;123&quot;</span><span class="p">))</span>
+<span class="c1"># &gt;&gt;&gt; [ChatMessage(role=&lt;MessageRole.USER: &#39;user&#39;&gt;, content=&#39;Who are you?&#39;, additional_kwargs={}),</span>
+<span class="c1">#      ChatMessage(role=&lt;MessageRole.ASSISTANT: &#39;assistant&#39;&gt;, content=&#39;I am your helpful AI assistant.&#39;, additional_kwargs={})]]</span>
+
+<span class="c1"># 向现有聊天历史追加消息</span>
+<span class="n">message</span> <span class="o">=</span> <span class="n">ChatMessage</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">MessageRole</span><span class="o">.</span><span class="n">USER</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="s2">&quot;What can you do?&quot;</span><span class="p">)</span>
+<span class="n">chat_store</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;123&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">chat_store</span><span class="o">.</span><span class="n">get_messages</span><span class="p">(</span><span class="s2">&quot;123&quot;</span><span class="p">))</span>
+<span class="c1"># &gt;&gt;&gt; [ChatMessage(role=&lt;MessageRole.USER: &#39;user&#39;&gt;, content=&#39;Who are you?&#39;, additional_kwargs={}),</span>
+<span class="c1">#      ChatMessage(role=&lt;MessageRole.ASSISTANT: &#39;assistant&#39;&gt;, content=&#39;I am your helpful AI assistant.&#39;, additional_kwargs={})],</span>
+<span class="c1">#      ChatMessage(role=&lt;MessageRole.USER: &#39;user&#39;&gt;, content=&#39;What can you do?&#39;, additional_kwargs={})]</span>
+</code></pre></div>
+<h2 id="postgreschatstore">PostgresChatStore<a class="headerlink" href="#postgreschatstore" title="Permanent link">#</a></h2>
+<p>使用<code>PostgresChatStore</code>，您可以远程存储聊天历史记录，无需担心手动持久化和加载聊天历史。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.storage.chat_store.postgres</span> <span class="kn">import</span> <span class="n">PostgresChatStore</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.memory</span> <span class="kn">import</span> <span class="n">ChatMemoryBuffer</span>
+
+<span class="n">chat_store</span> <span class="o">=</span> <span class="n">PostgresChatStore</span><span class="o">.</span><span class="n">from_uri</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="s2">&quot;postgresql+asyncpg://postgres:password@127.0.0.1:5432/database&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">chat_memory</span> <span class="o">=</span> <span class="n">ChatMemoryBuffer</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span>
+    <span class="n">token_limit</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span>
+    <span class="n">chat_store</span><span class="o">=</span><span class="n">chat_store</span><span class="p">,</span>
+    <span class="n">chat_store_key</span><span class="o">=</span><span class="s2">&quot;user1&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<h2 id="tablestorechatstore">TablestoreChatStore<a class="headerlink" href="#tablestorechatstore" title="Permanent link">#</a></h2>
+<p>使用<code>TablestoreChatStore</code>，您可以远程存储聊天历史记录，无需担心手动持久化和加载聊天历史。</p>
+<h4 id="_6">安装<a class="headerlink" href="#_6" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>llama-index-storage-chat-store-tablestore
+</code></pre></div>
+<h4 id="_7">使用<a class="headerlink" href="#_7" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.storage.chat_store.tablestore</span> <span class="kn">import</span> <span class="n">TablestoreChatStore</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.memory</span> <span class="kn">import</span> <span class="n">ChatMemoryBuffer</span>
+
+<span class="c1"># 1. 创建表格存储向量存储</span>
+<span class="n">chat_store</span> <span class="o">=</span> <span class="n">TablestoreChatStore</span><span class="p">(</span>
+    <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;&lt;end_point&gt;&quot;</span><span class="p">,</span>
+    <span class="n">instance_name</span><span class="o">=</span><span class="s2">&quot;&lt;instance_name&gt;&quot;</span><span class="p">,</span>
+    <span class="n">access_key_id</span><span class="o">=</span><span class="s2">&quot;&lt;access_key_id&gt;&quot;</span><span class="p">,</span>
+    <span class="n">access_key_secret</span><span class="o">=</span><span class="s2">&quot;&lt;access_key_secret&gt;&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="c1"># 首次使用需要创建表</span>
+<span class="n">chat_store</span><span class="o">.</span><span class="n">create_table_if_not_exist</span><span class="p">()</span>
+
+<span class="n">chat_memory</span> <span class="o">=</span> <span class="n">ChatMemoryBuffer</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span>
+    <span class="n">token_limit</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span>
+    <span class="n">chat_store</span><span class="o">=</span><span class="n">chat_store</span><span class="p">,</span>
+    <span class="n">chat_store_key</span><span class="o">=</span><span class="s2">&quot;user1&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<h2 id="google-alloydb">Google AlloyDB 聊天存储库<a class="headerlink" href="#google-alloydb" title="Permanent link">#</a></h2>
+<p>使用<code>AlloyDBChatStore</code>，您可以在AlloyDB中存储聊天历史记录，无需担心手动持久化和加载聊天历史。</p>
+<p>本教程演示同步接口。所有同步方法都有对应的异步方法。</p>
+<h4 id="_8">安装<a class="headerlink" href="#_8" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>llama-index
+pip<span class="w"> </span>install<span class="w"> </span>llama-index-alloydb-pg
+pip<span class="w"> </span>install<span class="w"> </span>llama-index-llms-vertex
+</code></pre></div>
+<h4 id="_9">使用<a class="headerlink" href="#_9" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.chat_engine</span> <span class="kn">import</span> <span class="n">SimpleChatEngine</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.memory</span> <span class="kn">import</span> <span class="n">ChatMemoryBuffer</span>
+<span class="kn">from</span> <span class="nn">llama_index_alloydb_pg</span> <span class="kn">import</span> <span class="n">AlloyDBChatStore</span><span class="p">,</span> <span class="n">AlloyDBEngine</span>
+<span class="kn">from</span> <span class="nn">llama_index.llms.vertex</span> <span class="kn">import</span> <span class="n">Vertex</span>
+<span class="kn">import</span> <span class="nn">asyncio</span>
+
+<span class="c1"># 替换为您自己的AlloyDB信息</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">AlloyDBEngine</span><span class="o">.</span><span class="n">from_instance</span><span class="p">(</span>
+    <span class="n">project_id</span><span class="o">=</span><span class="n">PROJECT_ID</span><span class="p">,</span>
+    <span class="n">region</span><span class="o">=</span><span class="n">REGION</span><span class="p">,</span>
+    <span class="n">cluster</span><span class="o">=</span><span class="n">CLUSTER</span><span class="p">,</span>
+    <span class="n">instance</span><span class="o">=</span><span class="n">INSTANCE</span><span class="p">,</span>
+    <span class="n">database</span><span class="o">=</span><span class="n">DATABASE</span><span class="p">,</span>
+    <span class="n">user</span><span class="o">=</span><span class="n">USER</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="n">PASSWORD</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">engine</span><span class="o">.</span><span class="n">init_chat_store_table</span><span class="p">(</span><span class="n">table_name</span><span class="o">=</span><span class="n">TABLE_NAME</span><span class="p">)</span>
+
+<span class="n">chat_store</span> <span class="o">=</span> <span class="n">AlloyDBChatStore</span><span class="o">.</span><span class="n">create_sync</span><span class="p">(</span>
+    <span class="n">engine</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="n">TABLE_NAME</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">memory</span> <span class="o">=</span> <span class="n">ChatMemoryBuffer</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span>
+    <span class="n">token_limit</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span>
+    <span class="n">chat_store</span><span class="o">=</span><span class="n">chat_store</span><span class="p">,</span>
+    <span class="n">chat_store_key</span><span class="o">=</span><span class="s2">&quot;user1&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">llm</span> <span class="o">=</span> <span class="n">Vertex</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;gemini-1.5-flash-002&quot;</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="n">PROJECT_ID</span><span class="p">)</span>
+
+<span class="n">chat_engine</span> <span class="o">=</span> <span class="n">SimpleChatEngine</span><span class="p">(</span><span class="n">memory</span><span class="o">=</span><span class="n">memory</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">prefix_messages</span><span class="o">=</span><span class="p">[])</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">chat_engine</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span><span class="s2">&quot;Hello.&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="google-cloud-sql-for-postgresql">Google Cloud SQL for PostgreSQL 聊天存储库<a class="headerlink" href="#google-cloud-sql-for-postgresql" title="Permanent link">#</a></h2>
+<p>使用<code>PostgresChatStore</code>，您可以在Cloud SQL for Postgres中存储聊天历史记录，无需担心手动持久化和加载聊天历史。</p>
+<p>本教程演示同步接口。所有同步方法都有对应的异步方法。</p>
+<h4 id="_10">安装<a class="headerlink" href="#_10" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>llama-index
+pip<span class="w"> </span>install<span class="w"> </span>llama-index-cloud-sql-pg
+pip<span class="w"> </span>install<span class="w"> </span>llama-index-llms-vertex
+</code></pre></div>
+<h4 id="_11">使用<a class="headerlink" href="#_11" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.chat_engine</span> <span class="kn">import</span> <span class="n">SimpleChatEngine</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.memory</span> <span class="kn">import</span> <span class="n">ChatMemoryBuffer</span>
+<span class="kn">from</span> <span class="nn">llama_index_cloud_sql_pg</span> <span class="kn">import</span> <span class="n">PostgresChatStore</span><span class="p">,</span> <span class="n">PostgresEngine</span>
+<span class="kn">from</span> <span class="nn">llama_index.llms.vertex</span> <span class="kn">import</span> <span class="n">Vertex</span>
+<span class="kn">import</span> <span class="nn">asyncio</span>
+
+<span class="c1"># 替换为您自己的Cloud SQL信息</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">PostgresEngine</span><span class="o">.</span><span class="n">from_instance</span><span class="p">(</span>
+    <span class="n">project_id</span><span class="o">=</span><span class="n">PROJECT_ID</span><span class="p">,</span>
+    <span class="n">region</span><span class="o">=</span><span class="n">REGION</span><span class="p">,</span>
+    <span class="n">instance</span><span class="o">=</span><span class="n">INSTANCE</span><span class="p">,</span>
+    <span class="n">database</span><span class="o">=</span><span class="n">DATABASE</span><span class="p">,</span>
+    <span class="n">user</span><span class="o">=</span><span class="n">USER</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="n">PASSWORD</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">engine</span><span class="o">.</span><span class="n">init_chat_store_table</span><span class="p">(</span><span class="n">table_name</span><span class="o">=</span><span class="n">TABLE_NAME</span><span class="p">)</span>
+
+<span class="n">chat_store</span> <span class="o">=</span> <span class="n">PostgresChatStore</span><span class="o">.</span><span class="n">create_sync</span><span class="p">(</span>
+    <span class="n">engine</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="n">TABLE_NAME</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">memory</span> <span class="o">=</span> <span class="n">ChatMemoryBuffer</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span>
+    <span class="n">token_limit</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span>
+    <span class="n">chat_store</span><span class="o">=</span><span class="n">chat_store</span><span class="p">,</span>
+    <span class="n">chat_store_key</span><span class="o">=</span><span class="s2">&quot;user1&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">llm</span> <span class="o">=</span> <span class="n">Vertex</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;gemini-1.5-flash-002&quot;</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="n">PROJECT_ID</span><span class="p">)</span>
+
+<span class="n">chat_engine</span> <span class="o">=</span> <span class="n">SimpleChatEngine</span><span class="p">(</span><span class="n">memory</span><span class="o">=</span><span class="n">memory</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">prefix_messages</span><span class="o">=</span><span class="p">[])</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">chat_engine</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span><span class="s2">&quot;Hello.&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+       
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../index_stores/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 索引存储">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                索引存储
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../kv_stores/" class="md-footer__link md-footer__link--next" aria-label="Next: 键值存储系统">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                键值存储系统
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <readthedocs-flyout position="bottom-left"></readthedocs-flyout>
+      
+    </div>
+  </div>
+</footer>
+      
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", "GTM-WWRFB36R");
+</script>
+<!-- End Google Tag Manager -->
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.prune", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+        <script src="../../../javascript/runllm.js"></script>
+      
+        <script src="../../../javascript/algolia.js"></script>
+      
+    
+  </body>
+</html>

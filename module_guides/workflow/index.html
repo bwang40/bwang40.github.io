@@ -1,0 +1,2752 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.llamaindex.ai/en/stable/module_guides/workflow/">
+      
+      
+        <link rel="prev" href="../deploying/agents/tools/">
+      
+      
+        <link rel="next" href="../evaluating/">
+      
+      
+      <link rel="icon" href="../../_static/assets/LlamaLogoBrowserTab.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>Workflows - LlamaIndex</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../css/style.css">
+    
+      <link rel="stylesheet" href="../../css/algolia.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BYVB1ZVE6J"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BYVB1ZVE6J",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BYVB1ZVE6J",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="LlamaIndex" class="md-header__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LlamaIndex
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Workflows
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="purple"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      
+
+<!-- Search interface -->
+<div id="docsearch"></div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../understanding/" class="md-tabs__link">
+          
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../use_cases/" class="md-tabs__link">
+          
+  
+    
+  
+  Use Cases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../examples/" class="md-tabs__link">
+          
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+    
+  
+  Component Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../optimizing/production_rag/" class="md-tabs__link">
+          
+  
+    
+  
+  Advanced Topics
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api_reference/" class="md-tabs__link">
+          
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../community/integrations/" class="md-tabs__link">
+          
+  
+    
+  
+  Open-Source Community
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-tabs__link">
+        
+  
+    
+  
+  LlamaCloud
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="LlamaIndex" class="md-nav__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    LlamaIndex
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../.." class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../understanding/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Learn
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../use_cases/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Use Cases
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../examples/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Examples
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Component Guides
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Component Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../models/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Models
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../models/prompts/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Prompts
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../loading/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Loading
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../indexing/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Indexing
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../storing/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Storing
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../querying/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Querying
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../deploying/agents/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Agents
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="./" class="md-nav__link md-nav__link--active">
+              
+  
+  <span class="md-ellipsis">
+    Workflows
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_9">
+            <span class="md-nav__icon md-icon"></span>
+            Workflows
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../evaluating/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Evaluation
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../observability/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Observability
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../supporting_modules/settings/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Settings
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../llama_deploy" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Llama Deploy
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../optimizing/production_rag/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Advanced Topics
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../api_reference/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../community/integrations/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Open-Source Community
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LlamaCloud
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      快速入门
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="快速入门">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      定义工作流事件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      创建工作流类
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      工作流入门点
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      工作流出口点
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      运行工作流
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      自定义入口和出口点
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="自定义入口和出口点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#startevent" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用自定义 StartEvent
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stopevent" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用自定义 StopEvent
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      绘制工作流图
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用全局上下文/状态
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      添加类型化状态
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      等待多个事件
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      手动触发事件
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      流式事件
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      失败时重试步骤执行
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      人在回路
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      逐步执行
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      装饰非类函数
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      跨运行保持上下文
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      资源管理
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      工作流检查点
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      部署工作流
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      示例
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="_1">工作流<a class="headerlink" href="#_1" title="Permanent link">#</a></h1>
+<p>LlamaIndex 中的 <code>Workflow</code> 是一种事件驱动的抽象机制，用于将多个事件串联起来。工作流由多个 <code>步骤</code> 组成，每个步骤负责处理特定类型的事件并触发新事件。</p>
+<p>LlamaIndex 中的 <code>Workflow</code> 通过使用 <code>@step</code> 装饰器修饰函数来工作。该装饰器用于推断每个工作流的输入和输出类型以进行验证，并确保每个步骤仅在接收到可接受的事件时运行。</p>
+<p>你可以创建 <code>Workflow</code> 来完成任何任务！构建智能体、RAG流程、提取流程或任何你想要的流程。</p>
+<p>工作流还具备自动监控功能，因此你可以使用 <a href="../observability/#arize-phoenix-local">Arize Pheonix</a> 等工具观察每个步骤的运行情况。（<strong>注意：</strong> 监控功能仅适用于采用新版监控系统的集成方案，具体效果可能有所差异。）</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>工作流将异步操作视为一等公民，本文档假设你正在异步环境中运行代码。这意味着你需要正确设置异步代码环境。如果你已经在 FastAPI 服务器或 Notebook 中运行，可以直接使用 await 语法！</p>
+<p>如果是自行编写的 Python 脚本，最佳实践是设置单一的异步入口点：</p>
+<div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">MyWorkflow</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">w</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">asyncio</span>
+
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div>
+</div>
+<h2 id="_2">快速入门<a class="headerlink" href="#_2" title="Permanent link">#</a></h2>
+<p>我们通过一个简单的示例来说明：首先生成一个笑话，然后对其进行点评。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.workflow</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Event</span><span class="p">,</span>
+    <span class="n">StartEvent</span><span class="p">,</span>
+    <span class="n">StopEvent</span><span class="p">,</span>
+    <span class="n">Workflow</span><span class="p">,</span>
+    <span class="n">step</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># 若未安装请执行 `pip install llama-index-llms-openai`</span>
+<span class="kn">from</span> <span class="nn">llama_index.llms.openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+
+
+<span class="k">class</span> <span class="nc">JokeEvent</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+    <span class="n">joke</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="k">class</span> <span class="nc">JokeFlow</span><span class="p">(</span><span class="n">Workflow</span><span class="p">):</span>
+    <span class="n">llm</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">()</span>
+
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">generate_joke</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">StartEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JokeEvent</span><span class="p">:</span>
+        <span class="n">topic</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="n">topic</span>
+
+        <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Write your best joke about </span><span class="si">{</span><span class="n">topic</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">acomplete</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">JokeEvent</span><span class="p">(</span><span class="n">joke</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
+
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">critique_joke</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">JokeEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StopEvent</span><span class="p">:</span>
+        <span class="n">joke</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="n">joke</span>
+
+        <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Give a thorough analysis and critique of the following joke: </span><span class="si">{</span><span class="n">joke</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">acomplete</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">StopEvent</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
+
+
+<span class="n">w</span> <span class="o">=</span> <span class="n">JokeFlow</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">w</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">topic</span><span class="o">=</span><span class="s2">&quot;pirates&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</code></pre></div>
+<p>这个示例包含多个组件，让我们逐步解析。</p>
+<h3 id="_3">定义工作流事件<a class="headerlink" href="#_3" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">JokeEvent</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+    <span class="n">joke</span><span class="p">:</span> <span class="nb">str</span>
+</code></pre></div>
+<p>事件是用户定义的 pydantic 对象。你可以控制其属性和辅助方法。在本例中，我们的工作流依赖一个用户定义事件 <code>JokeEvent</code>。</p>
+<h3 id="_4">创建工作流类<a class="headerlink" href="#_4" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">JokeFlow</span><span class="p">(</span><span class="n">Workflow</span><span class="p">):</span>
+    <span class="n">llm</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o-mini&quot;</span><span class="p">)</span>
+    <span class="o">...</span>
+</code></pre></div>
+<p>通过继承 <code>Workflow</code> 类实现工作流。为简化示例，我们附加了一个静态的 <code>OpenAI</code> 大语言模型实例。</p>
+<h3 id="_5">工作流入门点<a class="headerlink" href="#_5" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">JokeFlow</span><span class="p">(</span><span class="n">Workflow</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">generate_joke</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">StartEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JokeEvent</span><span class="p">:</span>
+        <span class="n">topic</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="n">topic</span>
+
+        <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Write your best joke about </span><span class="si">{</span><span class="n">topic</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">acomplete</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">JokeEvent</span><span class="p">(</span><span class="n">joke</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
+
+    <span class="o">...</span>
+</code></pre></div>
+<p>这里定义了工作流的入口点。虽然大多数事件由用户定义，但框架提供了两个特殊事件：<code>StartEvent</code> 和 <code>StopEvent</code>。<code>StartEvent</code> 表示工作流的初始输入位置。</p>
+<p><code>StartEvent</code> 比较特殊，因为它可以包含任意属性。我们通过 <code>ev.topic</code> 访问主题，如果属性不存在会引发错误。也可以使用 <code>ev.get("topic")</code> 来避免属性不存在时的错误。</p>
+<p>你可能注意到我们并未显式指定每个步骤处理的事件类型。实际上，<code>@step</code> 装饰器会自动推断每个步骤的输入输出类型，并在运行前验证工作流的有效性！</p>
+<h3 id="_6">工作流出口点<a class="headerlink" href="#_6" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">JokeFlow</span><span class="p">(</span><span class="n">Workflow</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">critique_joke</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">JokeEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StopEvent</span><span class="p">:</span>
+        <span class="n">joke</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="n">joke</span>
+
+        <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Give a thorough analysis and critique of the following joke: </span><span class="si">{</span><span class="n">joke</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">acomplete</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">StopEvent</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
+
+    <span class="o">...</span>
+</code></pre></div>
+<p>这是工作流的第二个（也是最后一个）步骤。当工作流遇到返回的 <code>StopEvent</code> 时，会立即停止并返回 <code>result</code> 参数中的内容。</p>
+<p>本例中结果是字符串，但也可以是字典、列表或其他对象。</p>
+<h3 id="_7">运行工作流<a class="headerlink" href="#_7" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">w</span> <span class="o">=</span> <span class="n">JokeFlow</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">w</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">topic</span><span class="o">=</span><span class="s2">&quot;pirates&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</code></pre></div>
+<p>最后创建并运行工作流。可以通过超时（秒）和详细模式等设置辅助调试。</p>
+<p><code>.run()</code> 是异步方法，因此使用 await 等待结果。传递给 <code>run()</code> 的关键字参数会成为 <code>StartEvent</code> 的字段，自动触发工作流。如示例所示，<code>topic</code> 可通过步骤中的 <code>ev.topic</code> 访问。</p>
+<h2 id="_8">自定义入口和出口点<a class="headerlink" href="#_8" title="Permanent link">#</a></h2>
+<p>大多数情况下，使用[快速入门]部分介绍的默认入口和出口点就足够了。但工作流也支持自定义事件替代 <code>StartEvent</code> 和 <code>StopEvent</code>。</p>
+<h3 id="startevent">使用自定义 <code>StartEvent</code><a class="headerlink" href="#startevent" title="Permanent link">#</a></h3>
+<p>调用工作流实例的 <code>run()</code> 方法时，关键字参数会自动转换为 <code>StartEvent</code> 实例的字段。当需要传递复杂数据启动工作流时，这种方式可能变得繁琐，此时可以引入自定义启动事件。</p>
+<p>要使用自定义启动事件，首先需要创建继承自 <code>StartEvent</code> 的类：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">from</span> <span class="nn">llama_index.core.workflow</span> <span class="kn">import</span> <span class="n">StartEvent</span>
+<span class="kn">from</span> <span class="nn">llama_index.indices.managed.llama_cloud</span> <span class="kn">import</span> <span class="n">LlamaCloudIndex</span>
+<span class="kn">from</span> <span class="nn">llama_index.llms.openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+
+
+<span class="k">class</span> <span class="nc">MyCustomStartEvent</span><span class="p">(</span><span class="n">StartEvent</span><span class="p">):</span>
+    <span class="n">a_string_field</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">a_path_to_somewhere</span><span class="p">:</span> <span class="n">Path</span>
+    <span class="n">an_index</span><span class="p">:</span> <span class="n">LlamaCloudIndex</span>
+    <span class="n">an_llm</span><span class="p">:</span> <span class="n">OpenAI</span>
+</code></pre></div>
+<p>接下来只需在作为入口点的步骤中使用 <code>MyCustomStartEvent</code> 作为事件类型。以下是一个复杂步骤示例：</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">JokeFlow</span><span class="p">(</span><span class="n">Workflow</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">generate_joke_from_index</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">MyCustomStartEvent</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JokeEvent</span><span class="p">:</span>
+        <span class="c1"># 使用启动事件中的索引和LLM构建查询引擎</span>
+        <span class="n">query_engine</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="n">an_index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">ev</span><span class="o">.</span><span class="n">an_llm</span><span class="p">)</span>
+        <span class="n">topic</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;What is the closest topic to </span><span class="si">{</span><span class="n">a_string_field</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="c1"># 使用启动事件中的LLM生成提示</span>
+        <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Write your best joke about </span><span class="si">{</span><span class="n">topic</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">ev</span><span class="o">.</span><span class="n">an_llm</span><span class="o">.</span><span class="n">acomplete</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+        <span class="c1"># 使用事件中的Path对象将响应写入磁盘</span>
+        <span class="n">ev</span><span class="o">.</span><span class="n">a_path_to_somewhere</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
+        <span class="c1"># 最后传递JokeEvent</span>
+        <span class="k">return</span> <span class="n">JokeEvent</span><span class="p">(</span><span class="n">joke</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
+</code></pre></div>
+<p>虽然仍可通过关键字参数传递 <code>MyCustomStartEvent</code> 的字段，但更简洁的方式是通过 <code>start_event</code> 参数传递事件实例：</p>
+<div class="highlight"><pre><span></span><code><span class="n">custom_start_event</span> <span class="o">=</span> <span class="n">MyCustomStartEvent</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">JokeFlow</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">w</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">start_event</span><span class="o">=</span><span class="n">custom_start_event</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</code></pre></div>
+<p>这种方式使代码更清晰明确，并支持IDE的自动补全功能。</p>
+<h3 id="stopevent">使用自定义 <code>StopEvent</code><a class="headerlink" href="#stopevent" title="Permanent link">#</a></h3>
+<p>与 <code>StartEvent</code> 类似，大多数情况下内置的 <code>StopEvent</code> 都能正常工作，但并非总是如此。实际上，当我们使用 <code>StopEvent</code> 时，工作流的结果必须被赋值到事件实例的 <code>result</code> 字段。由于结果可以是任意 Python 对象，<code>StopEvent</code> 的 <code>result</code> 字段被类型标注为 <code>Any</code>，从而失去了类型系统的优势。此外，返回多个对象会变得很麻烦：我们通常会将一堆不相关的对象塞进字典，然后赋值给 <code>StopEvent.result</code>。</p>
+<p>支持自定义停止事件的第一步是创建 <code>StopEvent</code> 的子类：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.workflow</span> <span class="kn">import</span> <span class="n">StopEvent</span>
+
+
+<span class="k">class</span> <span class="nc">MyStopEvent</span><span class="p">(</span><span class="n">StopEvent</span><span class="p">):</span>
+    <span class="n">critique</span><span class="p">:</span> <span class="n">CompletionResponse</span>
+</code></pre></div>
+<p>现在我们可以在工作流中用 <code>MyStopEvent</code> 替换 <code>StopEvent</code>：</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">JokeFlow</span><span class="p">(</span><span class="n">Workflow</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">critique_joke</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">JokeEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MyStopEvent</span><span class="p">:</span>
+        <span class="n">joke</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="n">joke</span>
+
+        <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Give a thorough analysis and critique of the following joke: </span><span class="si">{</span><span class="n">joke</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">acomplete</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">MyStopEvent</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+    <span class="o">...</span>
+</code></pre></div>
+<p>使用自定义停止事件时需要记住的重要一点是，工作流运行的结果将是该事件的实例：</p>
+<div class="highlight"><pre><span></span><code><span class="n">w</span> <span class="o">=</span> <span class="n">JokeFlow</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1"># 注意！`result` 现在包含的是 MyStopEvent 的实例！</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">w</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">topic</span><span class="o">=</span><span class="s2">&quot;pirates&quot;</span><span class="p">)</span>
+<span class="c1"># 现在可以像访问普通事件字段一样访问</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">critique</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div>
+<p>这种方法充分利用了 Python 的类型系统，对 IDE 的自动补全友好，并且允许外部应用程序进行内省，从而确切知道工作流运行会返回什么。</p>
+<h2 id="_9">绘制工作流图<a class="headerlink" href="#_9" title="Permanent link">#</a></h2>
+<p>工作流可以通过步骤定义中的类型注解进行可视化。你可以绘制所有可能的路径，或者最近一次执行路径以帮助调试。</p>
+<p>首先安装：</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>llama-index-utils-workflow
+</code></pre></div>
+<p>然后导入并使用：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.utils.workflow</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">draw_all_possible_flows</span><span class="p">,</span>
+    <span class="n">draw_most_recent_execution</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># 绘制所有路径</span>
+<span class="n">draw_all_possible_flows</span><span class="p">(</span><span class="n">JokeFlow</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;joke_flow_all.html&quot;</span><span class="p">)</span>
+
+<span class="c1"># 绘制执行路径</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">JokeFlow</span><span class="p">()</span>
+<span class="k">await</span> <span class="n">w</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">topic</span><span class="o">=</span><span class="s2">&quot;Pirates&quot;</span><span class="p">)</span>
+<span class="n">draw_most_recent_execution</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;joke_flow_recent.html&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div id="working-with-global-context-state"></div>
+
+<h2 id="_10">使用全局上下文/状态<a class="headerlink" href="#_10" title="Permanent link">#</a></h2>
+<p>你可以选择在步骤之间使用全局上下文。例如，多个步骤可能需要访问用户输入的原始 <code>query</code>。你可以将其存储在全局上下文中，以便每个步骤都能访问。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.workflow</span> <span class="kn">import</span> <span class="n">Context</span>
+
+
+<span class="nd">@step</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">MyEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StopEvent</span><span class="p">:</span>
+    <span class="c1"># 从上下文中获取</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;query&quot;</span><span class="p">)</span>
+
+    <span class="c1"># 使用上下文和事件进行操作</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="o">...</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="o">...</span>
+
+    <span class="c1"># 存储到上下文</span>
+    <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;key&quot;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">StopEvent</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="_11">添加类型化状态<a class="headerlink" href="#_11" title="Permanent link">#</a></h2>
+<p>通常，你会希望为工作流使用预设的状态结构。最佳方式是使用 <code>Pydantic</code> 模型来定义状态。这样你可以：</p>
+<ul>
+<li>获得状态的类型提示</li>
+<li>自动验证状态</li>
+<li>（可选）通过<a href="https://docs.pydantic.dev/latest/concepts/validators/">验证器</a>和<a href="https://docs.pydantic.dev/latest/concepts/serialization/#custom-serializers">序列化器</a>完全控制状态的序列化和反序列化</li>
+</ul>
+<p><strong>注意：</strong> 你应该使用所有字段都有默认值的 Pydantic 模型。这样 <code>Context</code> 对象可以自动用默认值初始化状态。</p>
+<p>以下是一个快速示例，展示如何利用工作流 + Pydantic 来使用这些功能：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">field_validator</span><span class="p">,</span> <span class="n">field_serializer</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+
+
+<span class="c1"># 这是一个我们想在状态中使用的随机对象</span>
+<span class="k">class</span> <span class="nc">MyRandomObject</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+
+<span class="c1"># 这是我们的状态模型</span>
+<span class="c1"># 注意：所有字段必须有默认值</span>
+<span class="k">class</span> <span class="nc">MyState</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;arbitrary_types_allowed&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+    <span class="n">my_obj</span><span class="p">:</span> <span class="n">MyRandomObject</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">MyRandomObject</span><span class="p">)</span>
+    <span class="n">some_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;some_value&quot;</span><span class="p">)</span>
+
+    <span class="c1"># 这是可选的，但如果你想控制状态的序列化会很有用！</span>
+
+    <span class="nd">@field_serializer</span><span class="p">(</span><span class="s2">&quot;my_obj&quot;</span><span class="p">,</span> <span class="n">when_used</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">serialize_my_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">my_obj</span><span class="p">:</span> <span class="n">MyRandomObject</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">my_obj</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;my_obj&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">deserialize_my_obj</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">MyRandomObject</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MyRandomObject</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">MyRandomObject</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">v</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">MyRandomObject</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid type for my_obj: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>然后，只需用状态模型标注你的工作流状态：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.workflow</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Context</span><span class="p">,</span>
+    <span class="n">StartEvent</span><span class="p">,</span>
+    <span class="n">StopEvent</span><span class="p">,</span>
+    <span class="n">Workflow</span><span class="p">,</span>
+    <span class="n">step</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">MyWorkflow</span><span class="p">(</span><span class="n">Workflow</span><span class="p">):</span>
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">[</span><span class="n">MyState</span><span class="p">],</span> <span class="n">ev</span><span class="p">:</span> <span class="n">StartEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StopEvent</span><span class="p">:</span>
+        <span class="c1"># 直接返回 MyState</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">get_state</span><span class="p">()</span>
+        <span class="n">state</span><span class="o">.</span><span class="n">my_obj</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;new_name&quot;</span>
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+
+        <span class="c1"># 如果需要也可以直接访问字段</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;my_obj.name&quot;</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;my_obj.name&quot;</span><span class="p">,</span> <span class="s2">&quot;newer_name&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">StopEvent</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="s2">&quot;Done!&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="_12">等待多个事件<a class="headerlink" href="#_12" title="Permanent link">#</a></h2>
+<p>上下文不仅用于保存数据，还提供了缓冲和等待多个事件的工具。</p>
+<p>例如，你可能有一个步骤需要等待查询和检索到的节点后才能合成响应：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">get_response_synthesizer</span>
+
+
+<span class="nd">@step</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">synthesize</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">QueryEvent</span> <span class="o">|</span> <span class="n">RetrieveEvent</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StopEvent</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">collect_events</span><span class="p">(</span><span class="n">ev</span><span class="p">,</span> <span class="p">[</span><span class="n">QueryEvent</span><span class="p">,</span> <span class="n">RetrieveEvent</span><span class="p">])</span>
+    <span class="c1"># 检查是否可以运行</span>
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># 解包——数据按顺序返回</span>
+    <span class="n">query_event</span><span class="p">,</span> <span class="n">retrieve_event</span> <span class="o">=</span> <span class="n">data</span>
+
+    <span class="c1"># 运行响应合成</span>
+    <span class="n">synthesizer</span> <span class="o">=</span> <span class="n">get_response_synthesizer</span><span class="p">()</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">synthesizer</span><span class="o">.</span><span class="n">synthesize</span><span class="p">(</span>
+        <span class="n">query_event</span><span class="o">.</span><span class="n">query</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="n">retrieve_event</span><span class="o">.</span><span class="n">nodes</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">StopEvent</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
+</code></pre></div>
+<p>使用 <code>ctx.collect_events()</code> 可以缓冲并等待所有预期事件到达。该函数只有在所有事件都到达后才会返回数据（按请求的顺序）。</p>
+<h2 id="_13">手动触发事件<a class="headerlink" href="#_13" title="Permanent link">#</a></h2>
+<p>通常，事件是通过在步骤中返回另一个事件来触发的。然而，事件也可以通过在工作流中使用 <code>ctx.send_event(event)</code> 方法手动分发。</p>
+<p>以下是一个简短的示例，展示如何使用：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.workflow</span> <span class="kn">import</span> <span class="n">step</span><span class="p">,</span> <span class="n">Context</span><span class="p">,</span> <span class="n">Event</span><span class="p">,</span> <span class="n">Workflow</span>
+
+
+<span class="k">class</span> <span class="nc">MyEvent</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">MyEventResult</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+    <span class="n">result</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="k">class</span> <span class="nc">GatherEvent</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">MyWorkflow</span><span class="p">(</span><span class="n">Workflow</span><span class="p">):</span>
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">dispatch_step</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">StartEvent</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MyEvent</span> <span class="o">|</span> <span class="n">GatherEvent</span><span class="p">:</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">send_event</span><span class="p">(</span><span class="n">MyEvent</span><span class="p">())</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">send_event</span><span class="p">(</span><span class="n">MyEvent</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">GatherEvent</span><span class="p">()</span>
+
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">handle_my_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">MyEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MyEventResult</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">MyEventResult</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="s2">&quot;result&quot;</span><span class="p">)</span>
+
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">gather</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">GatherEvent</span> <span class="o">|</span> <span class="n">MyEventResult</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StopEvent</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># 等待事件完成</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">collect_events</span><span class="p">(</span><span class="n">ev</span><span class="p">,</span> <span class="p">[</span><span class="n">MyEventResult</span><span class="p">,</span> <span class="n">MyEventResult</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">events</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="n">StopEvent</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="n">events</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="_14">流式事件<a class="headerlink" href="#_14" title="Permanent link">#</a></h2>
+<p>你也可以在事件到达时进行迭代。这对于流式传输、显示进度或调试非常有用。处理程序对象会发出使用 <code>ctx.write_event_to_stream()</code> 显式写入流的事件：</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">ProgressEvent</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+    <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="k">class</span> <span class="nc">MyWorkflow</span><span class="p">(</span><span class="n">Workflow</span><span class="p">):</span>
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">step_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">StartEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FirstEvent</span><span class="p">:</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">write_event_to_stream</span><span class="p">(</span><span class="n">ProgressEvent</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s2">&quot;Step one is happening&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">FirstEvent</span><span class="p">(</span><span class="n">first_output</span><span class="o">=</span><span class="s2">&quot;First step complete.&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>然后可以像这样接收事件：</p>
+<div class="highlight"><pre><span></span><code><span class="n">w</span> <span class="o">=</span> <span class="n">MyWorkflow</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+<span class="n">handler</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">topic</span><span class="o">=</span><span class="s2">&quot;Pirates&quot;</span><span class="p">)</span>
+
+<span class="k">async</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">handler</span><span class="o">.</span><span class="n">stream_events</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">handler</span>
+</code></pre></div>
+<h2 id="_15">失败时重试步骤执行<a class="headerlink" href="#_15" title="Permanent link">#</a></h2>
+<p>步骤执行失败可能导致整个工作流失败，但通常错误是预期的，可以安全地重试。例如，由于网络暂时拥堵导致 HTTP 请求超时，或者外部 API 调用触发了速率限制。</p>
+<p>对于所有希望步骤重试的情况，可以使用“重试策略”。重试策略是一个对象，指示工作流多次执行一个步骤，并规定在重试前需要等待多长时间。策略会考虑自第一次失败以来经过的时间、连续失败的次数以及最后一次发生的错误。</p>
+<p>要为特定步骤设置策略，只需将策略对象传递给 <code>@step</code> 装饰器：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.workflow.retry_policy</span> <span class="kn">import</span> <span class="n">ConstantDelayRetryPolicy</span>
+
+
+<span class="k">class</span> <span class="nc">MyWorkflow</span><span class="p">(</span><span class="n">Workflow</span><span class="p">):</span>
+    <span class="c1"># ...更多工作流定义...</span>
+
+    <span class="c1"># 此策略将在失败时每 5 秒重试此步骤，最多 10 次</span>
+    <span class="nd">@step</span><span class="p">(</span><span class="n">retry_policy</span><span class="o">=</span><span class="n">ConstantDelayRetryPolicy</span><span class="p">(</span><span class="n">delay</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">maximum_attempts</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">flaky_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">Context</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">StartEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StopEvent</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">flaky_call</span><span class="p">()</span>  <span class="c1"># 可能会抛出异常</span>
+        <span class="k">return</span> <span class="n">StopEvent</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div>
+<p>你可以查看 <a href="../../api_reference/workflow/retry_policy/">API 文档</a> 了解框架中可用策略的详细描述。如果找不到适合你用例的策略，可以轻松编写自定义策略。自定义策略的唯一要求是编写一个符合 <code>RetryPolicy</code> 协议的 Python 类。换句话说，你的自定义策略类必须有一个方法，其签名如下：</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">next</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">attempts</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="ne">Exception</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+    <span class="o">...</span>
+</code></pre></div>
+<p>例如，这是一个只在周五才重试步骤的策略：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+
+<span class="k">class</span> <span class="nc">RetryOnFridayPolicy</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">next</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">attempts</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="ne">Exception</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%A&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Friday&quot;</span><span class="p">:</span>
+            <span class="c1"># 5 秒后重试</span>
+            <span class="k">return</span> <span class="mi">5</span>
+        <span class="c1"># 告诉工作流我们不希望重试</span>
+        <span class="k">return</span> <span class="kc">None</span>
+</code></pre></div>
+<h2 id="_16">人在回路<a class="headerlink" href="#_16" title="Permanent link">#</a></h2>
+<p>由于工作流非常灵活，实现人在回路模式有很多可能的方式。</p>
+<p>最简单的实现方式是在事件流中使用 <code>InputRequiredEvent</code> 和 <code>HumanResponseEvent</code> 事件。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.workflow</span> <span class="kn">import</span> <span class="n">InputRequiredEvent</span><span class="p">,</span> <span class="n">HumanResponseEvent</span>
+
+
+<span class="k">class</span> <span class="nc">HumanInTheLoopWorkflow</span><span class="p">(</span><span class="n">Workflow</span><span class="p">):</span>
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">step1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">StartEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputRequiredEvent</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">InputRequiredEvent</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;Enter a number: &quot;</span><span class="p">)</span>
+
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">step2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">HumanResponseEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StopEvent</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">StopEvent</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="n">ev</span><span class="o">.</span><span class="n">response</span><span class="p">)</span>
+
+
+<span class="c1"># 工作流应该支持流式传输</span>
+<span class="n">workflow</span> <span class="o">=</span> <span class="n">HumanInTheLoopWorkflow</span><span class="p">()</span>
+
+<span class="n">handler</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="k">async</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">handler</span><span class="o">.</span><span class="n">stream_events</span><span class="p">():</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">InputRequiredEvent</span><span class="p">):</span>
+        <span class="c1"># 在这里，我们可以以任何方式处理人工输入</span>
+        <span class="c1"># 这意味着使用 input()、websockets、访问异步状态等</span>
+        <span class="c1"># 这里我们只用 input()</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">prefix</span><span class="p">)</span>
+        <span class="n">handler</span><span class="o">.</span><span class="n">ctx</span><span class="o">.</span><span class="n">send_event</span><span class="p">(</span><span class="n">HumanResponseEvent</span><span class="p">(</span><span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">))</span>
+
+<span class="n">final_result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">handler</span>
+</code></pre></div>
+<p>在这里，工作流将等待直到 <code>HumanResponseEvent</code> 被发出。</p>
+<p>注意，你也可以跳出循环，稍后再恢复。这对于暂停工作流等待人工响应，但稍后继续工作流非常有用。</p>
+<div class="highlight"><pre><span></span><code><span class="n">handler</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="k">async</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">handler</span><span class="o">.</span><span class="n">stream_events</span><span class="p">():</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">InputRequiredEvent</span><span class="p">):</span>
+        <span class="k">break</span>
+
+<span class="c1"># 现在处理人工响应</span>
+<span class="n">response</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">prefix</span><span class="p">)</span>
+<span class="n">handler</span><span class="o">.</span><span class="n">ctx</span><span class="o">.</span><span class="n">send_event</span><span class="p">(</span><span class="n">HumanResponseEvent</span><span class="p">(</span><span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">))</span>
+
+<span class="c1"># 现在恢复工作流流式传输</span>
+<span class="k">async</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">handler</span><span class="o">.</span><span class="n">stream_events</span><span class="p">():</span>
+    <span class="k">continue</span>
+
+<span class="n">final_result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">handler</span>
+</code></pre></div>
+<h2 id="_17">逐步执行<a class="headerlink" href="#_17" title="Permanent link">#</a></h2>
+<p>工作流内置了逐步执行的工具，允许你控制执行并在过程中调试状态。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 创建工作流，与往常一样</span>
+<span class="n">workflow</span> <span class="o">=</span> <span class="n">JokeFlow</span><span class="p">()</span>
+<span class="c1"># 获取处理程序。传递 `stepwise=True` 会阻塞执行，等待手动干预</span>
+<span class="n">handler</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">stepwise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># 每次调用 `run_step`，工作流会推进并返回上一步中产生的所有事件</span>
+<span class="c1"># 这些事件需要手动传播以使工作流继续（我们用 := 操作符将它们赋值给 `produced_events`）。</span>
+<span class="k">while</span> <span class="n">produced_events</span> <span class="o">:=</span> <span class="k">await</span> <span class="n">handler</span><span class="o">.</span><span class="n">run_step</span><span class="p">():</span>
+    <span class="c1"># 如果执行到这里，意味着至少有一个事件需要传播，</span>
+    <span class="c1"># 我们用 `send_event` 来做</span>
+    <span class="k">for</span> <span class="n">ev</span> <span class="ow">in</span> <span class="n">produced_events</span><span class="p">:</span>
+        <span class="n">handler</span><span class="o">.</span><span class="n">ctx</span><span class="o">.</span><span class="n">send_event</span><span class="p">(</span><span class="n">ev</span><span class="p">)</span>
+
+<span class="c1"># 如果执行到这里，意味着工作流执行完成，</span>
+<span class="c1"># 现在可以访问最终结果。</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">handler</span>
+</code></pre></div>
+<h2 id="_18">装饰非类函数<a class="headerlink" href="#_18" title="Permanent link">#</a></h2>
+<p>您也可以在不继承工作流类的情况下，通过装饰器为其附加步骤。</p>
+<p>以下是之前展示的 <code>JokeFlow</code> 示例，但采用非继承方式实现。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.workflow</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Event</span><span class="p">,</span>
+    <span class="n">StartEvent</span><span class="p">,</span>
+    <span class="n">StopEvent</span><span class="p">,</span>
+    <span class="n">Workflow</span><span class="p">,</span>
+    <span class="n">step</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">llama_index.llms.openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+
+
+<span class="k">class</span> <span class="nc">JokeEvent</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+    <span class="n">joke</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="n">joke_flow</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="nd">@step</span><span class="p">(</span><span class="n">workflow</span><span class="o">=</span><span class="n">joke_flow</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">generate_joke</span><span class="p">(</span><span class="n">ev</span><span class="p">:</span> <span class="n">StartEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JokeEvent</span><span class="p">:</span>
+    <span class="n">topic</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="n">topic</span>
+
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Write your best joke about </span><span class="si">{</span><span class="n">topic</span><span class="si">}</span><span class="s2">.&quot;</span>
+
+    <span class="n">llm</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">()</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">llm</span><span class="o">.</span><span class="n">acomplete</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">JokeEvent</span><span class="p">(</span><span class="n">joke</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
+
+
+<span class="nd">@step</span><span class="p">(</span><span class="n">workflow</span><span class="o">=</span><span class="n">joke_flow</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">critique_joke</span><span class="p">(</span><span class="n">ev</span><span class="p">:</span> <span class="n">JokeEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StopEvent</span><span class="p">:</span>
+    <span class="n">joke</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="n">joke</span>
+
+    <span class="n">prompt</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Give a thorough analysis and critique of the following joke: </span><span class="si">{</span><span class="n">joke</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">llm</span><span class="o">.</span><span class="n">acomplete</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">StopEvent</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
+</code></pre></div>
+<h2 id="_19">跨运行保持上下文<a class="headerlink" href="#_19" title="Permanent link">#</a></h2>
+<p>如您所见，工作流包含一个 <code>Context</code> 对象，可用于在步骤间保持状态。</p>
+<p>若需在多次工作流运行间保持状态，可将前次上下文传入 <code>.run()</code> 方法。</p>
+<div class="highlight"><pre><span></span><code><span class="n">handler</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">handler</span>
+
+<span class="c1"># 继续下一次运行</span>
+<span class="n">handler</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ctx</span><span class="o">=</span><span class="n">handler</span><span class="o">.</span><span class="n">ctx</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">handler</span>
+</code></pre></div>
+<h2 id="_20">资源管理<a class="headerlink" href="#_20" title="Permanent link">#</a></h2>
+<p>资源是可注入到工作流步骤中的外部依赖项。</p>
+<p>以下示例展示了工作流中的 <code>memory</code> 资源：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.workflow.resource</span> <span class="kn">import</span> <span class="n">Resource</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.memory</span> <span class="kn">import</span> <span class="n">Memory</span>
+
+
+<span class="k">def</span> <span class="nf">get_memory</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Memory</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span><span class="s2">&quot;user_id_123&quot;</span><span class="p">,</span> <span class="n">token_limit</span><span class="o">=</span><span class="mi">60000</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">SecondEvent</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+    <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="k">class</span> <span class="nc">WorkflowWithResource</span><span class="p">(</span><span class="n">Workflow</span><span class="p">):</span>
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">first_step</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ev</span><span class="p">:</span> <span class="n">StartEvent</span><span class="p">,</span>
+        <span class="n">memory</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Memory</span><span class="p">,</span> <span class="n">Resource</span><span class="p">(</span><span class="n">get_memory</span><span class="p">)],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SecondEvent</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Memory before step 1&quot;</span><span class="p">,</span> <span class="n">memory</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">memory</span><span class="o">.</span><span class="n">aput</span><span class="p">(</span>
+            <span class="n">ChatMessage</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="s2">&quot;This is the first step&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Memory after step 1&quot;</span><span class="p">,</span> <span class="n">memory</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">SecondEvent</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s2">&quot;This is an input for step 2&quot;</span><span class="p">)</span>
+
+    <span class="nd">@step</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">second_step</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">ev</span><span class="p">:</span> <span class="n">SecondEvent</span><span class="p">,</span> <span class="n">memory</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Memory</span><span class="p">,</span> <span class="n">Resource</span><span class="p">(</span><span class="n">get_memory</span><span class="p">)]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StopEvent</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Memory before step 2&quot;</span><span class="p">,</span> <span class="n">memory</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">memory</span><span class="o">.</span><span class="n">aput</span><span class="p">(</span><span class="n">ChatMessage</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="n">ev</span><span class="o">.</span><span class="n">msg</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Memory after step 2&quot;</span><span class="p">,</span> <span class="n">memory</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">StopEvent</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="s2">&quot;Messages put into memory&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>要向工作流步骤注入资源，需在步骤签名中添加参数并使用 <code>Annotated</code> 类型标注，通过 <code>Resource()</code> 包装器传入返回实际资源对象的函数。包装函数的返回类型必须与声明类型匹配，确保执行时期望值与提供值的一致性。上例中 <code>memory: Annotated[Memory, Resource(get_memory)</code> 定义了一个 <code>Memory</code> 类型资源，该资源将由 <code>get_memory()</code> 函数提供，并在工作流运行时通过 <code>memory</code> 参数传递给步骤。</p>
+<p>资源在工作流步骤间共享，<code>Resource()</code> 包装器仅会调用工厂函数一次。若需禁用此行为，向 <code>Resource()</code> 传入 <code>cache=False</code> 将为不同步骤注入不同资源对象，此时工厂函数会被多次调用。</p>
+<h2 id="_21">工作流检查点<a class="headerlink" href="#_21" title="Permanent link">#</a></h2>
+<p>通过 <code>WorfklowCheckpointer</code> 对象，可使工作流在每步完成后创建并存储检查点。这些检查点可作为后续运行的起点，该特性在工作流开发和调试阶段非常实用。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.workflow</span> <span class="kn">import</span> <span class="n">WorkflowCheckpointer</span>
+
+<span class="n">w</span> <span class="o">=</span> <span class="n">JokeFlow</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">w_cptr</span> <span class="o">=</span> <span class="n">WorkflowCheckpointer</span><span class="p">(</span><span class="n">workflow</span><span class="o">=</span><span class="n">w</span><span class="p">)</span>
+
+<span class="c1"># 创建检查点运行</span>
+<span class="n">handler</span> <span class="o">=</span> <span class="n">w_cptr</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">topic</span><span class="o">=</span><span class="s2">&quot;Pirates&quot;</span><span class="p">)</span>
+<span class="k">await</span> <span class="n">handler</span>
+
+<span class="c1"># 查看该运行的存储检查点</span>
+<span class="n">w_cptr</span><span class="o">.</span><span class="n">checkpoints</span><span class="p">[</span><span class="n">handler</span><span class="o">.</span><span class="n">run_id</span><span class="p">]</span>
+
+<span class="c1"># 从检查点继续运行</span>
+<span class="n">ckpt</span> <span class="o">=</span> <span class="n">w_cptr</span><span class="o">.</span><span class="n">checkpoints</span><span class="p">[</span><span class="n">handler</span><span class="o">.</span><span class="n">run_id</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">handler</span> <span class="o">=</span> <span class="n">w_cptr</span><span class="o">.</span><span class="n">run_from</span><span class="p">(</span><span class="n">topic</span><span class="o">=</span><span class="s2">&quot;Ships&quot;</span><span class="p">,</span> <span class="n">checkpoint</span><span class="o">=</span><span class="n">ckpt</span><span class="p">)</span>
+<span class="k">await</span> <span class="n">handler</span>
+</code></pre></div>
+<h2 id="_22">部署工作流<a class="headerlink" href="#_22" title="Permanent link">#</a></h2>
+<p>您可以通过 <a href="../../module_guides/llama_deploy">llama_deploy</a> (<a href="https://github.com/run-llama/llama_deploy">仓库</a>) 将工作流部署为多智能体服务。每个智能体服务通过控制平面协调，并通过消息队列通信。支持本地部署或 Kubernetes 部署。</p>
+<h2 id="_23">示例<a class="headerlink" href="#_23" title="Permanent link">#</a></h2>
+<p>为了帮助您更好地理解工作流概念及其特性，LlamaIndex 文档提供了可运行的示例笔记本供您实践学习：</p>
+<ul>
+<li><a href="../../examples/workflow/workflows_cookbook/">常见工作流模式</a> 通过简单工作流演示循环和状态管理等常见使用模式，通常是最佳入门选择。</li>
+<li><a href="../../examples/workflow/rag/">RAG + 重排序</a> 展示如何用相对简单的工作流实现同时包含数据摄取和查询的真实用例。</li>
+<li><a href="../../examples/workflow/citation_query_engine/">引用查询引擎</a> 类似 RAG + 重排序，但重点演示在检索和生成之间如何实现中间步骤，是学习在工作流中使用 <a href="#working-with-global-context-state"><code>Context</code></a> 对象的优秀范例。</li>
+<li><a href="../../examples/workflow/corrective_rag_pack/">修正型 RAG</a> 在 RAG 工作流基础上增加了复杂度，展示如何在评估步骤后查询网络搜索引擎。</li>
+<li><a href="../../examples/workflow/parallel_execution/">并发执行</a> 解释如何管理工作流步骤的并行执行，这对处理日益复杂的工作流至关重要。</li>
+</ul>
+<p>RAG 应用易于理解且是学习工作流基础的绝佳途径，但涉及工具调用、记忆和路由等更复杂的智能体场景才是工作流真正擅长的领域。</p>
+<p>以下示例重点展示部分此类用例：</p>
+<ul>
+<li><a href="../../examples/workflow/react_agent/">ReAct 智能体</a> 显然是演示工作流中工具实现的完美范例。</li>
+<li><a href="../../examples/workflow/function_calling_agent/">函数调用智能体</a> 展示了如何在复杂场景（如函数调用）中保持工作流简洁，巧妙运用 LlamaIndex 框架原语。</li>
+<li><a href="../../examples/agent/from_scratch_code_act_agent/">CodeAct 智能体</a> 演示如何从零创建 CodeAct 智能体。</li>
+<li><a href="../../examples/workflow/human_in_the_loop_story_crafting/">人机交互：故事创作</a> 强力展示了工作流运行如何实现交互式和有状态特性（本例中用于收集人类输入）。</li>
+<li><a href="../../examples/workflow/reflection/">可靠结构化生成</a> 演示如何在工作流中实现循环（本例通过反思改进结构化输出）。</li>
+<li><a href="../../examples/workflow/planning_workflow/">工作流查询规划</a> 展示通过分解查询为子项并执行的工作流，重点说明如何流式传输工作流事件、并行执行步骤及循环直到条件满足。</li>
+<li><a href="../../examples/workflow/checkpointing_workflows/">工作流检查点</a> 更详尽地演示如何充分利用 <code>WorkflowCheckpointer</code> 为工作流运行创建检查点。</li>
+</ul>
+<p>最后，以下高级用例展示了当您需要快速实现原型（例如文献中的概念）时，工作流如何大显身手：</p>
+<ul>
+<li><a href="../../examples/workflow/advanced_text_to_sql/">高级文本转 SQL</a></li>
+<li><a href="../../examples/workflow/JSONalyze_query_engine/">JSON 查询引擎</a></li>
+<li><a href="../../examples/workflow/long_rag_pack/">长文本 RAG</a></li>
+<li><a href="../../examples/workflow/multi_step_query_engine/">多步查询引擎</a></li>
+<li><a href="../../examples/workflow/multi_strategy_workflow/">多策略工作流</a></li>
+<li><a href="../../examples/workflow/router_query_engine/">路由查询引擎</a></li>
+<li><a href="../../examples/workflow/self_discover_workflow/">自发现工作流</a></li>
+<li><a href="../../examples/workflow/sub_question_query_engine/">子问题查询引擎</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+       
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../deploying/agents/tools/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 工具集">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                工具集
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../evaluating/" class="md-footer__link md-footer__link--next" aria-label="Next: 评估">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                评估
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <readthedocs-flyout position="bottom-left"></readthedocs-flyout>
+      
+    </div>
+  </div>
+</footer>
+      
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", "GTM-WWRFB36R");
+</script>
+<!-- End Google Tag Manager -->
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.prune", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+        <script src="../../javascript/runllm.js"></script>
+      
+        <script src="../../javascript/algolia.js"></script>
+      
+    
+  </body>
+</html>

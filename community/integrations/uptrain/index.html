@@ -1,0 +1,1675 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.llamaindex.ai/en/stable/community/integrations/uptrain/">
+      
+      
+      
+      
+      <link rel="icon" href="../../../_static/assets/LlamaLogoBrowserTab.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>使用 UpTrain 对 LlamaIndex 进行评估 - LlamaIndex</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../css/style.css">
+    
+      <link rel="stylesheet" href="../../../css/algolia.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BYVB1ZVE6J"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BYVB1ZVE6J",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BYVB1ZVE6J",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#uptrain-llamaindex" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="LlamaIndex" class="md-header__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LlamaIndex
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              使用 UpTrain 对 LlamaIndex 进行评估
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="purple"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      
+
+<!-- Search interface -->
+<div id="docsearch"></div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../.." class="md-tabs__link">
+          
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../understanding/" class="md-tabs__link">
+          
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../use_cases/" class="md-tabs__link">
+          
+  
+    
+  
+  Use Cases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../examples/" class="md-tabs__link">
+          
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../module_guides/" class="md-tabs__link">
+          
+  
+    
+  
+  Component Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../optimizing/production_rag/" class="md-tabs__link">
+          
+  
+    
+  
+  Advanced Topics
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../api_reference/" class="md-tabs__link">
+          
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../" class="md-tabs__link">
+          
+  
+    
+  
+  Open-Source Community
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-tabs__link">
+        
+  
+    
+  
+  LlamaCloud
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="LlamaIndex" class="md-nav__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    LlamaIndex
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../.." class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../understanding/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Learn
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../use_cases/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Use Cases
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../examples/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Examples
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../module_guides/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Component Guides
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../optimizing/production_rag/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Advanced Topics
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../api_reference/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Open-Source Community
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LlamaCloud
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="uptrain-llamaindex">使用 UpTrain 对 LlamaIndex 进行评估<a class="headerlink" href="#uptrain-llamaindex" title="Permanent link">#</a></h1>
+<p><strong>概述</strong>：本示例将展示如何将 UpTrain 与 LlamaIndex 结合使用。UpTrain（<a href="https://github.com/uptrain-ai/uptrain">github</a> || <a href="https://github.com/uptrain-ai/uptrain/">官网</a> || <a href="https://docs.uptrain.ai/">文档</a>）是一个用于评估和改进生成式 AI 应用的开源平台。它提供 20+ 种预配置检查的评分（涵盖语言、代码、嵌入用例），对失败案例进行根因分析，并给出解决方案建议。更多关于 UpTrain 评估的详细信息可查阅<a href="https://github.com/uptrain-ai/uptrain?tab=readme-ov-file#pre-built-evaluations-we-offer-">此处</a>。</p>
+<p><strong>问题</strong>：随着越来越多的企业将 LLM 原型升级为生产级应用，其 RAG 流水线也日趋复杂。开发者正在使用查询重写（QueryRewrite）、上下文重排序（Context ReRank）等模块来提升 RAG 系统的准确性。</p>
+<p>复杂度增加意味着故障点也随之增多：</p>
+<ol>
+<li>需要高级评估来衡量这些新模块的质量，并确认它们是否真正提升了系统准确性</li>
+<li>需要健壮的实验框架来系统测试不同模块，做出数据驱动的决策</li>
+</ol>
+<p><strong>解决方案</strong>：UpTrain 可同时解决这两个问题：</p>
+<ol>
+<li>UpTrain 提供一系列检查项来评估生成响应、检索上下文及所有中间步骤的质量。相关检查包括：上下文相关性（ContextRelevance）、子查询完整性（SubQueryCompleteness）、上下文重排序（ContextReranking）、上下文简洁性（ContextConciseness）、事实准确性（FactualAccuracy）、上下文利用率（ContextUtilization）、响应完整性（ResponseCompleteness）、响应简洁性（ResponseConciseness）等</li>
+<li>UpTrain 还支持实验不同嵌入模型，并提供 "evaluate_experiments" 方法来比较不同 RAG 配置</li>
+</ol>
+<h1 id="_1">实现方法<a class="headerlink" href="#_1" title="Permanent link">#</a></h1>
+<p>有两种方式可将 UpTrain 与 LlamaIndex 结合使用：</p>
+<ol>
+<li>
+<p><strong>使用 UpTrain 回调处理器</strong>：该方法可无缝集成 UpTrain 与 LlamaIndex。只需在现有 LlamaIndex 流水线中添加 UpTrainCallbackHandler，即可评估 RAG 流水线的所有组件。这是推荐方法，因其使用最简单且能轻松获取仪表盘和洞察报告</p>
+</li>
+<li>
+<p><strong>使用 UpTrain 的 EvalLlamaIndex</strong>：该方法允许对生成响应执行评估。通过 EvalLlamaIndex 对象为查询生成响应后进行评估。下文提供详细教程。该方法评估更灵活可控，但需要更多配置工作</p>
+</li>
+</ol>
+<h1 id="1-uptrain">1. 使用 UpTrain 回调处理器 <a href="https://colab.research.google.com/github/run-llama/llama_index/blob/main/docs/docs/examples/callbacks/UpTrainCallback.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="在 Colab 中打开"/></a><a class="headerlink" href="#1-uptrain" title="Permanent link">#</a></h1>
+<p>以下三个演示说明如何使用 UpTrain 回调处理器评估 RAG 流水线的不同组件</p>
+<h2 id="1-rag">1. <strong>RAG 查询引擎评估</strong><a class="headerlink" href="#1-rag" title="Permanent link">#</a></h2>
+<p>RAG 查询引擎在检索上下文和生成响应中起关键作用。为确保其性能和响应质量，我们执行以下评估：</p>
+<ul>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/context-awareness/context-relevance">上下文相关性</a></strong>：判断检索到的上下文是否包含足够信息来回答用户查询</li>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/context-awareness/factual-accuracy">事实准确性</a></strong>：评估 LLM 响应是否能通过检索上下文验证</li>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/response-quality/response-completeness">响应完整性</a></strong>：检查响应是否包含全面回答用户查询所需的所有信息</li>
+</ul>
+<h2 id="2">2. <strong>子问题查询生成评估</strong><a class="headerlink" href="#2" title="Permanent link">#</a></h2>
+<p>SubQuestionQueryGeneration 算子将问题分解为子问题，使用 RAG 查询引擎为每个子问题生成响应。我们通过以下指标衡量其准确性：</p>
+<ul>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/query-quality/sub-query-completeness">子查询完整性</a></strong>：确保子问题准确全面地覆盖原始查询</li>
+</ul>
+<h2 id="3">3. <strong>重排序评估</strong><a class="headerlink" href="#3" title="Permanent link">#</a></h2>
+<p>重排序涉及根据查询相关性重新排序节点并选择顶部节点。根据重排序后返回的节点数量执行不同评估：</p>
+<p>a. 相同节点数量</p>
+<ul>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/context-awareness/context-reranking">上下文重排序</a></strong>：检查重排序后的节点顺序是否比原始顺序更符合查询需求</li>
+</ul>
+<p>b. 不同节点数量：</p>
+<ul>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/context-awareness/context-conciseness">上下文简洁性</a></strong>：验证减少后的节点数量是否仍能提供所有必需信息</li>
+</ul>
+<p>这些评估共同确保 LlamaIndex 流水线中 RAG 查询引擎、SubQuestionQueryGeneration 算子和重排序流程的健壮性与有效性</p>
+<h4 id="_2"><strong>注意事项</strong>：<a class="headerlink" href="#_2" title="Permanent link">#</a></h4>
+<ul>
+<li>我们使用基础 RAG 查询引擎进行评估，相同评估也可应用于高级 RAG 查询引擎</li>
+<li>重排序评估同理，我们使用 SentenceTransformerRerank 进行评估，其他重排序器也可适用相同评估方法</li>
+</ul>
+<h2 id="_3">安装依赖并导入库<a class="headerlink" href="#_3" title="Permanent link">#</a></h2>
+<p>安装 notebook 依赖项</p>
+<div class="highlight"><pre><span></span><code>%pip<span class="w"> </span>install<span class="w"> </span>llama-index-readers-web
+%pip<span class="w"> </span>install<span class="w"> </span>llama-index-callbacks-uptrain
+%pip<span class="w"> </span>install<span class="w"> </span>-q<span class="w"> </span>html2text<span class="w"> </span>llama-index<span class="w"> </span>pandas<span class="w"> </span>tqdm<span class="w"> </span>uptrain<span class="w"> </span>torch<span class="w"> </span>sentence-transformers
+</code></pre></div>
+<p>导入库</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">getpass</span> <span class="kn">import</span> <span class="n">getpass</span>
+
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">Settings</span><span class="p">,</span> <span class="n">VectorStoreIndex</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.node_parser</span> <span class="kn">import</span> <span class="n">SentenceSplitter</span>
+<span class="kn">from</span> <span class="nn">llama_index.readers.web</span> <span class="kn">import</span> <span class="n">SimpleWebPageReader</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.callbacks</span> <span class="kn">import</span> <span class="n">CallbackManager</span>
+<span class="kn">from</span> <span class="nn">llama_index.callbacks.uptrain.base</span> <span class="kn">import</span> <span class="n">UpTrainCallbackHandler</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.query_engine</span> <span class="kn">import</span> <span class="n">SubQuestionQueryEngine</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.tools</span> <span class="kn">import</span> <span class="n">QueryEngineTool</span><span class="p">,</span> <span class="n">ToolMetadata</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.postprocessor</span> <span class="kn">import</span> <span class="n">SentenceTransformerRerank</span>
+<span class="kn">from</span> <span class="nn">llama_index.llms.openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+</code></pre></div>
+<h2 id="_4">安装配置<a class="headerlink" href="#_4" title="Permanent link">#</a></h2>
+<p>UpTrain 为您提供以下功能：
+1. 具备高级下钻和筛选功能的仪表盘
+2. 失败案例的洞察分析与共性主题识别
+3. 生产数据的可观测性与实时监控
+4. 通过与CI/CD管道无缝集成的回归测试</p>
+<p>您可以通过以下方式选择使用UpTrain进行评估：</p>
+<h3 id="1-uptrainoss">1. <strong>UpTrain开源软件(OSS)</strong>：<a class="headerlink" href="#1-uptrainoss" title="Permanent link">#</a></h3>
+<p>您可以使用开源评估服务来评估模型。这种情况下需要提供OpenAI API密钥，可通过<a href="https://platform.openai.com/account/api-keys">此链接</a>获取。</p>
+<p>要在UpTrain仪表盘中查看评估结果，需要通过终端运行以下命令进行设置：</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/uptrain-ai/uptrain
+<span class="nb">cd</span><span class="w"> </span>uptrain
+bash<span class="w"> </span>run_uptrain.sh
+</code></pre></div>
+<p>这将在本地启动UpTrain仪表盘，访问地址为<code>http://localhost:3000/dashboard</code>。</p>
+<p>参数说明：
+- key_type="openai"
+- api_key="OPENAI_API_KEY"
+- project_name="PROJECT_NAME"</p>
+<h3 id="2-uptrain">2. <strong>UpTrain托管服务与仪表盘</strong>：<a class="headerlink" href="#2-uptrain" title="Permanent link">#</a></h3>
+<p>您也可以选择使用UpTrain的托管服务进行模型评估。可通过<a href="https://uptrain.ai/">此链接</a>创建免费账户获取试用额度。如需更多试用额度，可<a href="https://calendly.com/uptrain-sourabh/30min">在此预约与UpTrain维护团队的会议</a>。</p>
+<p>托管服务的优势包括：
+1. 无需在本地搭建仪表盘环境
+1. 直接访问多种大语言模型而无需配置API密钥</p>
+<p>评估完成后，可通过<code>https://dashboard.uptrain.ai/dashboard</code>查看结果</p>
+<p>参数说明：
+- key_type="uptrain"
+- api_key="UPTRAIN_API_KEY"
+- project_name="PROJECT_NAME"</p>
+<p><strong>注意：</strong> <code>project_name</code>参数将作为评估结果显示在UpTrain仪表盘中的项目名称。</p>
+<h2 id="uptrain">创建UpTrain回调处理器<a class="headerlink" href="#uptrain" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">getpass</span><span class="p">()</span>
+
+<span class="n">callback_handler</span> <span class="o">=</span> <span class="n">UpTrainCallbackHandler</span><span class="p">(</span>
+    <span class="n">key_type</span><span class="o">=</span><span class="s2">&quot;openai&quot;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">],</span>
+    <span class="n">project_name</span><span class="o">=</span><span class="s2">&quot;uptrain_llamaindex&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">Settings</span><span class="o">.</span><span class="n">callback_manager</span> <span class="o">=</span> <span class="n">CallbackManager</span><span class="p">([</span><span class="n">callback_handler</span><span class="p">])</span>
+</code></pre></div>
+<h2 id="_5">加载与解析文档<a class="headerlink" href="#_5" title="Permanent link">#</a></h2>
+<p>从Paul Graham的文章《What I Worked On》加载文档：</p>
+<div class="highlight"><pre><span></span><code><span class="n">documents</span> <span class="o">=</span> <span class="n">SimpleWebPageReader</span><span class="p">()</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;https://raw.githubusercontent.com/run-llama/llama_index/main/docs/docs/examples/data/paul_graham/paul_graham_essay.txt&quot;</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>将文档解析为节点：</p>
+<div class="highlight"><pre><span></span><code><span class="n">parser</span> <span class="o">=</span> <span class="n">SentenceSplitter</span><span class="p">()</span>
+<span class="n">nodes</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">get_nodes_from_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+</code></pre></div>
+<h1 id="1-rag_1">1. RAG查询引擎评估<a class="headerlink" href="#1-rag_1" title="Permanent link">#</a></h1>
+<p>UpTrain回调处理器将自动捕获查询、上下文及生成的响应，并对响应执行以下三项评估（评分范围0-1）：</p>
+<ul>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/context-awareness/context-relevance">上下文相关性</a></strong>：判断检索到的上下文是否包含足够信息来回答用户查询</li>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/context-awareness/factual-accuracy">事实准确性</a></strong>：评估LLM响应是否可通过检索上下文验证</li>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/response-quality/response-completeness">响应完整性</a></strong>：检查响应是否完整包含回答用户查询所需的所有信息</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span>
+    <span class="n">documents</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span>
+
+<span class="n">max_characters_per_line</span> <span class="o">=</span> <span class="mi">80</span>
+<span class="n">queries</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Paul Graham成长期间从事哪些活动？&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Paul Graham的母亲何时因何去世？&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Paul Graham认为YC最显著的特点是什么？&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Paul Graham与Jessica Livingston何时如何相识？&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Bel是什么？其创作时间和地点？&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="k">for</span> <span class="n">query</span> <span class="ow">in</span> <span class="n">queries</span><span class="p">:</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</code></pre></div>
+<pre><code>问题：Paul Graham成长期间从事哪些活动？
+回答：Paul Graham撰写短篇小说，并在九年级时使用早期Fortran版本在IBM 1401上开始编程。后来他说服父亲购买了TRS-80电脑，在那里编写简单游戏、火箭高度预测程序和文字处理器。
+
+上下文相关性得分：0.0
+事实准确性得分：1.0
+响应完整性得分：1.0
+
+
+问题：Paul Graham的母亲何时因何去世？
+回答：Paul Graham的母亲在他18岁时因脑瘤去世。
+
+上下文相关性得分：0.0
+事实准确性得分：0.0
+响应完整性得分：1.0
+
+
+问题：Paul Graham认为YC最显著的特点是什么？
+回答：根据Paul Graham的观点，Y Combinator最显著的特点是工作重点不由自己决定，而是问题主动找上门。每6个月新一批初创企业会带来他们的问题，这些问题随即成为YC的工作重点。
+
+上下文相关性得分：0.0
+事实准确性得分：0.5
+响应完整性得分：1.0
+
+
+问题：Paul Graham与Jessica Livingston何时如何相识？
+回答：Paul Graham于2003年10月在家中的大型派对上结识了Jessica Livingston。
+
+上下文相关性得分：1.0
+事实准确性得分：0.5
+响应完整性得分：1.0
+
+
+问题：Bel是什么？其创作时间和地点？
+回答：Bel是用Arc语言编写的新Lisp方言。开发历时4年，从2015年3月26日至2019年10月12日。大部分开发工作在英国完成，作者于2016年夏季移居至此。
+
+上下文相关性得分：1.0
+事实准确性得分：1.0
+响应完整性得分：1.0
+</code></pre>
+<p>以下是仪表盘示例，展示如何筛选下钻到失败案例并获取相关洞察：
+<img alt="image-2.png" src="https://uptrain-assets.s3.ap-south-1.amazonaws.com/images/llamaindex/image-2.png" /></p>
+<h1 id="2_1">2. 子问题查询引擎评估<a class="headerlink" href="#2_1" title="Permanent link">#</a></h1>
+<p><strong>子问题查询引擎</strong>用于解决通过多数据源回答复杂查询的问题。它首先将复杂查询分解为针对每个相关数据源的子问题，然后收集所有中间响应并综合生成最终答案。</p>
+<p>UpTrain回调处理器会自动捕获生成的每个子问题及其响应，并对响应运行以下三项评估（评分范围0到1）：</p>
+<ul>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/context-awareness/context-relevance">上下文相关性</a></strong>：判断检索到的上下文是否包含足够信息来回答用户查询。</li>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/context-awareness/factual-accuracy">事实准确性</a></strong>：评估LLM的响应是否可以通过检索到的上下文验证。</li>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/response-quality/response-completeness">响应完整性</a></strong>：检查响应是否包含全面回答用户查询所需的所有信息。</li>
+</ul>
+<p>除上述评估外，回调处理器还会运行以下评估：</p>
+<ul>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/query-quality/sub-query-completeness">子查询完整性</a></strong>：确保子问题准确且全面地覆盖原始查询。</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># build index and query engine</span>
+<span class="n">vector_query_engine</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span>
+    <span class="n">documents</span><span class="o">=</span><span class="n">documents</span><span class="p">,</span>
+    <span class="n">use_async</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span>
+
+<span class="n">query_engine_tools</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">QueryEngineTool</span><span class="p">(</span>
+        <span class="n">query_engine</span><span class="o">=</span><span class="n">vector_query_engine</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="o">=</span><span class="n">ToolMetadata</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;documents&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Paul Graham essay on What I Worked On&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">SubQuestionQueryEngine</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span>
+    <span class="n">query_engine_tools</span><span class="o">=</span><span class="n">query_engine_tools</span><span class="p">,</span>
+    <span class="n">use_async</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="s2">&quot;How was Paul Grahams life different before, during, and after YC?&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+<pre><code>生成3个子问题。
+[1;3;38;2;237;90;200m[documents] Q: Paul Graham在Y Combinator之前从事什么工作？
+[0m[1;3;38;2;90;149;237m[documents] Q: Paul Graham在Y Combinator期间从事什么工作？
+[0m[1;3;38;2;11;159;203m[documents] Q: Paul Graham在Y Combinator之后从事什么工作？
+[0m[1;3;38;2;11;159;203m[documents] A: Paul Graham在Y Combinator后与Robert和Trevor合作了一个项目。
+[0m[1;3;38;2;237;90;200m[documents] A: Paul Graham在Y Combinator前与同事Robert和Trevor合作过项目。
+[0m[1;3;38;2;90;149;237m[documents] A: Paul Graham在Y Combinator期间主要从事写作和Y Combinator相关工作。
+[0m
+
+
+问题：Paul Graham在Y Combinator之后从事什么工作？
+回答：Paul Graham在Y Combinator后与Robert和Trevor合作了一个项目。
+
+上下文相关性得分：0.0
+事实准确性得分：1.0
+响应完整性得分：0.5
+
+
+问题：Paul Graham在Y Combinator之前从事什么工作？
+回答：Paul Graham在Y Combinator前与同事Robert和Trevor合作过项目。
+
+上下文相关性得分：0.0
+事实准确性得分：1.0
+响应完整性得分：0.5
+
+
+问题：Paul Graham在Y Combinator期间从事什么工作？
+回答：Paul Graham在Y Combinator期间主要从事写作和Y Combinator相关工作。
+
+上下文相关性得分：0.0
+事实准确性得分：0.5
+响应完整性得分：0.5
+
+
+问题：Paul Graham在YC之前、期间和之后的生活有何不同？
+子查询完整性得分：1.0
+</code></pre>
+<p>以下是仪表板以条形图形式可视化子问题得分的示例：</p>
+<p><img alt="image.png" src="https://uptrain-assets.s3.ap-south-1.amazonaws.com/images/llamaindex/image.png" /></p>
+<h1 id="3_1">3. 重排序<a class="headerlink" href="#3_1" title="Permanent link">#</a></h1>
+<p>重排序是根据节点与查询的相关性重新排序节点的过程。Llamaindex提供多类重排序算法，本示例使用LLMRerank。</p>
+<p>重排序器允许指定重排序后返回的top n节点数量。如果该值与原始节点数相同，则重排序器仅重新排序而不改变节点数量；否则将重新排序并返回top n节点。</p>
+<p>我们将根据重排序后返回的节点数量执行不同评估。</p>
+<h2 id="3a">3a. 重排序（节点数量不变）<a class="headerlink" href="#3a" title="Permanent link">#</a></h2>
+<p>如果重排序后返回的节点数与原始数量相同，将执行以下评估：</p>
+<ul>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/context-awareness/context-reranking">上下文重排序</a></strong>：检查重排序后的节点顺序是否比原始顺序更符合查询相关性。</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">callback_handler</span> <span class="o">=</span> <span class="n">UpTrainCallbackHandler</span><span class="p">(</span>
+    <span class="n">key_type</span><span class="o">=</span><span class="s2">&quot;openai&quot;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">],</span>
+    <span class="n">project_name_prefix</span><span class="o">=</span><span class="s2">&quot;llama&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">Settings</span><span class="o">.</span><span class="n">callback_manager</span> <span class="o">=</span> <span class="n">CallbackManager</span><span class="p">([</span><span class="n">callback_handler</span><span class="p">])</span>
+
+<span class="n">rerank_postprocessor</span> <span class="o">=</span> <span class="n">SentenceTransformerRerank</span><span class="p">(</span>
+    <span class="n">top_n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>  <span class="c1"># 重排序后的节点数</span>
+    <span class="n">keep_retrieval_score</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span>
+    <span class="n">documents</span><span class="o">=</span><span class="n">documents</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">(</span>
+    <span class="n">similarity_top_k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>  <span class="c1"># 重排序前的节点数</span>
+    <span class="n">node_postprocessors</span><span class="o">=</span><span class="p">[</span><span class="n">rerank_postprocessor</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="s2">&quot;What did Sam Altman do in this essay?&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<pre><code>问题：Sam Altman在这篇文章中做了什么？
+上下文重排序得分：0.0
+
+
+问题：Sam Altman在这篇文章中做了什么？
+回答：在原创始人决定退居二线并重组公司以实现长期可持续发展后，Sam Altman被邀请担任Y Combinator总裁。
+
+上下文相关性得分：1.0
+事实准确性得分：1.0
+响应完整性得分：0.5
+</code></pre>
+<h2 id="3b">3b. 重排序（节点数量变化）<a class="headerlink" href="#3b" title="Permanent link">#</a></h2>
+<p>如果重排序后返回的节点数少于原始数量，将执行以下评估：</p>
+<ul>
+<li><strong><a href="https://docs.uptrain.ai/predefined-evaluations/context-awareness/context-conciseness">上下文简洁性</a></strong>：检查减少后的节点是否仍提供所有必需信息。</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">callback_handler</span> <span class="o">=</span> <span class="n">UpTrainCallbackHandler</span><span class="p">(</span>
+    <span class="n">key_type</span><span class="o">=</span><span class="s2">&quot;openai&quot;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">],</span>
+    <span class="n">project_name_prefix</span><span class="o">=</span><span class="s2">&quot;llama&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">Settings</span><span class="o">.</span><span class="n">callback_manager</span> <span class="o">=</span> <span class="n">CallbackManager</span><span class="p">([</span><span class="n">callback_handler</span><span class="p">])</span>
+
+<span class="n">rerank_postprocessor</span> <span class="o">=</span> <span class="n">SentenceTransformerRerank</span><span class="p">(</span>
+    <span class="n">top_n</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>  <span class="c1"># 重排序后的节点数</span>
+    <span class="n">keep_retrieval_score</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span>
+    <span class="n">documents</span><span class="o">=</span><span class="n">documents</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">(</span>
+    <span class="n">similarity_top_k</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>  <span class="c1"># 重排序前的节点数</span>
+    <span class="n">node_postprocessors</span><span class="o">=</span><span class="p">[</span><span class="n">rerank_postprocessor</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="c1"># 使用高级RAG</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="s2">&quot;What did Sam Altman do in this essay?&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<pre><code>问题：Sam Altman在这篇文章中做了什么？
+上下文简洁性得分：0.0
+
+
+问题：Sam Altman在这篇文章中做了什么？
+回答：Sam Altman在作者前往加州参加面试期间主动提供了建议。
+
+
+上下文相关性得分：1.0
+事实准确性得分：1.0
+响应完整性得分：0.5
+</code></pre>
+<h1 id="uptrain_1">UpTrain 托管服务仪表板与洞察分析<a class="headerlink" href="#uptrain_1" title="Permanent link">#</a></h1>
+<p>通过 UpTrain 回调处理器使用托管服务时，只需设置 <code>key_type</code> 和 <code>api_key</code> 参数即可，其余代码保持不变。</p>
+<div class="highlight"><pre><span></span><code><span class="n">callback_handler</span> <span class="o">=</span> <span class="n">UpTrainCallbackHandler</span><span class="p">(</span>
+    <span class="n">key_type</span><span class="o">=</span><span class="s2">&quot;uptrain&quot;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;up-******************************&quot;</span><span class="p">,</span>
+    <span class="n">project_name_prefix</span><span class="o">=</span><span class="s2">&quot;llama&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>以下 GIF 展示了 UpTrain 托管服务提供的仪表板与洞察分析功能：</p>
+<p><img alt="output.gif" src="https://uptrain-assets.s3.ap-south-1.amazonaws.com/images/llamaindex/output.gif" /></p>
+<h1 id="2-uptrain-evalllamaindex">2. 使用 UpTrain 的 EvalLlamaIndex <a href="https://colab.research.google.com/github/run-llama/llama_index/blob/main/docs/docs/examples/evaluation/UpTrain.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="在 Colab 中打开"/></a><a class="headerlink" href="#2-uptrain-evalllamaindex" title="Permanent link">#</a></h1>
+<h2 id="uptrain-llamaindex_1">安装 UpTrain 和 LlamaIndex<a class="headerlink" href="#uptrain-llamaindex_1" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>uptrain<span class="w"> </span>llama_index
+</code></pre></div>
+<h2 id="_6">导入必要库<a class="headerlink" href="#_6" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">httpx</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">openai</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">VectorStoreIndex</span><span class="p">,</span> <span class="n">SimpleDirectoryReader</span><span class="p">,</span> <span class="n">Settings</span>
+<span class="kn">from</span> <span class="nn">uptrain</span> <span class="kn">import</span> <span class="n">Evals</span><span class="p">,</span> <span class="n">EvalLlamaIndex</span><span class="p">,</span> <span class="n">Settings</span> <span class="k">as</span> <span class="n">UpTrainSettings</span>
+</code></pre></div>
+<h2 id="_7">为查询引擎创建数据集文件夹<a class="headerlink" href="#_7" title="Permanent link">#</a></h2>
+<p>可以使用任意文档进行操作。本教程将使用从维基百科提取的纽约市数据。我们仅在文件夹中添加一个文档，但您可以根据需要添加多个。</p>
+<div class="highlight"><pre><span></span><code><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://uptrain-assets.s3.ap-south-1.amazonaws.com/data/nyc_text.txt&quot;</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&quot;nyc_wikipedia&quot;</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s2">&quot;nyc_wikipedia&quot;</span><span class="p">)</span>
+<span class="n">dataset_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;./nyc_wikipedia&quot;</span><span class="p">,</span> <span class="s2">&quot;nyc_text.txt&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">):</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">httpx</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="_8">创建查询列表<a class="headerlink" href="#_8" title="Permanent link">#</a></h2>
+<p>生成响应前需要创建查询列表。由于查询引擎基于纽约市数据训练，我们将创建与之相关的问题列表。</p>
+<div class="highlight"><pre><span></span><code><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;纽约市的人口是多少？&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;纽约市的面积是多少？&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;纽约市最大的行政区是哪个？&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;纽约市的平均温度是多少？&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;纽约市的主要机场是哪个？&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;纽约市的著名地标是什么？&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;纽约市的官方语言是什么？&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;纽约市使用的货币是什么？&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;纽约市的时区是什么？&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;question&quot;</span><span class="p">:</span> <span class="s2">&quot;纽约市的著名运动队是哪个？&quot;</span><span class="p">},</span>
+<span class="p">]</span>
+</code></pre></div>
+<p><strong>本笔记本使用 OpenAI API 生成提示文本并创建向量存储索引，因此需设置 openai.api_key 为您的 OpenAI API 密钥。</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">openai</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="s2">&quot;sk-************************&quot;</span>  <span class="c1"># 您的 OpenAI API 密钥</span>
+</code></pre></div>
+<h2 id="llamaindex">使用 LlamaIndex 创建查询引擎<a class="headerlink" href="#llamaindex" title="Permanent link">#</a></h2>
+<p>让我们使用 LLamaIndex 创建向量存储索引，然后将其作为查询引擎从文档中检索相关内容。</p>
+<div class="highlight"><pre><span></span><code><span class="n">Settings</span><span class="o">.</span><span class="n">chunk_size</span> <span class="o">=</span> <span class="mi">512</span>
+
+<span class="n">documents</span> <span class="o">=</span> <span class="n">SimpleDirectoryReader</span><span class="p">(</span><span class="s2">&quot;./nyc_wikipedia/&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+
+<span class="n">vector_index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span>
+    <span class="n">documents</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">vector_index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="_9">设置<a class="headerlink" href="#_9" title="Permanent link">#</a></h2>
+<p>UpTrain 提供以下功能：
+1. 具备高级钻取和筛选选项的仪表板
+2. 失败案例的洞察分析与常见主题
+3. 生产数据的可观测性与实时监控
+4. 通过与 CI/CD 管道无缝集成的回归测试</p>
+<p>您可以选择以下两种评估方式之一：</p>
+<h1 id="uptrain-oss">方案一：使用 UpTrain 开源软件（OSS）进行评估<a class="headerlink" href="#uptrain-oss" title="Permanent link">#</a></h1>
+<p>可使用开源评估服务评估模型。此情况下需提供 OpenAI API 密钥，可在此处获取<a href="https://platform.openai.com/account/api-keys">密钥</a>。</p>
+<p>要在 UpTrain 仪表板查看评估结果，需通过终端运行以下命令进行设置：</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/uptrain-ai/uptrain
+<span class="nb">cd</span><span class="w"> </span>uptrain
+bash<span class="w"> </span>run_uptrain.sh
+</code></pre></div>
+<p>这将在本地启动 UpTrain 仪表板，可通过 <code>http://localhost:3000/dashboard</code> 访问。</p>
+<p><strong>注意：</strong> <code>project_name</code> 将作为评估结果显示在 UpTrain 仪表板中的项目名称。</p>
+<div class="highlight"><pre><span></span><code><span class="n">settings</span> <span class="o">=</span> <span class="n">UpTrainSettings</span><span class="p">(</span>
+    <span class="n">openai_api_key</span><span class="o">=</span><span class="n">openai</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<h2 id="evalllamaindex">创建 EvalLlamaIndex 对象<a class="headerlink" href="#evalllamaindex" title="Permanent link">#</a></h2>
+<p>创建查询引擎后，可用其创建 EvalLlamaIndex 对象，该对象将用于生成查询响应。</p>
+<div class="highlight"><pre><span></span><code><span class="n">llamaindex_object</span> <span class="o">=</span> <span class="n">EvalLlamaIndex</span><span class="p">(</span>
+    <span class="n">settings</span><span class="o">=</span><span class="n">settings</span><span class="p">,</span> <span class="n">query_engine</span><span class="o">=</span><span class="n">query_engine</span>
+<span class="p">)</span>
+</code></pre></div>
+<h2 id="_10">运行评估<a class="headerlink" href="#_10" title="Permanent link">#</a></h2>
+<p>有了查询列表后，可使用 EvalLlamaIndex 对象生成响应并进行评估。UpTrain 提供的完整评估列表可在此处查看<a href="https://docs.uptrain.ai/key-components/evals">评估列表</a>。本教程选择两个最相关的评估：</p>
+<ol>
+<li>
+<p><strong>上下文相关性</strong>：检查检索到的上下文是否与查询相关。这很重要，因为检索到的上下文用于生成响应。如果上下文与查询无关，则响应也不会相关。</p>
+</li>
+<li>
+<p><strong>响应简洁性</strong>：检查响应是否简洁。这很重要，因为响应应简明扼要，不包含不必要的信息。</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="n">results</span> <span class="o">=</span> <span class="n">llamaindex_object</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+    <span class="n">project_name</span><span class="o">=</span><span class="s2">&quot;uptrain-llama-index&quot;</span><span class="p">,</span>
+    <span class="n">evaluation_name</span><span class="o">=</span><span class="s2">&quot;nyc_wikipedia&quot;</span><span class="p">,</span>  <span class="c1"># 添加项目名和评估名可在 UpTrain 仪表板跟踪结果</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+    <span class="n">checks</span><span class="o">=</span><span class="p">[</span><span class="n">Evals</span><span class="o">.</span><span class="n">CONTEXT_RELEVANCE</span><span class="p">,</span> <span class="n">Evals</span><span class="o">.</span><span class="n">RESPONSE_CONCISENESS</span><span class="p">],</span>
+<span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</code></pre></div>
+<h1 id="uptrain_2">方案二：使用 UpTrain 托管服务与仪表板进行评估<a class="headerlink" href="#uptrain_2" title="Permanent link">#</a></h1>
+<p>也可使用 UpTrain 托管服务评估模型。可在此处创建免费账户<a href="https://uptrain.ai/">注册</a>获取试用积分。如需更多积分，可在此处预约与 UpTrain 维护者的通话<a href="https://calendly.com/uptrain-sourabh/30min">预约</a>。</p>
+<p>托管服务的优势包括：
+1. 无需在本地设置 UpTrain 仪表板
+2. 无需提供 API 密钥即可访问多种 LLM</p>
+<p>完成评估后，可在 UpTrain 仪表板查看结果：<code>https://dashboard.uptrain.ai/dashboard</code></p>
+<p><strong>注意：</strong> <code>project_name</code> 将作为评估结果显示在 UpTrain 仪表板中的项目名称。</p>
+<div class="highlight"><pre><span></span><code><span class="n">UPTRAIN_API_KEY</span> <span class="o">=</span> <span class="s2">&quot;up-**********************&quot;</span>  <span class="c1"># 您的 UpTrain API 密钥</span>
+
+<span class="c1"># 此情况下在设置中使用 `uptrain_access_token` 参数而非 &#39;openai_api_key&#39;</span>
+<span class="n">settings</span> <span class="o">=</span> <span class="n">UpTrainSettings</span><span class="p">(</span>
+    <span class="n">uptrain_access_token</span><span class="o">=</span><span class="n">UPTRAIN_API_KEY</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<h2 id="evalllamaindex_1">创建 EvalLlamaIndex 对象<a class="headerlink" href="#evalllamaindex_1" title="Permanent link">#</a></h2>
+<p>创建查询引擎后，可用其创建 EvalLlamaIndex 对象，该对象将用于生成查询响应。</p>
+<div class="highlight"><pre><span></span><code><span class="n">llamaindex_object</span> <span class="o">=</span> <span class="n">EvalLlamaIndex</span><span class="p">(</span>
+    <span class="n">settings</span><span class="o">=</span><span class="n">settings</span><span class="p">,</span> <span class="n">query_engine</span><span class="o">=</span><span class="n">query_engine</span>
+<span class="p">)</span>
+</code></pre></div>
+<h2 id="_11">运行评估<a class="headerlink" href="#_11" title="Permanent link">#</a></h2>
+<p>有了查询列表后，可使用 EvalLlamaIndex 对象生成响应并进行评估。UpTrain 提供的完整评估列表可在此处查看<a href="https://docs.uptrain.ai/key-components/evals">评估列表</a>。本教程选择两个最相关的评估：</p>
+<ol>
+<li><strong>上下文相关性</strong>：检查检索到的上下文是否与查询相关。</li>
+<li><strong>响应简洁性</strong>：检查响应是否简洁。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="n">results</span> <span class="o">=</span> <span class="n">llamaindex_object</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+    <span class="n">project_name</span><span class="o">=</span><span class="s2">&quot;uptrain-llama-index&quot;</span><span class="p">,</span>
+    <span class="n">evaluation_name</span><span class="o">=</span><span class="s2">&quot;nyc_wikipedia&quot;</span><span class="p">,</span>  <span class="c1"># 添加项目名和评估名可在 UpTrain 仪表板跟踪结果</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+    <span class="n">checks</span><span class="o">=</span><span class="p">[</span><span class="n">Evals</span><span class="o">.</span><span class="n">CONTEXT_RELEVANCE</span><span class="p">,</span> <span class="n">Evals</span><span class="o">.</span><span class="n">RESPONSE_CONCISENESS</span><span class="p">],</span>
+<span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="_12">仪表盘：<a class="headerlink" href="#_12" title="Permanent link">#</a></h3>
+<p>分数与对应案例数量的直方图分布</p>
+<p><img alt="nyc_dashboard.png" src="https://uptrain-assets.s3.ap-south-1.amazonaws.com/images/llamaindex/nyc_dashboard.png" /></p>
+<p>可筛选失败案例并生成其共性主题，有助于定位核心问题并进行修复</p>
+<p><img alt="nyc_insights.png" src="https://uptrain-assets.s3.ap-south-1.amazonaws.com/images/llamaindex/nyc_insights.png" /></p>
+<h2 id="_13">了解更多<a class="headerlink" href="#_13" title="Permanent link">#</a></h2>
+<ol>
+<li><a href="https://colab.research.google.com/github/run-llama/llama_index/blob/main/docs/docs/examples/callbacks/UpTrainCallback.ipynb">UpTrainCallbackHandler 的 Colab 笔记本</a></li>
+<li><a href="https://colab.research.google.com/github/run-llama/llama_index/blob/main/docs/docs/examples/evaluation/UpTrain.ipynb">LlamaIndex 与 UpTrain 集成的 Colab 笔记本</a></li>
+<li><a href="https://github.com/uptrain-ai/uptrain">UpTrain GitHub 代码库</a></li>
+<li><a href="https://docs.uptrain.ai/">UpTrain 官方文档</a></li>
+</ol>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+       
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <readthedocs-flyout position="bottom-left"></readthedocs-flyout>
+      
+    </div>
+  </div>
+</footer>
+      
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", "GTM-WWRFB36R");
+</script>
+<!-- End Google Tag Manager -->
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.prune", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+        <script src="../../../javascript/runllm.js"></script>
+      
+        <script src="../../../javascript/algolia.js"></script>
+      
+    
+  </body>
+</html>

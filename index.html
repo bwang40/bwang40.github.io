@@ -1,0 +1,1698 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.llamaindex.ai/en/stable/">
+      
+      
+      
+        <link rel="next" href="getting_started/concepts/">
+      
+      
+      <link rel="icon" href="_static/assets/LlamaLogoBrowserTab.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>LlamaIndex - LlamaIndex</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="css/style.css">
+    
+      <link rel="stylesheet" href="css/algolia.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BYVB1ZVE6J"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BYVB1ZVE6J",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BYVB1ZVE6J",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#llamaindex" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="LlamaIndex" class="md-header__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LlamaIndex
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              LlamaIndex
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="purple"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      
+
+<!-- Search interface -->
+<div id="docsearch"></div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="." class="md-tabs__link">
+          
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="understanding/" class="md-tabs__link">
+          
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="use_cases/" class="md-tabs__link">
+          
+  
+    
+  
+  Use Cases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="examples/" class="md-tabs__link">
+          
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="module_guides/" class="md-tabs__link">
+          
+  
+    
+  
+  Component Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="optimizing/production_rag/" class="md-tabs__link">
+          
+  
+    
+  
+  Advanced Topics
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="api_reference/" class="md-tabs__link">
+          
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="community/integrations/" class="md-tabs__link">
+          
+  
+    
+  
+  Open-Source Community
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-tabs__link">
+        
+  
+    
+  
+  LlamaCloud
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="LlamaIndex" class="md-nav__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    LlamaIndex
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="." class="md-nav__link md-nav__link--active">
+              
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link md-nav__link--active" for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Home
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="getting_started/concepts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    核心概念
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="getting_started/installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    安装与配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="getting_started/reading/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    如何阅读本文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="getting_started/starter_example/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Starter Examples
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="getting_started/discover_llamaindex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    探索 LlamaIndex 视频系列
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="getting_started/customization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题解答 (FAQ)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="getting_started/starter_tools/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Starter Tools
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="understanding/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Learn
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="use_cases/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Use Cases
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="examples/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Examples
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="module_guides/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Component Guides
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="optimizing/production_rag/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Advanced Topics
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="api_reference/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="community/integrations/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Open-Source Community
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LlamaCloud
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      简介
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="简介">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      什么是智能体？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      什么是工作流？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      什么是上下文增强？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#llamaindex-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      LlamaIndex 是上下文增强型 LLM 应用的框架
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用场景
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="使用场景">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      👨‍👩‍👧‍👦 适合哪些用户？
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      快速开始
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="快速开始">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#30" class="md-nav__link">
+    <span class="md-ellipsis">
+      30 秒快速入门
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#llamacloud" class="md-nav__link">
+    <span class="md-ellipsis">
+      LlamaCloud
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      社区
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="社区">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      获取库文件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      参与贡献
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#llamaindex_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      LlamaIndex 生态体系
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="llamaindex">欢迎来到 LlamaIndex 🦙 !<a class="headerlink" href="#llamaindex" title="Permanent link">#</a></h1>
+<p>LlamaIndex 是领先的框架，用于通过 <a href="https://en.wikipedia.org/wiki/Large_language_model">大语言模型</a> 和 <a href="./understanding/workflows/">工作流</a> 构建基于您数据的 LLM 驱动智能体。</p>
+<div class="grid cards">
+<ul>
+<li>
+<p><span style="font-size: 200%"><a href="#introduction">简介</a></span></p>
+<p>什么是上下文增强？什么是智能体和工作流？LlamaIndex 如何帮助构建它们？</p>
+</li>
+<li>
+<p><span style="font-size: 200%"><a href="#use-cases">使用场景</a></span></p>
+<p>您能用 LlamaIndex 构建哪些应用？适合哪些用户？</p>
+</li>
+<li>
+<p><span style="font-size: 200%"><a href="#getting-started">快速开始</a></span></p>
+<p>仅需 5 行代码即可开始使用 Python 或 TypeScript 开发！</p>
+</li>
+<li>
+<p><span style="font-size: 200%"><a href="https://docs.cloud.llamaindex.ai/">LlamaCloud</a></span></p>
+<p>LlamaIndex 托管服务，包含全球最佳文档解析器 <a href="https://docs.cloud.llamaindex.ai/llamaparse/overview">LlamaParse</a>。</p>
+</li>
+<li>
+<p><span style="font-size: 200%"><a href="#community">社区</a></span></p>
+<p>通过 Discord、Twitter、LinkedIn 获取帮助并结识协作者，了解如何为项目做贡献。</p>
+</li>
+<li>
+<p><span style="font-size: 200%"><a href="#related-projects">相关项目</a></span></p>
+<p>访问 <a href="https://llamahub.ai">LlamaHub</a> 查看我们的连接器库、阅读器和其他集成，以及 <a href="https://www.npmjs.com/package/create-llama">create-llama</a> 等演示和入门应用。</p>
+</li>
+</ul>
+</div>
+<h2 id="_1">简介<a class="headerlink" href="#_1" title="Permanent link">#</a></h2>
+<h3 id="_2">什么是智能体？<a class="headerlink" href="#_2" title="Permanent link">#</a></h3>
+<p><a href="./understanding/agent/basic_agent/">智能体</a> 是 LLM 驱动的知识助手，通过工具执行研究、数据提取等任务。智能体功能范围从简单问答到具备感知、决策和执行能力以完成任务。</p>
+<p>LlamaIndex 提供构建智能体的框架，包括将 RAG 流程作为众多工具之一来完成任务的能力。</p>
+<h3 id="_3">什么是工作流？<a class="headerlink" href="#_3" title="Permanent link">#</a></h3>
+<p><a href="./understanding/workflows/">工作流</a> 是多步骤流程，结合一个或多个智能体、数据连接器和其他工具来完成任务。它们是事件驱动软件，允许您组合 RAG 数据源和多个智能体，创建具备反思、纠错等高级 LLM 应用特征的复杂应用。您可以将这些智能工作流<a href="./module_guides/workflow/deployment.md">部署为生产级微服务</a>。</p>
+<h3 id="_4">什么是上下文增强？<a class="headerlink" href="#_4" title="Permanent link">#</a></h3>
+<p>LLM 提供了人类与数据之间的自然语言接口。虽然 LLM 经过海量公开数据预训练，但并未针对您的特定数据进行训练。您的数据可能是私有的，或与待解决问题相关——它们隐藏在 API 背后、SQL 数据库中，或封存在 PDF 和幻灯片里。</p>
+<p>上下文增强让 LLM 能够访问您的数据来解决问题。LlamaIndex 提供从原型到生产的全流程工具，支持您实现任何上下文增强用例。我们的工具可帮助您摄取、解析、索引和处理数据，快速实现结合数据访问与 LLM 提示的复杂查询工作流。</p>
+<p>最典型的上下文增强案例是<a href="getting_started/concepts/">检索增强生成（RAG）</a>，它在推理时结合上下文与 LLM。</p>
+<h3 id="llamaindex-llm">LlamaIndex 是上下文增强型 LLM 应用的框架<a class="headerlink" href="#llamaindex-llm" title="Permanent link">#</a></h3>
+<p>LlamaIndex 不限制您使用 LLM 的方式。您可以将 LLM 用于自动补全、聊天机器人、智能体等场景。我们只是让使用变得更简单。我们提供的工具包括：</p>
+<ul>
+<li><strong>数据连接器</strong> 从原始来源和格式中摄取现有数据，支持 API、PDF、SQL 等多种形式</li>
+<li><strong>数据索引</strong> 将数据组织成便于 LLM 高效消费的中间表示形式</li>
+<li><strong>引擎</strong> 提供数据的自然语言访问接口，例如：<ul>
+<li>查询引擎是强大的问答接口（如 RAG 流程）</li>
+<li>聊天引擎是支持多轮对话的数据交互接口</li>
+</ul>
+</li>
+<li><strong>智能体</strong> 是由工具增强的 LLM 驱动知识工作者，支持从简单辅助功能到 API 集成等多种场景</li>
+<li><strong>可观测性/评估</strong> 集成帮助您严格实验、评估和监控应用，形成良性循环</li>
+<li><strong>工作流</strong> 允许将上述所有组件组合成事件驱动系统，比其他基于图的方法更灵活</li>
+</ul>
+<h2 id="_5">使用场景<a class="headerlink" href="#_5" title="Permanent link">#</a></h2>
+<p>LlamaIndex 和上下文增强的典型应用场景包括：</p>
+<ul>
+<li><a href="use_cases/q_and_a/">问答系统</a>（检索增强生成 RAG）</li>
+<li><a href="use_cases/chatbots/">聊天机器人</a></li>
+<li><a href="use_cases/extraction/">文档理解与数据提取</a></li>
+<li><a href="use_cases/agents/">自主智能体</a> 执行研究和采取行动</li>
+<li><a href="use_cases/multimodal/">多模态应用</a> 结合文本、图像等数据类型</li>
+<li><a href="use_cases/fine_tuning/">微调模型</a> 提升数据表现</li>
+</ul>
+<p>查看我们的<a href="use_cases/">使用场景文档</a>获取更多案例和教程链接。</p>
+<h3 id="_6">👨‍👩‍👧‍👦 适合哪些用户？<a class="headerlink" href="#_6" title="Permanent link">#</a></h3>
+<p>LlamaIndex 为初学者、高级用户和中间用户都提供了工具。</p>
+<p>我们的高级 API 让初学者只需 5 行代码即可实现数据摄取和查询。</p>
+<p>对于复杂应用，我们的底层 API 允许高级用户自定义和扩展任何模块——数据连接器、索引、检索器、查询引擎和重排模块——以满足特定需求。</p>
+<h2 id="_7">快速开始<a class="headerlink" href="#_7" title="Permanent link">#</a></h2>
+<p>LlamaIndex 支持 Python（本文档）和 <a href="https://ts.llamaindex.ai/">TypeScript</a>。如果您不确定从何开始，建议阅读<a href="getting_started/reading/">如何阅读本文档</a>，它将根据您的经验水平指引正确方向。</p>
+<h3 id="30">30 秒快速入门<a class="headerlink" href="#30" title="Permanent link">#</a></h3>
+<p>设置名为 <code>OPENAI_API_KEY</code> 的环境变量，并填入 <a href="https://platform.openai.com/api-keys">OpenAI API 密钥</a>。安装 Python 库：</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>llama-index
+</code></pre></div>
+<p>将文档放入名为 <code>data</code> 的文件夹，然后通过我们经典的 5 行入门代码进行问答：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">VectorStoreIndex</span><span class="p">,</span> <span class="n">SimpleDirectoryReader</span>
+
+<span class="n">documents</span> <span class="o">=</span> <span class="n">SimpleDirectoryReader</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;在此输入关于数据的提问&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+</code></pre></div>
+<p>若遇到任何问题，请放心！查看我们更完整的入门教程：<a href="getting_started/starter_example/">使用 OpenAI 等远程 API</a> 或 <a href="getting_started/starter_example_local/">在本地运行任意模型</a>。</p>
+<h2 id="llamacloud">LlamaCloud<a class="headerlink" href="#llamacloud" title="Permanent link">#</a></h2>
+<p>企业开发者请关注 <a href="https://llamaindex.ai/enterprise"><strong>LlamaCloud</strong></a>。这是面向文档解析、提取、索引和检索的端到端托管服务，可帮助您为 AI 智能体获取生产级数据。<a href="https://cloud.llamaindex.ai/">立即注册</a> 可享每月 10,000 免费积分，选择我们的 <a href="https://www.llamaindex.ai/pricing">付费方案</a>，或 <a href="https://www.llamaindex.ai/contact">联系我们</a> 洽谈企业解决方案（支持 SaaS 和自托管模式）。</p>
+<p>更多详情请参阅 <a href="https://docs.cloud.llamaindex.ai/">LlamaCloud 文档</a>。</p>
+<ul>
+<li><strong>文档解析 (LlamaParse)</strong>：行业顶尖的文档解析方案，基于视觉语言模型（VLM），可完美处理复杂文档（嵌套表格、嵌入式图表/图片等）。<a href="https://www.llamaindex.ai/llamaparse">了解更多</a> 或查看 <a href="https://docs.cloud.llamaindex.ai/llamaparse/overview">文档</a></li>
+<li><strong>文档提取 (LlamaExtract)</strong>：根据人工定义或推断的架构，从任意文档提取结构化数据。<a href="https://www.llamaindex.ai/llamaextract">了解更多</a> 或查看 <a href="https://docs.cloud.llamaindex.ai/llamaextract/getting_started">文档</a></li>
+<li><strong>索引/检索</strong>：建立端到端管道实现文档集合的检索索引。连接数据源（如 Sharepoint、Google Drive、S3）和向量数据库接收端，我们将自动处理文档处理与同步。<a href="https://www.llamaindex.ai/enterprise">了解更多</a> 或查看 <a href="https://docs.cloud.llamaindex.ai/llamacloud/getting_started">文档</a></li>
+</ul>
+<h2 id="_8">社区<a class="headerlink" href="#_8" title="Permanent link">#</a></h2>
+<p>需要帮助或有功能建议？加入 LlamaIndex 社区：</p>
+<ul>
+<li><a href="https://twitter.com/llama_index">Twitter</a></li>
+<li><a href="https://discord.gg/dGcwcsnxhU">Discord</a></li>
+<li><a href="https://www.linkedin.com/company/llamaindex/">LinkedIn</a></li>
+</ul>
+<h3 id="_9">获取库文件<a class="headerlink" href="#_9" title="Permanent link">#</a></h3>
+<ul>
+<li>LlamaIndex Python<ul>
+<li><a href="https://github.com/run-llama/llama_index">LlamaIndex Python Github</a></li>
+<li><a href="https://docs.llamaindex.ai/">Python 文档</a>（当前阅读内容）</li>
+<li><a href="https://pypi.org/project/llama-index/">PyPi 上的 LlamaIndex</a></li>
+</ul>
+</li>
+<li>LlamaIndex.TS (Typescript/Javascript 包)：<ul>
+<li><a href="https://github.com/run-llama/LlamaIndexTS">LlamaIndex.TS Github</a></li>
+<li><a href="https://ts.llamaindex.ai/">TypeScript 文档</a></li>
+<li><a href="https://www.npmjs.com/package/llamaindex">npm 上的 LlamaIndex.TS</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="_10">参与贡献<a class="headerlink" href="#_10" title="Permanent link">#</a></h3>
+<p>我们始终欢迎开源贡献！查看 <a href="CONTRIBUTING/">贡献指南</a> 了解如何扩展核心库，或添加与 LLM、向量数据库、智能体工具等第三方集成的完整细节。</p>
+<h2 id="llamaindex_1">LlamaIndex 生态体系<a class="headerlink" href="#llamaindex_1" title="Permanent link">#</a></h2>
+<p>LlamaIndex 宇宙还有更多精彩项目：</p>
+<ul>
+<li><a href="https://github.com/run-llama/llama_deploy">llama_deploy</a> | 将智能体工作流部署为生产级微服务</li>
+<li><a href="https://llamahub.ai">LlamaHub</a> | 持续增长的自定义数据连接器集合</li>
+<li><a href="https://secinsights.ai">SEC Insights</a> | 基于 LlamaIndex 的金融研究应用</li>
+<li><a href="https://www.npmjs.com/package/create-llama">create-llama</a> | 快速搭建 LlamaIndex 项目的 CLI 工具</li>
+</ul>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+       
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+        
+          
+          <a href="getting_started/concepts/" class="md-footer__link md-footer__link--next" aria-label="Next: 核心概念">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                核心概念
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <readthedocs-flyout position="bottom-left"></readthedocs-flyout>
+      
+    </div>
+  </div>
+</footer>
+      
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", "GTM-WWRFB36R");
+</script>
+<!-- End Google Tag Manager -->
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.instant", "navigation.prune", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+        <script src="javascript/runllm.js"></script>
+      
+        <script src="javascript/algolia.js"></script>
+      
+    
+  </body>
+</html>

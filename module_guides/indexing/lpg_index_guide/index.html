@@ -1,0 +1,3038 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.llamaindex.ai/en/stable/module_guides/indexing/lpg_index_guide/">
+      
+      
+        <link rel="prev" href="../vector_store_index/">
+      
+      
+        <link rel="next" href="../document_management/">
+      
+      
+      <link rel="icon" href="../../../_static/assets/LlamaLogoBrowserTab.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>Property Graph Index - LlamaIndex</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../css/style.css">
+    
+      <link rel="stylesheet" href="../../../css/algolia.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BYVB1ZVE6J"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BYVB1ZVE6J",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BYVB1ZVE6J",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="LlamaIndex" class="md-header__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LlamaIndex
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Property Graph Index
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="purple"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      
+
+<!-- Search interface -->
+<div id="docsearch"></div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../.." class="md-tabs__link">
+          
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../understanding/" class="md-tabs__link">
+          
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../use_cases/" class="md-tabs__link">
+          
+  
+    
+  
+  Use Cases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../examples/" class="md-tabs__link">
+          
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+    
+  
+  Component Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../optimizing/production_rag/" class="md-tabs__link">
+          
+  
+    
+  
+  Advanced Topics
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../api_reference/" class="md-tabs__link">
+          
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../community/integrations/" class="md-tabs__link">
+          
+  
+    
+  
+  Open-Source Community
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-tabs__link">
+        
+  
+    
+  
+  LlamaCloud
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="LlamaIndex" class="md-nav__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    LlamaIndex
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../.." class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../understanding/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Learn
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../use_cases/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Use Cases
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../examples/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Examples
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Component Guides
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Component Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../models/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Models
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../models/prompts/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Prompts
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../loading/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Loading
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Indexing
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            Indexing
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index_guide/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Index Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vector_store_index/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vector Store Index
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Property Graph Index
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Property Graph Index
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      基本用法
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="基本用法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      构建过程
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="构建过程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simplellmpathextractor" class="md-nav__link">
+    <span class="md-ellipsis">
+      （默认）SimpleLLMPathExtractor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implicitpathextractor" class="md-nav__link">
+    <span class="md-ellipsis">
+      （默认）ImplicitPathExtractor
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dynamicllmpathextractor" class="md-nav__link">
+    <span class="md-ellipsis">
+      DynamicLLMPathExtractor
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DynamicLLMPathExtractor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#schemallmpathextractor" class="md-nav__link">
+    <span class="md-ellipsis">
+      SchemaLLMPathExtractor
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      检索与查询
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="检索与查询">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#llmsynonymretriever" class="md-nav__link">
+    <span class="md-ellipsis">
+      （默认）LLMSynonymRetriever
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vectorcontextretriever" class="md-nav__link">
+    <span class="md-ellipsis">
+      （默认，如支持）VectorContextRetriever
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#texttocypherretriever" class="md-nav__link">
+    <span class="md-ellipsis">
+      TextToCypherRetriever
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cyphertemplateretriever" class="md-nav__link">
+    <span class="md-ellipsis">
+      CypherTemplateRetriever
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      存储
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="存储">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      磁盘读写操作
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      集成方案的保存与加载
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      直接使用属性图存储
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      高级定制
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="高级定制">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      继承提取器
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      继承检索器
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../document_management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Document Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../llama_cloud_index/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LlamaCloud
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metadata_extraction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Metadata Extraction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modules/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Modules
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../storing/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Storing
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../querying/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Querying
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../deploying/agents/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Agents
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../workflow/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Workflows
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../evaluating/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Evaluation
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../observability/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Observability
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supporting_modules/settings/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Settings
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../llama_deploy" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Llama Deploy
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../optimizing/production_rag/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Advanced Topics
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../api_reference/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../community/integrations/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Open-Source Community
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LlamaCloud
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      基本用法
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="基本用法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      构建过程
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="构建过程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simplellmpathextractor" class="md-nav__link">
+    <span class="md-ellipsis">
+      （默认）SimpleLLMPathExtractor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implicitpathextractor" class="md-nav__link">
+    <span class="md-ellipsis">
+      （默认）ImplicitPathExtractor
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dynamicllmpathextractor" class="md-nav__link">
+    <span class="md-ellipsis">
+      DynamicLLMPathExtractor
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DynamicLLMPathExtractor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#schemallmpathextractor" class="md-nav__link">
+    <span class="md-ellipsis">
+      SchemaLLMPathExtractor
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      检索与查询
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="检索与查询">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#llmsynonymretriever" class="md-nav__link">
+    <span class="md-ellipsis">
+      （默认）LLMSynonymRetriever
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vectorcontextretriever" class="md-nav__link">
+    <span class="md-ellipsis">
+      （默认，如支持）VectorContextRetriever
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#texttocypherretriever" class="md-nav__link">
+    <span class="md-ellipsis">
+      TextToCypherRetriever
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cyphertemplateretriever" class="md-nav__link">
+    <span class="md-ellipsis">
+      CypherTemplateRetriever
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      存储
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="存储">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      磁盘读写操作
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      集成方案的保存与加载
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      直接使用属性图存储
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      高级定制
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="高级定制">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      继承提取器
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      继承检索器
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="_1">使用属性图索引<a class="headerlink" href="#_1" title="Permanent link">#</a></h1>
+<p>属性图是由带标签的节点（即实体类别、文本标签等）及其属性（即元数据）组成的知识集合，通过关系相互连接形成结构化路径。</p>
+<p>在LlamaIndex中，<code>PropertyGraphIndex</code>提供了以下核心功能：
+- 构建图结构
+- 查询图数据</p>
+<h2 id="_2">基本用法<a class="headerlink" href="#_2" title="Permanent link">#</a></h2>
+<p>通过简单导入类即可使用基础功能：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">PropertyGraphIndex</span>
+
+<span class="c1"># 创建</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">PropertyGraphIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span>
+    <span class="n">documents</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># 使用</span>
+<span class="n">retriever</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_retriever</span><span class="p">(</span>
+    <span class="n">include_text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># 包含匹配路径的源文本块</span>
+    <span class="n">similarity_top_k</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>  <span class="c1"># 向量知识图谱节点检索的top k值</span>
+<span class="p">)</span>
+<span class="n">nodes</span> <span class="o">=</span> <span class="n">retriever</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="s2">&quot;Test&quot;</span><span class="p">)</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">(</span>
+    <span class="n">include_text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># 包含匹配路径的源文本块</span>
+    <span class="n">similarity_top_k</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>  <span class="c1"># 向量知识图谱节点检索的top k值</span>
+<span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;Test&quot;</span><span class="p">)</span>
+
+<span class="c1"># 保存与加载</span>
+<span class="n">index</span><span class="o">.</span><span class="n">storage_context</span><span class="o">.</span><span class="n">persist</span><span class="p">(</span><span class="n">persist_dir</span><span class="o">=</span><span class="s2">&quot;./storage&quot;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">StorageContext</span><span class="p">,</span> <span class="n">load_index_from_storage</span>
+
+<span class="n">index</span> <span class="o">=</span> <span class="n">load_index_from_storage</span><span class="p">(</span>
+    <span class="n">StorageContext</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span><span class="n">persist_dir</span><span class="o">=</span><span class="s2">&quot;./storage&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># 从现有图存储加载（可选向量存储）</span>
+<span class="c1"># 从现有图/向量存储加载</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">PropertyGraphIndex</span><span class="o">.</span><span class="n">from_existing</span><span class="p">(</span>
+    <span class="n">property_graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span> <span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span> <span class="o">...</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="_3">构建过程<a class="headerlink" href="#_3" title="Permanent link">#</a></h3>
+<p>LlamaIndex中的属性图构建通过对每个文本块执行一系列<code>kg_extractors</code>来实现，将实体和关系作为元数据附加到每个llama-index节点。您可以在此处使用任意数量的提取器，它们都将被应用。</p>
+<p>如果您使用过<a href="../../loading/ingestion_pipeline/">数据摄取管道</a>中的转换或元数据提取器，那么这将非常熟悉（这些<code>kg_extractors</code>与摄取管道兼容）！</p>
+<p>通过相应参数设置提取器：</p>
+<div class="highlight"><pre><span></span><code><span class="n">index</span> <span class="o">=</span> <span class="n">PropertyGraphIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span>
+    <span class="n">documents</span><span class="p">,</span>
+    <span class="n">kg_extractors</span><span class="o">=</span><span class="p">[</span><span class="n">extractor1</span><span class="p">,</span> <span class="n">extractor2</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="c1"># 插入额外文档/节点</span>
+<span class="n">index</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">document</span><span class="p">)</span>
+<span class="n">index</span><span class="o">.</span><span class="n">insert_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+</code></pre></div>
+<p>如未提供，默认使用<code>SimpleLLMPathExtractor</code>和<code>ImplicitPathExtractor</code>。</p>
+<p>所有<code>kg_extractors</code>详细介绍如下。</p>
+<h4 id="simplellmpathextractor">（默认）<code>SimpleLLMPathExtractor</code><a class="headerlink" href="#simplellmpathextractor" title="Permanent link">#</a></h4>
+<p>使用LLM提取短语句，解析单跳路径格式(<code>实体1</code>, <code>关系</code>, <code>实体2</code>)</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.indices.property_graph</span> <span class="kn">import</span> <span class="n">SimpleLLMPathExtractor</span>
+
+<span class="n">kg_extractor</span> <span class="o">=</span> <span class="n">SimpleLLMPathExtractor</span><span class="p">(</span>
+    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
+    <span class="n">max_paths_per_chunk</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">show_progress</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>如需自定义，可修改提示词和路径解析函数：</p>
+<div class="highlight"><pre><span></span><code><span class="n">prompt</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;Some text is provided below. Given the text, extract up to &quot;</span>
+    <span class="s2">&quot;</span><span class="si">{max_paths_per_chunk}</span><span class="s2"> &quot;</span>
+    <span class="s2">&quot;knowledge triples in the form of `subject,predicate,object` on each line. Avoid stopwords.</span><span class="se">\n</span><span class="s2">&quot;</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">parse_fn</span><span class="p">(</span><span class="n">response_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">response_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">triples</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">triples</span>
+
+
+<span class="n">kg_extractor</span> <span class="o">=</span> <span class="n">SimpleLLMPathExtractor</span><span class="p">(</span>
+    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
+    <span class="n">extract_prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span>
+    <span class="n">parse_fn</span><span class="o">=</span><span class="n">parse_fn</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<h4 id="implicitpathextractor">（默认）<code>ImplicitPathExtractor</code><a class="headerlink" href="#implicitpathextractor" title="Permanent link">#</a></h4>
+<p>通过解析llama-index节点对象的<code>node.relationships</code>属性提取路径。</p>
+<p>此提取器无需LLM或嵌入模型，仅解析已存在于llama-index节点对象上的属性。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.indices.property_graph</span> <span class="kn">import</span> <span class="n">ImplicitPathExtractor</span>
+
+<span class="n">kg_extractor</span> <span class="o">=</span> <span class="n">ImplicitPathExtractor</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="dynamicllmpathextractor"><code>DynamicLLMPathExtractor</code><a class="headerlink" href="#dynamicllmpathextractor" title="Permanent link">#</a></h3>
+<p>根据可选实体类型和关系类型列表提取路径（包含实体类型！）。如未提供，LLM将自主分配类型；如已提供，则引导LLM但不强制使用指定类型。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.indices.property_graph</span> <span class="kn">import</span> <span class="n">DynamicLLMPathExtractor</span>
+
+<span class="n">kg_extractor</span> <span class="o">=</span> <span class="n">DynamicLLMPathExtractor</span><span class="p">(</span>
+    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
+    <span class="n">max_triplets_per_chunk</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">allowed_entity_types</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POLITICIAN&quot;</span><span class="p">,</span> <span class="s2">&quot;POLITICAL_PARTY&quot;</span><span class="p">],</span>
+    <span class="n">allowed_relation_types</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;PRESIDENT_OF&quot;</span><span class="p">,</span> <span class="s2">&quot;MEMBER_OF&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+</code></pre></div>
+<h4 id="schemallmpathextractor"><code>SchemaLLMPathExtractor</code><a class="headerlink" href="#schemallmpathextractor" title="Permanent link">#</a></h4>
+<p>按照严格的模式提取路径，规定允许的实体、关系以及实体间连接方式。</p>
+<p>结合pydantic、LLM结构化输出和智能验证，可动态指定模式并逐路径验证提取结果。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.indices.property_graph</span> <span class="kn">import</span> <span class="n">SchemaLLMPathExtractor</span>
+
+<span class="c1"># 推荐使用大写、下划线分隔</span>
+<span class="n">entities</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;PERSON&quot;</span><span class="p">,</span> <span class="s2">&quot;PLACE&quot;</span><span class="p">,</span> <span class="s2">&quot;THING&quot;</span><span class="p">]</span>
+<span class="n">relations</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;PART_OF&quot;</span><span class="p">,</span> <span class="s2">&quot;HAS&quot;</span><span class="p">,</span> <span class="s2">&quot;IS_A&quot;</span><span class="p">]</span>
+<span class="n">schema</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;PERSON&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;PART_OF&quot;</span><span class="p">,</span> <span class="s2">&quot;HAS&quot;</span><span class="p">,</span> <span class="s2">&quot;IS_A&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;PLACE&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;PART_OF&quot;</span><span class="p">,</span> <span class="s2">&quot;HAS&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;THING&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;IS_A&quot;</span><span class="p">],</span>
+<span class="p">}</span>
+
+<span class="n">kg_extractor</span> <span class="o">=</span> <span class="n">SchemaLLMPathExtractor</span><span class="p">(</span>
+    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
+    <span class="n">possible_entities</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span>
+    <span class="n">possible_relations</span><span class="o">=</span><span class="n">relations</span><span class="p">,</span>
+    <span class="n">kg_validation_schema</span><span class="o">=</span><span class="n">schema</span><span class="p">,</span>
+    <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># 如为false，则允许模式外的三元组</span>
+    <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">max_triplets_per_chunk</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>该提取器高度可定制，可调整：
+- 模式各方面（如上所示）
+- <code>extract_prompt</code>
+- <code>strict=False</code>与<code>strict=True</code>，决定是否允许模式外的三元组
+- 如熟悉pydantic，可传入自定义<code>kg_schema_cls</code>实现自定义验证</p>
+<h3 id="_4">检索与查询<a class="headerlink" href="#_4" title="Permanent link">#</a></h3>
+<p>带标签的属性图可通过多种方式查询节点和路径。在LlamaIndex中，我们可以同时组合多种节点检索方法！</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 创建检索器</span>
+<span class="n">retriever</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_retriever</span><span class="p">(</span><span class="n">sub_retrievers</span><span class="o">=</span><span class="p">[</span><span class="n">retriever1</span><span class="p">,</span> <span class="n">retriever2</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span>
+
+<span class="c1"># 创建查询引擎</span>
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">(</span>
+    <span class="n">sub_retrievers</span><span class="o">=</span><span class="p">[</span><span class="n">retriever1</span><span class="p">,</span> <span class="n">retriever2</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>如未提供子检索器，默认使用：
+<code>LLMSynonymRetriever</code>和<code>VectorContextRetriever</code>（如启用嵌入）。</p>
+<p>当前所有检索器包括：
+- <code>LLMSynonymRetriever</code> - 基于LLM生成的关键词/同义词检索
+- <code>VectorContextRetriever</code> - 基于嵌入的图节点检索
+- <code>TextToCypherRetriever</code> - 让LLM根据属性图模式生成Cypher查询
+- <code>CypherTemplateRetriever</code> - 使用带LLM推断参数的Cypher模板
+- <code>CustomPGRetriever</code> - 易于子类化实现自定义检索逻辑</p>
+<p>通常，您需要定义一个或多个子检索器并传递给<code>PGRetriever</code>：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.indices.property_graph</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">PGRetriever</span><span class="p">,</span>
+    <span class="n">VectorContextRetriever</span><span class="p">,</span>
+    <span class="n">LLMSynonymRetriever</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">sub_retrievers</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">VectorContextRetriever</span><span class="p">(</span><span class="n">index</span><span class="o">.</span><span class="n">property_graph_store</span><span class="p">,</span> <span class="o">...</span><span class="p">),</span>
+    <span class="n">LLMSynonymRetriever</span><span class="p">(</span><span class="n">index</span><span class="o">.</span><span class="n">property_graph_store</span><span class="p">,</span> <span class="o">...</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">retriever</span> <span class="o">=</span> <span class="n">PGRetriever</span><span class="p">(</span><span class="n">sub_retrievers</span><span class="o">=</span><span class="n">sub_retrievers</span><span class="p">)</span>
+
+<span class="n">nodes</span> <span class="o">=</span> <span class="n">retriever</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="s2">&quot;&lt;query&gt;&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>各检索器详细说明如下。</p>
+<h4 id="llmsynonymretriever">（默认）<code>LLMSynonymRetriever</code><a class="headerlink" href="#llmsynonymretriever" title="Permanent link">#</a></h4>
+<p><code>LLMSynonymRetriever</code>获取查询后，尝试生成关键词和同义词来检索节点（从而获取连接这些节点的路径）。</p>
+<p>显式声明检索器可自定义多项选项。以下是默认设置：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.indices.property_graph</span> <span class="kn">import</span> <span class="n">LLMSynonymRetriever</span>
+
+<span class="n">prompt</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;Given some initial query, generate synonyms or related keywords up to </span><span class="si">{max_keywords}</span><span class="s2"> in total, &quot;</span>
+    <span class="s2">&quot;considering possible cases of capitalization, pluralization, common expressions, etc.</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="s2">&quot;Provide all synonyms/keywords separated by &#39;^&#39; symbols: &#39;keyword1^keyword2^...&#39;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="s2">&quot;Note, result should be in one-line, separated by &#39;^&#39; symbols.&quot;</span>
+    <span class="s2">&quot;----</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="s2">&quot;QUERY: </span><span class="si">{query_str}</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="s2">&quot;----</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="s2">&quot;KEYWORDS: &quot;</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">parse_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;^&quot;</span><span class="p">)</span>
+
+    <span class="c1"># 大写以标准化输入</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">matches</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+
+
+<span class="n">synonym_retriever</span> <span class="o">=</span> <span class="n">LLMSynonymRetriever</span><span class="p">(</span>
+    <span class="n">index</span><span class="o">.</span><span class="n">property_graph_store</span><span class="p">,</span>
+    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
+    <span class="c1"># 包含检索路径的源文本块</span>
+    <span class="n">include_text</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">synonym_prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span>
+    <span class="n">output_parsing_fn</span><span class="o">=</span><span class="n">parse_fn</span><span class="p">,</span>
+    <span class="n">max_keywords</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="c1"># 节点检索后要跟踪的关系深度</span>
+    <span class="n">path_depth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">retriever</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_retriever</span><span class="p">(</span><span class="n">sub_retrievers</span><span class="o">=</span><span class="p">[</span><span class="n">synonym_retriever</span><span class="p">])</span>
+</code></pre></div>
+<h4 id="vectorcontextretriever">（默认，如支持）<code>VectorContextRetriever</code><a class="headerlink" href="#vectorcontextretriever" title="Permanent link">#</a></h4>
+<p><code>VectorContextRetriever</code>基于向量相似度检索节点，然后获取连接这些节点的路径。</p>
+<p>如果图存储支持向量，则只需管理该图存储。否则，需要额外提供向量存储（默认使用内存中的<code>SimpleVectorStore</code>）。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.indices.property_graph</span> <span class="kn">import</span> <span class="n">VectorContextRetriever</span>
+
+<span class="n">vector_retriever</span> <span class="o">=</span> <span class="n">VectorContextRetriever</span><span class="p">(</span>
+    <span class="n">index</span><span class="o">.</span><span class="n">property_graph_store</span><span class="p">,</span>
+    <span class="c1"># 仅在图存储不支持向量查询时需要</span>
+    <span class="c1"># vector_store=index.vector_store,</span>
+    <span class="n">embed_model</span><span class="o">=</span><span class="n">embed_model</span><span class="p">,</span>
+    <span class="c1"># 包含检索路径的源文本块</span>
+    <span class="n">include_text</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="c1"># 要获取的节点数量</span>
+    <span class="n">similarity_top_k</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="c1"># 节点检索后要跟踪的关系深度</span>
+    <span class="n">path_depth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="c1"># 可为VectorStoreQuery类提供其他参数</span>
+    <span class="o">...</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">retriever</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_retriever</span><span class="p">(</span><span class="n">sub_retrievers</span><span class="o">=</span><span class="p">[</span><span class="n">vector_retriever</span><span class="p">])</span>
+</code></pre></div>
+<h4 id="texttocypherretriever"><code>TextToCypherRetriever</code><a class="headerlink" href="#texttocypherretriever" title="Permanent link">#</a></h4>
+<p><code>TextToCypherRetriever</code>使用图存储模式、查询和文本转Cypher的提示模板来生成并执行Cypher查询。</p>
+<p><strong>注意：</strong> 由于<code>SimplePropertyGraphStore</code>并非真正的图数据库，不支持Cypher查询。</p>
+<p>可通过<code>index.property_graph_store.get_schema_str()</code>检查模式。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.indices.property_graph</span> <span class="kn">import</span> <span class="n">TextToCypherRetriever</span>
+
+<span class="n">DEFAULT_RESPONSE_TEMPLATE</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;Generated Cypher query:</span><span class="se">\n</span><span class="si">{query}</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="s2">&quot;Cypher Response:</span><span class="se">\n</span><span class="si">{response}</span><span class="s2">&quot;</span>
+<span class="p">)</span>
+<span class="n">DEFAULT_ALLOWED_FIELDS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">]</span>
+
+<span class="n">DEFAULT_TEXT_TO_CYPHER_TEMPLATE</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">index</span><span class="o">.</span><span class="n">property_graph_store</span><span class="o">.</span><span class="n">text_to_cypher_template</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="n">cypher_retriever</span> <span class="o">=</span> <span class="n">TextToCypherRetriever</span><span class="p">(</span>
+    <span class="n">index</span><span class="o">.</span><span class="n">property_graph_store</span><span class="p">,</span>
+    <span class="c1"># 自定义LLM，默认为Settings.llm</span>
+    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
+    <span class="c1"># 自定义文本转Cypher模板</span>
+    <span class="c1"># 需要`schema`和`question`模板参数</span>
+    <span class="n">text_to_cypher_template</span><span class="o">=</span><span class="n">DEFAULT_TEXT_TO_CYPHER_TEMPLATE</span><span class="p">,</span>
+    <span class="c1"># 自定义Cypher结果如何插入文本节点</span>
+    <span class="c1"># 需要`query`和`response`模板参数</span>
+    <span class="n">response_template</span><span class="o">=</span><span class="n">DEFAULT_RESPONSE_TEMPLATE</span><span class="p">,</span>
+    <span class="c1"># 可选的可清理/验证生成Cypher的回调</span>
+    <span class="n">cypher_validator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="c1"># 结果中允许的字段</span>
+    <span class="n">allowed_output_field</span><span class="o">=</span><span class="n">DEFAULT_ALLOWED_FIELDS</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>注意：</strong> 执行任意Cypher存在风险。请确保在生产环境中采取必要措施（只读角色、沙盒环境等）保障安全使用。</p>
+<h4 id="cyphertemplateretriever"><code>CypherTemplateRetriever</code><a class="headerlink" href="#cyphertemplateretriever" title="Permanent link">#</a></h4>
+<p>这是<code>TextToCypherRetriever</code>的约束版本。不同于让LLM自由生成任何Cypher语句，我们可以提供Cypher模板并让LLM填空。</p>
+<p>以下示例说明其工作原理：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 注意：当前需要v1版本</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.indices.property_graph</span> <span class="kn">import</span> <span class="n">CypherTemplateRetriever</span>
+
+<span class="c1"># 编写带模板参数的查询</span>
+<span class="n">cypher_query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">MATCH (c:Chunk)-[:MENTIONS]-&gt;(o)</span>
+<span class="s2">WHERE o.name IN $names</span>
+<span class="s2">RETURN c.text, o.name, o.label;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+
+<span class="c1"># 创建pydantic类表示查询参数</span>
+<span class="c1"># 类字段直接用作运行Cypher查询的参数</span>
+<span class="k">class</span> <span class="nc">TemplateParams</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cypher查询的模板参数&quot;&quot;&quot;</span>
+
+    <span class="n">names</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;用于知识图谱查询的实体名称或关键词列表&quot;</span>
+    <span class="p">)</span>
+
+
+<span class="n">template_retriever</span> <span class="o">=</span> <span class="n">CypherTemplateRetriever</span><span class="p">(</span>
+    <span class="n">index</span><span class="o">.</span><span class="n">property_graph_store</span><span class="p">,</span> <span class="n">TemplateParams</span><span class="p">,</span> <span class="n">cypher_query</span>
+<span class="p">)</span>
+</code></pre></div>
+<h2 id="_5">存储<a class="headerlink" href="#_5" title="Permanent link">#</a></h2>
+<p>当前支持的属性图存储方案包括：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>内存存储</th>
+<th>原生嵌入支持</th>
+<th>异步</th>
+<th>基于服务器/磁盘？</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SimplePropertyGraphStore</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>磁盘</td>
+</tr>
+<tr>
+<td>Neo4jPropertyGraphStore</td>
+<td>❌</td>
+<td>✅</td>
+<td>❌</td>
+<td>服务器</td>
+</tr>
+<tr>
+<td>NebulaPropertyGraphStore</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>服务器</td>
+</tr>
+<tr>
+<td>TiDBPropertyGraphStore</td>
+<td>❌</td>
+<td>✅</td>
+<td>❌</td>
+<td>服务器</td>
+</tr>
+<tr>
+<td>FalkorDBPropertyGraphStore</td>
+<td>❌</td>
+<td>✅</td>
+<td>❌</td>
+<td>服务器</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_6">磁盘读写操作<a class="headerlink" href="#_6" title="Permanent link">#</a></h3>
+<p>默认属性图存储 <code>SimplePropertyGraphStore</code> 将所有数据保存在内存中，并通过磁盘进行持久化存储和加载。</p>
+<p>以下示例展示如何使用默认图存储保存/加载索引：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">StorageContext</span><span class="p">,</span> <span class="n">load_index_from_storage</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.indices</span> <span class="kn">import</span> <span class="n">PropertyGraphIndex</span>
+
+<span class="c1"># 创建</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">PropertyGraphIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+
+<span class="c1"># 保存</span>
+<span class="n">index</span><span class="o">.</span><span class="n">storage_context</span><span class="o">.</span><span class="n">persist</span><span class="p">(</span><span class="s2">&quot;./storage&quot;</span><span class="p">)</span>
+
+<span class="c1"># 加载</span>
+<span class="n">storage_context</span> <span class="o">=</span> <span class="n">StorageContext</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span><span class="n">persist_dir</span><span class="o">=</span><span class="s2">&quot;./storage&quot;</span><span class="p">)</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">load_index_from_storage</span><span class="p">(</span><span class="n">storage_context</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="_7">集成方案的保存与加载<a class="headerlink" href="#_7" title="Permanent link">#</a></h3>
+<p>集成方案通常会自动保存。部分图存储支持向量存储，有些则不支持。您始终可以将图存储与外部向量数据库结合使用。</p>
+<p>此示例展示如何结合 Neo4j 和 Qdrant 保存/加载属性图索引：</p>
+<p><strong>注意：</strong> 如果不传入 qdrant 参数，neo4j 会自行存储和使用嵌入向量。此示例展示了更灵活的用法。</p>
+<p><code>pip install llama-index-graph-stores-neo4j llama-index-vector-stores-qdrant</code></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">StorageContext</span><span class="p">,</span> <span class="n">load_index_from_storage</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.indices</span> <span class="kn">import</span> <span class="n">PropertyGraphIndex</span>
+<span class="kn">from</span> <span class="nn">llama_index.graph_stores.neo4j</span> <span class="kn">import</span> <span class="n">Neo4jPropertyGraphStore</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.qdrant</span> <span class="kn">import</span> <span class="n">QdrantVectorStore</span>
+<span class="kn">from</span> <span class="nn">qdrant_client</span> <span class="kn">import</span> <span class="n">QdrantClient</span><span class="p">,</span> <span class="n">AsyncQdrantClient</span>
+
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">QdrantVectorStore</span><span class="p">(</span>
+    <span class="s2">&quot;graph_collection&quot;</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">=</span><span class="n">QdrantClient</span><span class="p">(</span><span class="o">...</span><span class="p">),</span>
+    <span class="n">aclient</span><span class="o">=</span><span class="n">AsyncQdrantClient</span><span class="p">(</span><span class="o">...</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">graph_store</span> <span class="o">=</span> <span class="n">Neo4jPropertyGraphStore</span><span class="p">(</span>
+    <span class="n">username</span><span class="o">=</span><span class="s2">&quot;neo4j&quot;</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;&lt;password&gt;&quot;</span><span class="p">,</span>
+    <span class="n">url</span><span class="o">=</span><span class="s2">&quot;bolt://localhost:7687&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># 创建索引</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">PropertyGraphIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span>
+    <span class="n">documents</span><span class="p">,</span>
+    <span class="n">property_graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span>
+    <span class="c1"># 可选参数，neo4j 也直接支持向量存储</span>
+    <span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span>
+    <span class="n">embed_kg_nodes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># 从现有图/向量存储加载</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">PropertyGraphIndex</span><span class="o">.</span><span class="n">from_existing</span><span class="p">(</span>
+    <span class="n">property_graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span>
+    <span class="c1"># 可选参数，neo4j 也直接支持向量存储</span>
+    <span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span>
+    <span class="n">embed_kg_nodes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="_8">直接使用属性图存储<a class="headerlink" href="#_8" title="Permanent link">#</a></h3>
+<p>属性图的基础存储类是 <code>PropertyGraphStore</code>。这些属性图存储通过不同类型的 <code>LabeledNode</code> 对象构建，并使用 <code>Relation</code> 对象建立连接关系。</p>
+<p>我们可以手动创建这些对象并进行插入操作：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.graph_stores</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">SimplePropertyGraphStore</span><span class="p">,</span>
+    <span class="n">EntityNode</span><span class="p">,</span>
+    <span class="n">Relation</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.schema</span> <span class="kn">import</span> <span class="n">TextNode</span>
+
+<span class="n">graph_store</span> <span class="o">=</span> <span class="n">SimplePropertyGraphStore</span><span class="p">()</span>
+
+<span class="n">entities</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">EntityNode</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;llama&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;ANIMAL&quot;</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;val&quot;</span><span class="p">}),</span>
+    <span class="n">EntityNode</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;THING&quot;</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;val&quot;</span><span class="p">}),</span>
+<span class="p">]</span>
+
+<span class="n">relations</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Relation</span><span class="p">(</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;HAS&quot;</span><span class="p">,</span>
+        <span class="n">source_id</span><span class="o">=</span><span class="n">entities</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">target_id</span><span class="o">=</span><span class="n">entities</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">properties</span><span class="o">=</span><span class="p">{},</span>
+    <span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">graph_store</span><span class="o">.</span><span class="n">upsert_nodes</span><span class="p">(</span><span class="n">entities</span><span class="p">)</span>
+<span class="n">graph_store</span><span class="o">.</span><span class="n">upsert_relations</span><span class="p">(</span><span class="n">relations</span><span class="p">)</span>
+
+<span class="c1"># 可选操作：我们也可以插入文本块</span>
+<span class="n">source_chunk</span> <span class="o">=</span> <span class="n">TextNode</span><span class="p">(</span><span class="n">id_</span><span class="o">=</span><span class="s2">&quot;source&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;My llama has an index.&quot;</span><span class="p">)</span>
+
+<span class="c1"># 为每个实体创建关联关系</span>
+<span class="n">source_relations</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Relation</span><span class="p">(</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;HAS_SOURCE&quot;</span><span class="p">,</span>
+        <span class="n">source_id</span><span class="o">=</span><span class="n">entities</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">target_id</span><span class="o">=</span><span class="s2">&quot;source&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">Relation</span><span class="p">(</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;HAS_SOURCE&quot;</span><span class="p">,</span>
+        <span class="n">source_id</span><span class="o">=</span><span class="n">entities</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">target_id</span><span class="o">=</span><span class="s2">&quot;source&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+<span class="p">]</span>
+<span class="n">graph_store</span><span class="o">.</span><span class="n">upsert_llama_nodes</span><span class="p">([</span><span class="n">source_chunk</span><span class="p">])</span>
+<span class="n">graph_store</span><span class="o">.</span><span class="n">upsert_relations</span><span class="p">(</span><span class="n">source_relations</span><span class="p">)</span>
+</code></pre></div>
+<p>图存储的其他实用方法包括：
+- <code>graph_store.get(ids=[])</code> - 根据 ID 获取节点
+- <code>graph_store.get(properties={"key": "val"})</code> - 根据属性匹配获取节点
+- <code>graph_store.get_rel_map([entity_node], depth=2)</code> - 获取特定深度的三元组
+- <code>graph_store.get_llama_nodes(['id1'])</code> - 获取原始文本节点
+- <code>graph_store.delete(ids=['id1'])</code> - 根据 ID 删除
+- <code>graph_store.delete(properties={"key": "val"})</code> - 根据属性删除
+- <code>graph_store.structured_query("&lt;cypher query&gt;")</code> - 执行 Cypher 查询（需图存储支持）</p>
+<p>此外，所有方法都有对应的异步版本（如 <code>aget</code>、<code>adelete</code> 等）。</p>
+<h2 id="_9">高级定制<a class="headerlink" href="#_9" title="Permanent link">#</a></h2>
+<p>与 LlamaIndex 的所有组件一样，您可以继承模块并根据需求进行定制，或尝试新思路和研究新模块！</p>
+<h3 id="_10">继承提取器<a class="headerlink" href="#_10" title="Permanent link">#</a></h3>
+<p>LlamaIndex 中的图提取器继承自 <code>TransformComponent</code> 类。如果您使用过数据摄取管道，这会很熟悉，因为这是同一个类。</p>
+<p>提取器的要求是将图数据插入节点的元数据中，随后由索引进行处理。</p>
+<p>以下是创建自定义提取器的子类示例：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.graph_store.types</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">EntityNode</span><span class="p">,</span>
+    <span class="n">Relation</span><span class="p">,</span>
+    <span class="n">KG_NODES_KEY</span><span class="p">,</span>
+    <span class="n">KG_RELATIONS_KEY</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.schema</span> <span class="kn">import</span> <span class="n">BaseNode</span><span class="p">,</span> <span class="n">TransformComponent</span>
+
+
+<span class="k">class</span> <span class="nc">MyGraphExtractor</span><span class="p">(</span><span class="n">TransformComponent</span><span class="p">):</span>
+    <span class="c1"># 初始化可选</span>
+    <span class="c1"># def __init__(self, ...):</span>
+    <span class="c1">#     ...</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">llama_nodes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">BaseNode</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">llama_node</span> <span class="ow">in</span> <span class="n">llama_nodes</span><span class="p">:</span>
+            <span class="c1"># 确保不覆盖现有实体/关系</span>
+
+            <span class="n">existing_nodes</span> <span class="o">=</span> <span class="n">llama_node</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">KG_NODES_KEY</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="n">existing_relations</span> <span class="o">=</span> <span class="n">llama_node</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">KG_RELATIONS_KEY</span><span class="p">,</span> <span class="p">[])</span>
+
+            <span class="n">existing_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">EntityNode</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;llama&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;ANIMAL&quot;</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;val&quot;</span><span class="p">}</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">existing_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">EntityNode</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;THING&quot;</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;val&quot;</span><span class="p">}</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="n">existing_relations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">Relation</span><span class="p">(</span>
+                    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;HAS&quot;</span><span class="p">,</span>
+                    <span class="n">source_id</span><span class="o">=</span><span class="s2">&quot;llama&quot;</span><span class="p">,</span>
+                    <span class="n">target_id</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">,</span>
+                    <span class="n">properties</span><span class="o">=</span><span class="p">{},</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="c1"># 将数据添加回元数据</span>
+
+            <span class="n">llama_node</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">KG_NODES_KEY</span><span class="p">]</span> <span class="o">=</span> <span class="n">existing_nodes</span>
+            <span class="n">llama_node</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">KG_RELATIONS_KEY</span><span class="p">]</span> <span class="o">=</span> <span class="n">existing_relations</span>
+
+        <span class="k">return</span> <span class="n">llama_nodes</span>
+
+    <span class="c1"># 可选的异步方法</span>
+    <span class="c1"># async def acall(self, llama_nodes: list[BaseNode], **kwargs) -&gt; list[BaseNode]:</span>
+    <span class="c1">#    ...</span>
+</code></pre></div>
+<h3 id="_11">继承检索器<a class="headerlink" href="#_11" title="Permanent link">#</a></h3>
+<p>检索器比提取器更复杂，有专门的类来简化继承过程。</p>
+<p>检索的返回类型非常灵活，可以是：
+- 字符串
+- <code>TextNode</code>
+- <code>NodeWithScore</code>
+- 上述任一类型的列表</p>
+<p>以下是创建自定义检索器的子类示例：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.indices.property_graph</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CustomPGRetriever</span><span class="p">,</span>
+    <span class="n">CUSTOM_RETRIEVE_TYPE</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">MyCustomRetriever</span><span class="p">(</span><span class="n">CustomPGRetriever</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">my_option_1</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;使用类构造函数传入的任何 kwargs&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">my_option_1</span> <span class="o">=</span> <span class="n">my_option_1</span>
+        <span class="c1"># 可选操作：对 self.graph_store 进行处理</span>
+
+    <span class="k">def</span> <span class="nf">custom_retrieve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CUSTOM_RETRIEVE_TYPE</span><span class="p">:</span>
+        <span class="c1"># 使用 self.graph_store 执行某些操作</span>
+        <span class="k">return</span> <span class="s2">&quot;result&quot;</span>
+
+    <span class="c1"># 可选的异步方法</span>
+    <span class="c1"># async def acustom_retrieve(self, query_str: str) -&gt; str:</span>
+    <span class="c1">#     ...</span>
+
+
+<span class="n">custom_retriever</span> <span class="o">=</span> <span class="n">MyCustomRetriever</span><span class="p">(</span><span class="n">graph_store</span><span class="p">,</span> <span class="n">my_option_1</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">retriever</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_retriever</span><span class="p">(</span><span class="n">sub_retrievers</span><span class="o">=</span><span class="p">[</span><span class="n">custom_retriever</span><span class="p">])</span>
+</code></pre></div>
+<p>对于更复杂的定制和使用场景，建议查看源代码并直接继承 <code>BasePGRetriever</code>。</p>
+<h1 id="_12">示例<a class="headerlink" href="#_12" title="Permanent link">#</a></h1>
+<p>下方提供了一些展示 <code>PropertyGraphIndex</code> 用法的示例笔记本：</p>
+<ul>
+<li><a href="../../../examples/property_graph/property_graph_basic/">基础用法</a></li>
+<li><a href="../../../examples/property_graph/property_graph_neo4j/">使用 Neo4j</a></li>
+<li><a href="../../../examples/property_graph/property_graph_nebula/">使用 Nebula</a></li>
+<li><a href="../../../examples/property_graph/property_graph_advanced/">Neo4j 与本地模型的高级用法</a></li>
+<li><a href="../../../examples/property_graph/graph_store/">使用属性图存储</a></li>
+<li><a href="../../../examples/property_graph/property_graph_custom_retriever/">创建自定义图检索器</a></li>
+<li><a href="../../../examples/property_graph/Dynamic_KG_Extraction/">知识图谱提取器对比</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+       
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../vector_store_index/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Vector Store Index">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Vector Store Index
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../document_management/" class="md-footer__link md-footer__link--next" aria-label="Next: Document Management">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Document Management
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <readthedocs-flyout position="bottom-left"></readthedocs-flyout>
+      
+    </div>
+  </div>
+</footer>
+      
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", "GTM-WWRFB36R");
+</script>
+<!-- End Google Tag Manager -->
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.prune", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+        <script src="../../../javascript/runllm.js"></script>
+      
+        <script src="../../../javascript/algolia.js"></script>
+      
+    
+  </body>
+</html>

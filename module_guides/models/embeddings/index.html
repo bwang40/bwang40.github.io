@@ -1,0 +1,2572 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.llamaindex.ai/en/stable/module_guides/models/embeddings/">
+      
+      
+        <link rel="prev" href="../llms/modules/">
+      
+      
+        <link rel="next" href="../multi_modal/">
+      
+      
+      <link rel="icon" href="../../../_static/assets/LlamaLogoBrowserTab.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>Embeddings - LlamaIndex</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../css/style.css">
+    
+      <link rel="stylesheet" href="../../../css/algolia.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BYVB1ZVE6J"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BYVB1ZVE6J",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BYVB1ZVE6J",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#embeddings" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="LlamaIndex" class="md-header__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LlamaIndex
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Embeddings
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="purple"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      
+
+<!-- Search interface -->
+<div id="docsearch"></div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../.." class="md-tabs__link">
+          
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../understanding/" class="md-tabs__link">
+          
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../use_cases/" class="md-tabs__link">
+          
+  
+    
+  
+  Use Cases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../examples/" class="md-tabs__link">
+          
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+    
+  
+  Component Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../optimizing/production_rag/" class="md-tabs__link">
+          
+  
+    
+  
+  Advanced Topics
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../api_reference/" class="md-tabs__link">
+          
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../community/integrations/" class="md-tabs__link">
+          
+  
+    
+  
+  Open-Source Community
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-tabs__link">
+        
+  
+    
+  
+  LlamaCloud
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="LlamaIndex" class="md-nav__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    LlamaIndex
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../.." class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../understanding/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Learn
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../use_cases/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Use Cases
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../examples/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Examples
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Component Guides
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Component Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Models
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            Models
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../llms/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    LLMs
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Embeddings
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Embeddings
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      概念
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用模式
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      快速开始
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      自定义选项
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="自定义选项">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      批量大小
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      本地嵌入模型
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onnx-openvino" class="md-nav__link">
+    <span class="md-ellipsis">
+      ONNX 或 OpenVINO 优化方案
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#langchain" class="md-nav__link">
+    <span class="md-ellipsis">
+      LangChain 集成
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      自定义嵌入模型
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      独立使用
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      支持的嵌入模型列表
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multi_modal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Multi Modal
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../prompts/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Prompts
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../loading/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Loading
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../indexing/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Indexing
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../storing/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Storing
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../querying/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Querying
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../deploying/agents/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Agents
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../workflow/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Workflows
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../evaluating/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Evaluation
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../observability/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Observability
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supporting_modules/settings/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Settings
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../llama_deploy" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Llama Deploy
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../optimizing/production_rag/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Advanced Topics
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../api_reference/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../community/integrations/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Open-Source Community
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LlamaCloud
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      概念
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用模式
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      快速开始
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      自定义选项
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="自定义选项">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      批量大小
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      本地嵌入模型
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onnx-openvino" class="md-nav__link">
+    <span class="md-ellipsis">
+      ONNX 或 OpenVINO 优化方案
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#langchain" class="md-nav__link">
+    <span class="md-ellipsis">
+      LangChain 集成
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      自定义嵌入模型
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      独立使用
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      支持的嵌入模型列表
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="embeddings">嵌入（Embeddings）<a class="headerlink" href="#embeddings" title="Permanent link">#</a></h1>
+<h2 id="_1">概念<a class="headerlink" href="#_1" title="Permanent link">#</a></h2>
+<p>在LlamaIndex中，嵌入用于通过复杂的数值表示来表征您的文档。嵌入模型接收文本输入，并返回一长串数字，这些数字用于捕捉文本的语义。这些嵌入模型经过训练以这种方式表示文本，有助于实现包括搜索在内的多种应用场景。</p>
+<p>从高层次来看，如果用户提出一个关于狗的问题，那么该问题的嵌入向量将与涉及狗相关内容的文本高度相似。</p>
+<p>在计算嵌入向量之间的相似度时，有多种方法可供选择（点积、余弦相似度等）。默认情况下，LlamaIndex在比较嵌入向量时使用余弦相似度。</p>
+<p>有多种嵌入模型可供选择。默认情况下，LlamaIndex使用OpenAI的<code>text-embedding-ada-002</code>。我们还支持Langchain提供的所有嵌入模型<a href="https://python.langchain.com/docs/modules/data_connection/text_embedding/">参见此处</a>，同时提供了一个易于扩展的基类用于实现自定义嵌入模型。</p>
+<h2 id="_2">使用模式<a class="headerlink" href="#_2" title="Permanent link">#</a></h2>
+<p>在LlamaIndex中最常见的用法是在<code>Settings</code>对象中指定嵌入模型，然后在向量索引中使用。嵌入模型将用于在索引构建过程中嵌入文档，以及在后续使用查询引擎时嵌入任何查询。您还可以为每个索引单独指定嵌入模型。</p>
+<p>如果尚未安装嵌入模型：</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>llama-index-embeddings-openai
+</code></pre></div>
+<p>然后：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.embeddings.openai</span> <span class="kn">import</span> <span class="n">OpenAIEmbedding</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">VectorStoreIndex</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">Settings</span>
+
+<span class="c1"># 更改全局默认设置</span>
+<span class="n">Settings</span><span class="o">.</span><span class="n">embed_model</span> <span class="o">=</span> <span class="n">OpenAIEmbedding</span><span class="p">()</span>
+
+<span class="c1"># 局部使用</span>
+<span class="n">embedding</span> <span class="o">=</span> <span class="n">OpenAIEmbedding</span><span class="p">()</span><span class="o">.</span><span class="n">get_text_embedding</span><span class="p">(</span><span class="s2">&quot;hello world&quot;</span><span class="p">)</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">OpenAIEmbedding</span><span class="p">()</span><span class="o">.</span><span class="n">get_text_embeddings</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;hello world&quot;</span><span class="p">,</span> <span class="s2">&quot;hello world&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># 按索引指定</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">,</span> <span class="n">embed_model</span><span class="o">=</span><span class="n">embed_model</span><span class="p">)</span>
+</code></pre></div>
+<p>为了节省成本，您可能需要使用本地模型。</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>llama-index-embeddings-huggingface
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.embeddings.huggingface</span> <span class="kn">import</span> <span class="n">HuggingFaceEmbedding</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">Settings</span>
+
+<span class="n">Settings</span><span class="o">.</span><span class="n">embed_model</span> <span class="o">=</span> <span class="n">HuggingFaceEmbedding</span><span class="p">(</span>
+    <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;BAAI/bge-small-en-v1.5&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>这将使用来自<a href="https://huggingface.co/models?library=sentence-transformers">Hugging Face</a>的一个性能优异且快速的默认模型。</p>
+<p>您可以在下方找到更多使用细节和可用的自定义选项。</p>
+<h2 id="_3">快速开始<a class="headerlink" href="#_3" title="Permanent link">#</a></h2>
+<p>嵌入模型最常见的用法是在全局<code>Settings</code>对象中设置它，然后使用它构建索引和查询。输入文档将被分解为节点，嵌入模型将为每个节点生成一个嵌入向量。</p>
+<p>默认情况下，LlamaIndex会使用<code>text-embedding-ada-002</code>，下面的示例手动为您设置了这一选项。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">VectorStoreIndex</span><span class="p">,</span> <span class="n">SimpleDirectoryReader</span>
+<span class="kn">from</span> <span class="nn">llama_index.embeddings.openai</span> <span class="kn">import</span> <span class="n">OpenAIEmbedding</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">Settings</span>
+
+<span class="c1"># 全局默认设置</span>
+<span class="n">Settings</span><span class="o">.</span><span class="n">embed_model</span> <span class="o">=</span> <span class="n">OpenAIEmbedding</span><span class="p">()</span>
+
+<span class="n">documents</span> <span class="o">=</span> <span class="n">SimpleDirectoryReader</span><span class="p">(</span><span class="s2">&quot;./data&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+
+<span class="n">index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+</code></pre></div>
+<p>然后，在查询时，嵌入模型将再次用于嵌入查询文本。</p>
+<div class="highlight"><pre><span></span><code><span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;query string&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="_4">自定义选项<a class="headerlink" href="#_4" title="Permanent link">#</a></h2>
+<h3 id="_5">批量大小<a class="headerlink" href="#_5" title="Permanent link">#</a></h3>
+<p>默认情况下，嵌入请求以10个为一批发送到OpenAI。对于某些用户，这可能（罕见地）触发速率限制。对于需要嵌入大量文档的其他用户，这个批量大小可能太小。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 将批量大小设置为42</span>
+<span class="n">embed_model</span> <span class="o">=</span> <span class="n">OpenAIEmbedding</span><span class="p">(</span><span class="n">embed_batch_size</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="_6">本地嵌入模型<a class="headerlink" href="#_6" title="Permanent link">#</a></h3>
+<p>使用本地模型最简单的方式是通过<code>llama-index-embeddings-huggingface</code>中的<a href="https://docs.llamaindex.ai/en/stable/api_reference/embeddings/huggingface/#llama_index.embeddings.huggingface.HuggingFaceEmbedding"><code>HuggingFaceEmbedding</code></a>：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># pip install llama-index-embeddings-huggingface</span>
+<span class="kn">from</span> <span class="nn">llama_index.embeddings.huggingface</span> <span class="kn">import</span> <span class="n">HuggingFaceEmbedding</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">Settings</span>
+
+<span class="n">Settings</span><span class="o">.</span><span class="n">embed_model</span> <span class="o">=</span> <span class="n">HuggingFaceEmbedding</span><span class="p">(</span>
+    <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;BAAI/bge-small-en-v1.5&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>这将加载<a href="https://huggingface.co/BAAI/bge-small-en-v1.5">BAAI/bge-small-en-v1.5</a>嵌入模型。您可以使用<a href="https://huggingface.co/models?library=sentence-transformers">Hugging Face上的任何Sentence Transformers嵌入模型</a>。</p>
+<p>除了<a href="https://docs.llamaindex.ai/en/stable/api_reference/embeddings/huggingface/#llama_index.embeddings.huggingface.HuggingFaceEmbedding"><code>HuggingFaceEmbedding</code></a>构造函数中可用的关键字参数外，其他关键字参数会传递给底层的<a href="https://sbert.net/docs/package_reference/sentence_transformer/SentenceTransformer.html"><code>SentenceTransformer</code>实例</a>，如<code>backend</code>、<code>model_kwargs</code>、<code>truncate_dim</code>、<code>revision</code>等。</p>
+<h3 id="onnx-openvino">ONNX 或 OpenVINO 优化方案<a class="headerlink" href="#onnx-openvino" title="Permanent link">#</a></h3>
+<p>LlamaIndex 支持通过集成 <a href="https://sbert.net">Sentence Transformers</a> 和 <a href="https://huggingface.co/docs/optimum/index">Optimum</a> 工具包，使用 ONNX 或 OpenVINO 加速本地推理。</p>
+<p>环境准备：</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>llama-index-embeddings-huggingface
+<span class="c1"># 可选安装项：</span>
+pip<span class="w"> </span>install<span class="w"> </span>optimum<span class="o">[</span>onnxruntime-gpu<span class="o">]</span><span class="w"> </span><span class="c1"># GPU版ONNX</span>
+pip<span class="w"> </span>install<span class="w"> </span>optimum<span class="o">[</span>onnxruntime<span class="o">]</span><span class="w">     </span><span class="c1"># CPU版ONNX</span>
+pip<span class="w"> </span>install<span class="w"> </span>optimum-intel<span class="o">[</span>openvino<span class="o">]</span><span class="w">  </span><span class="c1"># OpenVINO</span>
+</code></pre></div>
+<p>指定模型与输出路径的创建方式：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.embeddings.huggingface</span> <span class="kn">import</span> <span class="n">HuggingFaceEmbedding</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">Settings</span>
+
+<span class="n">Settings</span><span class="o">.</span><span class="n">embed_model</span> <span class="o">=</span> <span class="n">HuggingFaceEmbedding</span><span class="p">(</span>
+    <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;BAAI/bge-small-en-v1.5&quot;</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;onnx&quot;</span><span class="p">,</span>  <span class="c1"># 或 &quot;openvino&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>若模型仓库未包含 ONNX 或 OpenVINO 格式，Optimum 将自动进行转换。各方案性能基准可参考 <a href="https://sbert.net/docs/sentence_transformer/usage/efficiency.html#benchmarks">Sentence Transformers 文档</a>。</p>
+<details><summary>如何使用优化或量化模型检查点？</summary>
+嵌入模型通常提供多种 ONNX/OpenVINO 检查点，例如 <a href="https://huggingface.co/sentence-transformers/all-mpnet-base-v2/tree/main">sentence-transformers/all-mpnet-base-v2</a> 包含 <a href="https://huggingface.co/sentence-transformers/all-mpnet-base-v2/tree/main/openvino">2个OpenVINO检查点</a> 和 <a href="https://huggingface.co/sentence-transformers/all-mpnet-base-v2/tree/main/onnx">9个ONNX检查点</a>。各选项性能详情参见 <a href="https://sbert.net/docs/sentence_transformer/usage/efficiency.html">Sentence Transformers文档</a>。
+
+可通过 <code>model_kwargs</code> 中的 <code>file_name</code> 参数加载特定检查点。例如加载 <code>sentence-transformers/all-mpnet-base-v2</code> 仓库中的 <code>openvino/openvino_model_qint8_quantized.xml</code>：
+
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.embeddings.huggingface</span> <span class="kn">import</span> <span class="n">HuggingFaceEmbedding</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">Settings</span>
+
+<span class="n">quantized_model</span> <span class="o">=</span> <span class="n">HuggingFaceEmbedding</span><span class="p">(</span>
+    <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;sentence-transformers/all-mpnet-base-v2&quot;</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;openvino&quot;</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span>
+    <span class="n">model_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;openvino/openvino_model_qint8_quantized.xml&quot;</span><span class="p">},</span>
+<span class="p">)</span>
+<span class="n">Settings</span><span class="o">.</span><span class="n">embed_model</span> <span class="o">=</span> <span class="n">quantized_model</span>
+</code></pre></div>
+
+</details>
+
+<details><summary>CPU设备推荐方案</summary>
+
+如 Sentence Transformers 基准测试所示，int8量化的OpenVINO模型（<code>openvino_model_qint8_quantized.xml</code>）在精度损失极小的情况下性能卓越。若需完全一致的结果，基础版 <code>backend="openvino"</code> 或 <code>backend="onnx"</code> 可能是最佳选择。
+
+<img src="https://sbert.net/_images/backends_benchmark_cpu.png" alt="CPU后端性能基准">
+
+针对以下查询和文档，int8量化OpenVINO与默认Hugging Face模型的对比结果：
+<div class="highlight"><pre><span></span><code><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;哪颗行星被称为红色星球？&quot;</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;金星因大小和位置接近地球常被称为地球的姐妹星&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;火星因其红色外观常被称为红色星球&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;木星作为太阳系最大行星拥有显著红斑&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;土星因星环系统有时被误认为红色星球&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>HuggingFaceEmbedding(device=&#39;cpu&#39;):
+- 平均吞吐量：38.20 查询/秒（5次运行）
+- 查询-文档相似度 tensor([[0.7783, 0.4654, 0.6919, 0.7010]])
+
+HuggingFaceEmbedding(backend=&#39;openvino&#39;, device=&#39;cpu&#39;, model_kwargs={&#39;file_name&#39;: &#39;openvino_model_qint8_quantized.xml&#39;}):
+- 平均吞吐量：266.08 查询/秒（5次运行）
+- 查询-文档相似度 tensor([[0.7492, 0.4623, 0.6606, 0.6556]])
+</code></pre></div>
+
+在保持文档排序一致的前提下实现6.97倍加速。
+
+<details><summary>点击查看复现脚本</summary>
+
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">llama_index.embeddings.huggingface</span> <span class="kn">import</span> <span class="n">HuggingFaceEmbedding</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">Settings</span>
+
+<span class="n">quantized_model</span> <span class="o">=</span> <span class="n">HuggingFaceEmbedding</span><span class="p">(</span>
+    <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;sentence-transformers/all-mpnet-base-v2&quot;</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;openvino&quot;</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span>
+    <span class="n">model_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;openvino/openvino_model_qint8_quantized.xml&quot;</span><span class="p">},</span>
+<span class="p">)</span>
+<span class="n">quantized_model_desc</span> <span class="o">=</span> <span class="s2">&quot;HuggingFaceEmbedding(backend=&#39;openvino&#39;, device=&#39;cpu&#39;, model_kwargs={&#39;file_name&#39;: &#39;openvino_model_qint8_quantized.xml&#39;})&quot;</span>
+<span class="n">baseline_model</span> <span class="o">=</span> <span class="n">HuggingFaceEmbedding</span><span class="p">(</span>
+    <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;sentence-transformers/all-mpnet-base-v2&quot;</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">baseline_model_desc</span> <span class="o">=</span> <span class="s2">&quot;HuggingFaceEmbedding(device=&#39;cpu&#39;)&quot;</span>
+
+<span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;Which planet is known as the Red Planet?&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">bench</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">description</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">get_agg_embedding_from_queries</span><span class="p">([</span><span class="n">query</span><span class="p">]</span> <span class="o">*</span> <span class="mi">32</span><span class="p">)</span>
+
+    <span class="n">sentences_per_second</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+        <span class="n">queries</span> <span class="o">=</span> <span class="p">[</span><span class="n">query</span><span class="p">]</span> <span class="o">*</span> <span class="mi">512</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">get_agg_embedding_from_queries</span><span class="p">(</span><span class="n">queries</span><span class="p">)</span>
+        <span class="n">sentences_per_second</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">queries</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">))</span>
+
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">description</span><span class="si">:</span><span class="s2">&lt;120</span><span class="si">}</span><span class="s2">: Avg throughput: </span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">sentences_per_second</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">sentences_per_second</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> queries/sec (over 5 runs)&quot;</span>
+    <span class="p">)</span>
+
+
+<span class="n">bench</span><span class="p">(</span><span class="n">baseline_model</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">baseline_model_desc</span><span class="p">)</span>
+<span class="n">bench</span><span class="p">(</span><span class="n">quantized_model</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">quantized_model_desc</span><span class="p">)</span>
+
+<span class="c1"># 相似度比对文档（首条为正确答案）</span>
+<span class="n">docs</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Mars, known for its reddish appearance, is often referred to as the Red Planet.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Venus is often called Earth&#39;s twin because of its similar size and proximity.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Jupiter, the largest planet in our solar system, has a prominent red spot.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Saturn, famous for its rings, is sometimes mistaken for the Red Planet.&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">baseline_query_embedding</span> <span class="o">=</span> <span class="n">baseline_model</span><span class="o">.</span><span class="n">get_query_embedding</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+<span class="n">baseline_doc_embeddings</span> <span class="o">=</span> <span class="n">baseline_model</span><span class="o">.</span><span class="n">get_text_embedding_batch</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span>
+
+<span class="n">quantized_query_embedding</span> <span class="o">=</span> <span class="n">quantized_model</span><span class="o">.</span><span class="n">get_query_embedding</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+<span class="n">quantized_doc_embeddings</span> <span class="o">=</span> <span class="n">quantized_model</span><span class="o">.</span><span class="n">get_text_embedding_batch</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span>
+
+<span class="n">baseline_similarity</span> <span class="o">=</span> <span class="n">baseline_model</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">similarity</span><span class="p">(</span>
+    <span class="n">baseline_query_embedding</span><span class="p">,</span> <span class="n">baseline_doc_embeddings</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">baseline_model_desc</span><span class="si">:</span><span class="s2">&lt;120</span><span class="si">}</span><span class="s2">: Query-document similarities </span><span class="si">{</span><span class="n">baseline_similarity</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="p">)</span>
+<span class="n">quantized_similarity</span> <span class="o">=</span> <span class="n">quantized_model</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">similarity</span><span class="p">(</span>
+    <span class="n">quantized_query_embedding</span><span class="p">,</span> <span class="n">quantized_doc_embeddings</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">quantized_model_desc</span><span class="si">:</span><span class="s2">&lt;120</span><span class="si">}</span><span class="s2">: Query-document similarities </span><span class="si">{</span><span class="n">quantized_similarity</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+
+</details>
+
+</details>
+
+<details><summary>GPU设备推荐方案</summary>
+
+GPU环境下OpenVINO优势不明显，ONNX性能未必优于默认<code>torch</code>后端的量化模型。
+
+<img src="https://sbert.net/_images/backends_benchmark_gpu.png" alt="GPU后端性能基准">
+
+这意味着无需额外依赖即可获得显著加速，只需加载模型时指定更低精度：
+
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.embeddings.huggingface</span> <span class="kn">import</span> <span class="n">HuggingFaceEmbedding</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">Settings</span>
+
+<span class="n">Settings</span><span class="o">.</span><span class="n">embed_model</span> <span class="o">=</span> <span class="n">HuggingFaceEmbedding</span><span class="p">(</span>
+    <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;BAAI/bge-small-en-v1.5&quot;</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cuda&quot;</span><span class="p">,</span>
+    <span class="n">model_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;torch_dtype&quot;</span><span class="p">:</span> <span class="s2">&quot;float16&quot;</span><span class="p">},</span>
+<span class="p">)</span>
+</code></pre></div>
+
+</details>
+
+<details><summary>模型未提供所需后端或优化版本怎么办？</summary>
+
+可通过Hugging Face的<a href="https://huggingface.co/spaces/sentence-transformers/backend-export">backend-export</a>空间将任意Sentence Transformers模型转换为ONNX/OpenVINO格式并应用量化优化。转换后将向模型仓库提交包含新模型文件的PR。随后可通过指定<code>revision</code>参数使用该模型：
+
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.embeddings.huggingface</span> <span class="kn">import</span> <span class="n">HuggingFaceEmbedding</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">Settings</span>
+
+<span class="n">Settings</span><span class="o">.</span><span class="n">embed_model</span> <span class="o">=</span> <span class="n">HuggingFaceEmbedding</span><span class="p">(</span>
+    <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;BAAI/bge-small-en-v1.5&quot;</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;openvino&quot;</span><span class="p">,</span>
+    <span class="n">revision</span><span class="o">=</span><span class="s2">&quot;refs/pr/16&quot;</span><span class="p">,</span>  <span class="c1"># 对应PR：https://huggingface.co/BAAI/bge-small-en-v1.5/discussions/16</span>
+    <span class="n">model_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="s2">&quot;openvino_model_qint8_quantized.xml&quot;</span><span class="p">},</span>
+<span class="p">)</span>
+</code></pre></div>
+
+</details>
+
+<h3 id="langchain">LangChain 集成<a class="headerlink" href="#langchain" title="Permanent link">#</a></h3>
+<p>我们同时支持 <a href="https://python.langchain.com/docs/modules/data_connection/text_embedding/">Langchain提供的所有嵌入模型</a>。</p>
+<p>以下示例通过Langchain的嵌入类加载Hugging Face模型：</p>
+<div class="highlight"><pre><span></span><code>pip install llama-index-embeddings-langchain
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">langchain.embeddings.huggingface</span> <span class="kn">import</span> <span class="n">HuggingFaceBgeEmbeddings</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">Settings</span>
+
+<span class="n">Settings</span><span class="o">.</span><span class="n">embed_model</span> <span class="o">=</span> <span class="n">HuggingFaceBgeEmbeddings</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;BAAI/bge-base-en&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="_7">自定义嵌入模型<a class="headerlink" href="#_7" title="Permanent link">#</a></h3>
+<p>如需使用LlamaIndex或Langchain未提供的嵌入模型，可通过继承基础嵌入类实现自定义方案。</p>
+<p>以下示例实现Instructor Embeddings（<a href="https://huggingface.co/hkunlp/instructor-large">安装说明</a>）的自定义类。该模型通过提供文本及其所属领域的"指令"来生成嵌入，特别适用于专业领域文本。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">InstructorEmbedding</span> <span class="kn">import</span> <span class="n">INSTRUCTOR</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.embeddings</span> <span class="kn">import</span> <span class="n">BaseEmbedding</span>
+
+
+<span class="k">class</span> <span class="nc">InstructorEmbeddings</span><span class="p">(</span><span class="n">BaseEmbedding</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">instructor_model_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;hkunlp/instructor-large&quot;</span><span class="p">,</span>
+        <span class="n">instruction</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Represent the Computer Science documentation or question:&quot;</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">INSTRUCTOR</span><span class="p">(</span><span class="n">instructor_model_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_instruction</span> <span class="o">=</span> <span class="n">instruction</span>
+
+        <span class="k">def</span> <span class="nf">_get_query_embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+            <span class="n">embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">encode</span><span class="p">([[</span><span class="bp">self</span><span class="o">.</span><span class="n">_instruction</span><span class="p">,</span> <span class="n">query</span><span class="p">]])</span>
+            <span class="k">return</span> <span class="n">embeddings</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">def</span> <span class="nf">_get_text_embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+            <span class="n">embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">encode</span><span class="p">([[</span><span class="bp">self</span><span class="o">.</span><span class="n">_instruction</span><span class="p">,</span> <span class="n">text</span><span class="p">]])</span>
+            <span class="k">return</span> <span class="n">embeddings</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">def</span> <span class="nf">_get_text_embeddings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">texts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+            <span class="n">embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+                <span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">_instruction</span><span class="p">,</span> <span class="n">text</span><span class="p">]</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">embeddings</span>
+
+        <span class="k">async</span> <span class="k">def</span> <span class="nf">_get_query_embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_query_embedding</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+        <span class="k">async</span> <span class="k">def</span> <span class="nf">_get_text_embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_text_embedding</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="_8">独立使用<a class="headerlink" href="#_8" title="Permanent link">#</a></h2>
+<p>嵌入模块也可独立用于项目开发、现有应用或测试验证：</p>
+<div class="highlight"><pre><span></span><code><span class="n">embeddings</span> <span class="o">=</span> <span class="n">embed_model</span><span class="o">.</span><span class="n">get_text_embedding</span><span class="p">(</span>
+    <span class="s2">&quot;这里正下着倾盆大雨！&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+<h2 id="_9">支持的嵌入模型列表<a class="headerlink" href="#_9" title="Permanent link">#</a></h2>
+<p>我们支持与 OpenAI、Azure 以及 LangChain 提供的所有服务的集成。</p>
+<ul>
+<li><a href="../../../examples/customization/llms/AzureOpenAI/">Azure OpenAI</a></li>
+<li><a href="../../../examples/embeddings/clarifai/">CalrifAI</a></li>
+<li><a href="../../../examples/embeddings/cohereai/">Cohere</a></li>
+<li><a href="../../../examples/embeddings/custom_embeddings/">自定义</a></li>
+<li><a href="../../../examples/embeddings/dashscope_embeddings/">Dashscope</a></li>
+<li><a href="../../../examples/embeddings/elasticsearch/">ElasticSearch</a></li>
+<li><a href="../../../examples/embeddings/fastembed/">FastEmbed</a></li>
+<li><a href="../../../examples/embeddings/google_palm/">Google Palm</a></li>
+<li><a href="../../examples/embeddings/gradient.ipynb">Gradient</a></li>
+<li><a href="../../../examples/embeddings/Anyscale/">Anyscale</a></li>
+<li><a href="../../../examples/embeddings/huggingface/">Huggingface</a></li>
+<li><a href="../../../examples/embeddings/jinaai_embeddings/">JinaAI</a></li>
+<li><a href="../../../examples/embeddings/Langchain/">Langchain</a></li>
+<li><a href="../../../examples/embeddings/llm_rails/">LLM Rails</a></li>
+<li><a href="../../../examples/embeddings/mistralai/">MistralAI</a></li>
+<li><a href="../../../examples/embeddings/OpenAI/">OpenAI</a></li>
+<li><a href="../../../examples/embeddings/sagemaker_embedding_endpoint/">Sagemaker</a></li>
+<li><a href="../../../examples/embeddings/text_embedding_inference/">Text Embedding Inference</a></li>
+<li><a href="../../../examples/embeddings/together/">TogetherAI</a></li>
+<li><a href="../../../examples/embeddings/upstage/">Upstage</a></li>
+<li><a href="../../../examples/embeddings/voyageai/">VoyageAI</a></li>
+<li><a href="../../../examples/embeddings/nomic/">Nomic</a></li>
+<li><a href="../../../examples/embeddings/fireworks/">Fireworks AI</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+       
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../llms/modules/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Available LLM Integrations">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Available LLM Integrations
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../multi_modal/" class="md-footer__link md-footer__link--next" aria-label="Next: Multi Modal">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Multi Modal
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <readthedocs-flyout position="bottom-left"></readthedocs-flyout>
+      
+    </div>
+  </div>
+</footer>
+      
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", "GTM-WWRFB36R");
+</script>
+<!-- End Google Tag Manager -->
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.prune", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+        <script src="../../../javascript/runllm.js"></script>
+      
+        <script src="../../../javascript/algolia.js"></script>
+      
+    
+  </body>
+</html>

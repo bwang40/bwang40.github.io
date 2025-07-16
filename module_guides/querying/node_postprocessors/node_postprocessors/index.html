@@ -1,0 +1,3011 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.llamaindex.ai/en/stable/module_guides/querying/node_postprocessors/node_postprocessors/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../../response_synthesizers/">
+      
+      
+      <link rel="icon" href="../../../../_static/assets/LlamaLogoBrowserTab.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>节点后处理器模块 - LlamaIndex</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../../css/style.css">
+    
+      <link rel="stylesheet" href="../../../../css/algolia.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BYVB1ZVE6J"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BYVB1ZVE6J",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BYVB1ZVE6J",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="LlamaIndex" class="md-header__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LlamaIndex
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              节点后处理器模块
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="purple"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      
+
+<!-- Search interface -->
+<div id="docsearch"></div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../.." class="md-tabs__link">
+          
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../understanding/" class="md-tabs__link">
+          
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../use_cases/" class="md-tabs__link">
+          
+  
+    
+  
+  Use Cases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../examples/" class="md-tabs__link">
+          
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../" class="md-tabs__link">
+          
+  
+    
+  
+  Component Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../optimizing/production_rag/" class="md-tabs__link">
+          
+  
+    
+  
+  Advanced Topics
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../api_reference/" class="md-tabs__link">
+          
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../community/integrations/" class="md-tabs__link">
+          
+  
+    
+  
+  Open-Source Community
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-tabs__link">
+        
+  
+    
+  
+  LlamaCloud
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="LlamaIndex" class="md-nav__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    LlamaIndex
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../.." class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../../understanding/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Learn
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../../use_cases/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Use Cases
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../../examples/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Examples
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Component Guides
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Component Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../models/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Models
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../models/prompts/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Prompts
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../loading/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Loading
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../indexing/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Indexing
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../storing/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Storing
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Querying
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            Querying
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../deploying/query_engine/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Query Engines
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../deploying/chat_engines/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Chat Engines
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../retriever/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Retrieval
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7_5" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Node Postprocessors
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_7_5" id="__nav_5_7_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_7_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_7_5">
+            <span class="md-nav__icon md-icon"></span>
+            Node Postprocessors
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    节点后处理器模块
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    节点后处理器模块
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#similaritypostprocessor" class="md-nav__link">
+    <span class="md-ellipsis">
+      SimilarityPostprocessor
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keywordnodepostprocessor" class="md-nav__link">
+    <span class="md-ellipsis">
+      KeywordNodePostprocessor
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metadatareplacementpostprocessor" class="md-nav__link">
+    <span class="md-ellipsis">
+      MetadataReplacementPostProcessor
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#longcontextreorder" class="md-nav__link">
+    <span class="md-ellipsis">
+      LongContextReorder
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sentenceembeddingoptimizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      SentenceEmbeddingOptimizer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coherererank" class="md-nav__link">
+    <span class="md-ellipsis">
+      CohereRerank
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sentencetransformerrerank" class="md-nav__link">
+    <span class="md-ellipsis">
+      SentenceTransformerRerank
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#llm-rerank" class="md-nav__link">
+    <span class="md-ellipsis">
+      LLM Rerank
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jinarerank" class="md-nav__link">
+    <span class="md-ellipsis">
+      JinaRerank
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fixedrecencypostprocessor" class="md-nav__link">
+    <span class="md-ellipsis">
+      FixedRecencyPostprocessor
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#embeddingrecencypostprocessor" class="md-nav__link">
+    <span class="md-ellipsis">
+      EmbeddingRecencyPostprocessor
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#timeweightedpostprocessor" class="md-nav__link">
+    <span class="md-ellipsis">
+      TimeWeightedPostprocessor
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#beta-piinodepostprocessor" class="md-nav__link">
+    <span class="md-ellipsis">
+      (Beta) PIINodePostprocessor
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="(Beta) PIINodePostprocessor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      LLM版本
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ner" class="md-nav__link">
+    <span class="md-ellipsis">
+      NER版本
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#beta-prevnextnodepostprocessor" class="md-nav__link">
+    <span class="md-ellipsis">
+      (Beta) PrevNextNodePostprocessor
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#beta-autoprevnextnodepostprocessor" class="md-nav__link">
+    <span class="md-ellipsis">
+      (Beta) AutoPrevNextNodePostprocessor
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#beta-rankgpt" class="md-nav__link">
+    <span class="md-ellipsis">
+      (Beta) RankGPT
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#colbert-reranker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Colbert Reranker
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rankllm" class="md-nav__link">
+    <span class="md-ellipsis">
+      rankLLM
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      所有笔记本
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../response_synthesizers/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Response Synthesis
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../router/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Routing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../workflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Workflows
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../pipeline/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Query Pipelines (Deprecated)
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../structured_outputs/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Structured Outputs
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../deploying/agents/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Agents
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../workflow/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Workflows
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../evaluating/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Evaluation
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../observability/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Observability
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../supporting_modules/settings/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Settings
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../llama_deploy" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Llama Deploy
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../../optimizing/production_rag/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Advanced Topics
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../../api_reference/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../../community/integrations/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Open-Source Community
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LlamaCloud
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#similaritypostprocessor" class="md-nav__link">
+    <span class="md-ellipsis">
+      SimilarityPostprocessor
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keywordnodepostprocessor" class="md-nav__link">
+    <span class="md-ellipsis">
+      KeywordNodePostprocessor
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metadatareplacementpostprocessor" class="md-nav__link">
+    <span class="md-ellipsis">
+      MetadataReplacementPostProcessor
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#longcontextreorder" class="md-nav__link">
+    <span class="md-ellipsis">
+      LongContextReorder
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sentenceembeddingoptimizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      SentenceEmbeddingOptimizer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coherererank" class="md-nav__link">
+    <span class="md-ellipsis">
+      CohereRerank
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sentencetransformerrerank" class="md-nav__link">
+    <span class="md-ellipsis">
+      SentenceTransformerRerank
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#llm-rerank" class="md-nav__link">
+    <span class="md-ellipsis">
+      LLM Rerank
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jinarerank" class="md-nav__link">
+    <span class="md-ellipsis">
+      JinaRerank
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fixedrecencypostprocessor" class="md-nav__link">
+    <span class="md-ellipsis">
+      FixedRecencyPostprocessor
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#embeddingrecencypostprocessor" class="md-nav__link">
+    <span class="md-ellipsis">
+      EmbeddingRecencyPostprocessor
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#timeweightedpostprocessor" class="md-nav__link">
+    <span class="md-ellipsis">
+      TimeWeightedPostprocessor
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#beta-piinodepostprocessor" class="md-nav__link">
+    <span class="md-ellipsis">
+      (Beta) PIINodePostprocessor
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="(Beta) PIINodePostprocessor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      LLM版本
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ner" class="md-nav__link">
+    <span class="md-ellipsis">
+      NER版本
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#beta-prevnextnodepostprocessor" class="md-nav__link">
+    <span class="md-ellipsis">
+      (Beta) PrevNextNodePostprocessor
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#beta-autoprevnextnodepostprocessor" class="md-nav__link">
+    <span class="md-ellipsis">
+      (Beta) AutoPrevNextNodePostprocessor
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#beta-rankgpt" class="md-nav__link">
+    <span class="md-ellipsis">
+      (Beta) RankGPT
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#colbert-reranker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Colbert Reranker
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rankllm" class="md-nav__link">
+    <span class="md-ellipsis">
+      rankLLM
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      所有笔记本
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="_1">节点后处理器模块<a class="headerlink" href="#_1" title="Permanent link">#</a></h1>
+<h2 id="similaritypostprocessor">SimilarityPostprocessor<a class="headerlink" href="#similaritypostprocessor" title="Permanent link">#</a></h2>
+<p>用于移除相似度分数低于阈值的节点。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.postprocessor</span> <span class="kn">import</span> <span class="n">SimilarityPostprocessor</span>
+
+<span class="n">postprocessor</span> <span class="o">=</span> <span class="n">SimilarityPostprocessor</span><span class="p">(</span><span class="n">similarity_cutoff</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+
+<span class="n">postprocessor</span><span class="o">.</span><span class="n">postprocess_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="keywordnodepostprocessor">KeywordNodePostprocessor<a class="headerlink" href="#keywordnodepostprocessor" title="Permanent link">#</a></h2>
+<p>用于确保排除或包含特定关键词。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.postprocessor</span> <span class="kn">import</span> <span class="n">KeywordNodePostprocessor</span>
+
+<span class="n">postprocessor</span> <span class="o">=</span> <span class="n">KeywordNodePostprocessor</span><span class="p">(</span>
+    <span class="n">required_keywords</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;word1&quot;</span><span class="p">,</span> <span class="s2">&quot;word2&quot;</span><span class="p">],</span> <span class="n">exclude_keywords</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;word3&quot;</span><span class="p">,</span> <span class="s2">&quot;word4&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">postprocessor</span><span class="o">.</span><span class="n">postprocess_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="metadatareplacementpostprocessor">MetadataReplacementPostProcessor<a class="headerlink" href="#metadatareplacementpostprocessor" title="Permanent link">#</a></h2>
+<p>用于用节点元数据中的字段替换节点内容。如果元数据中不存在该字段，则节点文本保持不变。与 <code>SentenceWindowNodeParser</code> 结合使用时最为有效。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.postprocessor</span> <span class="kn">import</span> <span class="n">MetadataReplacementPostProcessor</span>
+
+<span class="n">postprocessor</span> <span class="o">=</span> <span class="n">MetadataReplacementPostProcessor</span><span class="p">(</span>
+    <span class="n">target_metadata_key</span><span class="o">=</span><span class="s2">&quot;window&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">postprocessor</span><span class="o">.</span><span class="n">postprocess_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="longcontextreorder">LongContextReorder<a class="headerlink" href="#longcontextreorder" title="Permanent link">#</a></h2>
+<p>模型难以获取长文本中间部分的重要细节。<a href="https://arxiv.org/abs/2307.03172">一项研究</a>发现，当关键数据位于输入上下文开头或结尾时，通常能获得最佳性能。此外，随着输入上下文长度增加，性能会显著下降，即使是专为长上下文设计的模型也不例外。</p>
+<p>该模块会对检索到的节点重新排序，在需要较大 top-k 值的情况下特别有用。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.postprocessor</span> <span class="kn">import</span> <span class="n">LongContextReorder</span>
+
+<span class="n">postprocessor</span> <span class="o">=</span> <span class="n">LongContextReorder</span><span class="p">()</span>
+
+<span class="n">postprocessor</span><span class="o">.</span><span class="n">postprocess_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="sentenceembeddingoptimizer">SentenceEmbeddingOptimizer<a class="headerlink" href="#sentenceembeddingoptimizer" title="Permanent link">#</a></h2>
+<p>该后处理器通过移除与查询无关的句子（使用嵌入技术实现）来优化令牌使用。</p>
+<p>百分位截断值用于保留相关性最高的前百分之几的句子。</p>
+<p>也可以指定阈值截断，直接使用相似度阈值来决定保留哪些句子。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.postprocessor</span> <span class="kn">import</span> <span class="n">SentenceEmbeddingOptimizer</span>
+
+<span class="n">postprocessor</span> <span class="o">=</span> <span class="n">SentenceEmbeddingOptimizer</span><span class="p">(</span>
+    <span class="n">embed_model</span><span class="o">=</span><span class="n">service_context</span><span class="o">.</span><span class="n">embed_model</span><span class="p">,</span>
+    <span class="n">percentile_cutoff</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="c1"># threshold_cutoff=0.7</span>
+<span class="p">)</span>
+
+<span class="n">postprocessor</span><span class="o">.</span><span class="n">postprocess_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+</code></pre></div>
+<p>完整笔记本指南参见<a href="../../../../examples/node_postprocessor/OptimizerDemo/">此处</a></p>
+<h2 id="coherererank">CohereRerank<a class="headerlink" href="#coherererank" title="Permanent link">#</a></h2>
+<p>使用"Cohere ReRank"功能对节点重新排序，并返回前N个节点。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.postprocessor.cohere_rerank</span> <span class="kn">import</span> <span class="n">CohereRerank</span>
+
+<span class="n">postprocessor</span> <span class="o">=</span> <span class="n">CohereRerank</span><span class="p">(</span>
+    <span class="n">top_n</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;rerank-english-v2.0&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;YOUR COHERE API KEY&quot;</span>
+<span class="p">)</span>
+
+<span class="n">postprocessor</span><span class="o">.</span><span class="n">postprocess_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+</code></pre></div>
+<p>完整笔记本指南参见<a href="../../../../examples/node_postprocessor/CohereRerank/">此处</a>。</p>
+<h2 id="sentencetransformerrerank">SentenceTransformerRerank<a class="headerlink" href="#sentencetransformerrerank" title="Permanent link">#</a></h2>
+<p>使用 <code>sentence-transformer</code> 包中的交叉编码器对节点重新排序，并返回前N个节点。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.postprocessor</span> <span class="kn">import</span> <span class="n">SentenceTransformerRerank</span>
+
+<span class="c1"># 我们选择了一个速度较快且准确度尚可的模型</span>
+<span class="n">postprocessor</span> <span class="o">=</span> <span class="n">SentenceTransformerRerank</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;cross-encoder/ms-marco-MiniLM-L-2-v2&quot;</span><span class="p">,</span> <span class="n">top_n</span><span class="o">=</span><span class="mi">3</span>
+<span class="p">)</span>
+
+<span class="n">postprocessor</span><span class="o">.</span><span class="n">postprocess_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+</code></pre></div>
+<p>完整笔记本指南参见<a href="../../../../examples/node_postprocessor/SentenceTransformerRerank/">此处</a>。</p>
+<p>更多模型列表（包括速度/准确度权衡）请参考<a href="https://www.sbert.net/docs/pretrained-models/ce-msmarco.html"><code>sentence-transformer</code>文档</a>。默认模型是<code>cross-encoder/ms-marco-TinyBERT-L-2-v2</code>，它提供了最快的速度。</p>
+<h2 id="llm-rerank">LLM Rerank<a class="headerlink" href="#llm-rerank" title="Permanent link">#</a></h2>
+<p>使用LLM对节点重新排序，要求LLM返回相关文档及其相关性评分。返回前N个排名节点。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.postprocessor</span> <span class="kn">import</span> <span class="n">LLMRerank</span>
+
+<span class="n">postprocessor</span> <span class="o">=</span> <span class="n">LLMRerank</span><span class="p">(</span><span class="n">top_n</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">service_context</span><span class="o">=</span><span class="n">service_context</span><span class="p">)</span>
+
+<span class="n">postprocessor</span><span class="o">.</span><span class="n">postprocess_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+</code></pre></div>
+<p>完整笔记本指南参见<a href="../../../../examples/node_postprocessor/LLMReranker-Gatsby/">Gatsby版本</a>和<a href="../../../../examples/node_postprocessor/LLMReranker-Lyft-10k/">Lyft 10K文档版本</a>。</p>
+<h2 id="jinarerank">JinaRerank<a class="headerlink" href="#jinarerank" title="Permanent link">#</a></h2>
+<p>使用"Jina ReRank"功能对节点重新排序，并返回前N个节点。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.postprocessor.jinaai_rerank</span> <span class="kn">import</span> <span class="n">JinaRerank</span>
+
+<span class="n">postprocessor</span> <span class="o">=</span> <span class="n">JinaRerank</span><span class="p">(</span>
+    <span class="n">top_n</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;jina-reranker-v1-base-en&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;YOUR JINA API KEY&quot;</span>
+<span class="p">)</span>
+
+<span class="n">postprocessor</span><span class="o">.</span><span class="n">postprocess_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+</code></pre></div>
+<p>完整笔记本指南参见<a href="../../../../examples/node_postprocessor/JinaRerank/">此处</a>。</p>
+<h2 id="fixedrecencypostprocessor">FixedRecencyPostprocessor<a class="headerlink" href="#fixedrecencypostprocessor" title="Permanent link">#</a></h2>
+<p>该后处理器按日期排序返回前K个节点。假设每个节点的元数据中包含可解析的<code>date</code>字段。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.postprocessor</span> <span class="kn">import</span> <span class="n">FixedRecencyPostprocessor</span>
+
+<span class="n">postprocessor</span> <span class="o">=</span> <span class="n">FixedRecencyPostprocessor</span><span class="p">(</span>
+    <span class="n">tok_k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">date_key</span><span class="o">=</span><span class="s2">&quot;date&quot;</span>  <span class="c1"># 元数据中用于查找日期的键</span>
+<span class="p">)</span>
+
+<span class="n">postprocessor</span><span class="o">.</span><span class="n">postprocess_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+</code></pre></div>
+<p><img alt="" src="../../../../_static/node_postprocessors/recency.png" /></p>
+<p>完整笔记本指南参见<a href="../../../../examples/node_postprocessor/RecencyPostprocessorDemo/">此处</a>。</p>
+<h2 id="embeddingrecencypostprocessor">EmbeddingRecencyPostprocessor<a class="headerlink" href="#embeddingrecencypostprocessor" title="Permanent link">#</a></h2>
+<p>该后处理器在按日期排序后返回前K个节点，并移除嵌入相似度过高的旧节点。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.postprocessor</span> <span class="kn">import</span> <span class="n">EmbeddingRecencyPostprocessor</span>
+
+<span class="n">postprocessor</span> <span class="o">=</span> <span class="n">EmbeddingRecencyPostprocessor</span><span class="p">(</span>
+    <span class="n">service_context</span><span class="o">=</span><span class="n">service_context</span><span class="p">,</span> <span class="n">date_key</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="n">similarity_cutoff</span><span class="o">=</span><span class="mf">0.7</span>
+<span class="p">)</span>
+
+<span class="n">postprocessor</span><span class="o">.</span><span class="n">postprocess_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+</code></pre></div>
+<p>完整笔记本指南参见<a href="../../../../examples/node_postprocessor/RecencyPostprocessorDemo/">此处</a>。</p>
+<h2 id="timeweightedpostprocessor">TimeWeightedPostprocessor<a class="headerlink" href="#timeweightedpostprocessor" title="Permanent link">#</a></h2>
+<p>该后处理器应用时间加权重新排序返回前K个节点。每次检索节点时，会记录检索时间。这使搜索偏向于尚未在查询中返回的信息。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.postprocessor</span> <span class="kn">import</span> <span class="n">TimeWeightedPostprocessor</span>
+
+<span class="n">postprocessor</span> <span class="o">=</span> <span class="n">TimeWeightedPostprocessor</span><span class="p">(</span><span class="n">time_decay</span><span class="o">=</span><span class="mf">0.99</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">postprocessor</span><span class="o">.</span><span class="n">postprocess_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+</code></pre></div>
+<p>完整笔记本指南参见<a href="../../../../examples/node_postprocessor/TimeWeightedPostprocessorDemo/">此处</a>。</p>
+<h2 id="beta-piinodepostprocessor">(Beta) PIINodePostprocessor<a class="headerlink" href="#beta-piinodepostprocessor" title="Permanent link">#</a></h2>
+<p>PII（个人身份信息）后处理器会移除可能存在安全风险的信息。通过使用NER（可以是专用NER模型或本地LLM模型）实现。</p>
+<h3 id="llm">LLM版本<a class="headerlink" href="#llm" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.postprocessor</span> <span class="kn">import</span> <span class="n">PIINodePostprocessor</span>
+
+<span class="n">postprocessor</span> <span class="o">=</span> <span class="n">PIINodePostprocessor</span><span class="p">(</span>
+    <span class="n">service_context</span><span class="o">=</span><span class="n">service_context</span>  <span class="c1"># 应配置为您信任的LLM</span>
+<span class="p">)</span>
+
+<span class="n">postprocessor</span><span class="o">.</span><span class="n">postprocess_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="ner">NER版本<a class="headerlink" href="#ner" title="Permanent link">#</a></h3>
+<p>此版本使用Hugging Face的默认本地模型，运行<code>pipeline("ner")</code>时加载。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.postprocessor</span> <span class="kn">import</span> <span class="n">NERPIINodePostprocessor</span>
+
+<span class="n">postprocessor</span> <span class="o">=</span> <span class="n">NERPIINodePostprocessor</span><span class="p">()</span>
+
+<span class="n">postprocessor</span><span class="o">.</span><span class="n">postprocess_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+</code></pre></div>
+<p>两者的完整笔记本指南参见<a href="../../../../examples/node_postprocessor/PII/">此处</a>。</p>
+<h2 id="beta-prevnextnodepostprocessor">(Beta) PrevNextNodePostprocessor<a class="headerlink" href="#beta-prevnextnodepostprocessor" title="Permanent link">#</a></h2>
+<p>使用预定义设置读取<code>Node</code>关系，并获取之前、之后或两者所有的节点。</p>
+<p>当您知道关系指向重要数据（之前、之后或两者）且该节点被检索时应发送给LLM时，这非常有用。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.postprocessor</span> <span class="kn">import</span> <span class="n">PrevNextNodePostprocessor</span>
+
+<span class="n">postprocessor</span> <span class="o">=</span> <span class="n">PrevNextNodePostprocessor</span><span class="p">(</span>
+    <span class="n">docstore</span><span class="o">=</span><span class="n">index</span><span class="o">.</span><span class="n">docstore</span><span class="p">,</span>
+    <span class="n">num_nodes</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># 向前或向后查找时要获取的节点数量</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;next&quot;</span><span class="p">,</span>  <span class="c1"># 可以是&#39;next&#39;、&#39;previous&#39;或&#39;both&#39;</span>
+<span class="p">)</span>
+
+<span class="n">postprocessor</span><span class="o">.</span><span class="n">postprocess_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+</code></pre></div>
+<p><img alt="" src="../../../../_static/node_postprocessors/prev_next.png" /></p>
+<h2 id="beta-autoprevnextnodepostprocessor">(Beta) AutoPrevNextNodePostprocessor<a class="headerlink" href="#beta-autoprevnextnodepostprocessor" title="Permanent link">#</a></h2>
+<p>与PrevNextNodePostprocessor相同，但让LLM决定模式（next、previous或both）。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.postprocessor</span> <span class="kn">import</span> <span class="n">AutoPrevNextNodePostprocessor</span>
+
+<span class="n">postprocessor</span> <span class="o">=</span> <span class="n">AutoPrevNextNodePostprocessor</span><span class="p">(</span>
+    <span class="n">docstore</span><span class="o">=</span><span class="n">index</span><span class="o">.</span><span class="n">docstore</span><span class="p">,</span>
+    <span class="n">service_context</span><span class="o">=</span><span class="n">service_context</span><span class="p">,</span>
+    <span class="n">num_nodes</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># 向前或向后查找时要获取的节点数量</span>
+<span class="p">)</span>
+<span class="n">postprocessor</span><span class="o">.</span><span class="n">postprocess_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+</code></pre></div>
+<p>完整示例笔记本参见<a href="../../../../examples/node_postprocessor/PrevNextPostprocessorDemo/">此处</a>。</p>
+<h2 id="beta-rankgpt">(Beta) RankGPT<a class="headerlink" href="#beta-rankgpt" title="Permanent link">#</a></h2>
+<p>使用RankGPT代理根据相关性重新排序文档。返回前N个排名节点。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.postprocessor.rankgpt_rerank</span> <span class="kn">import</span> <span class="n">RankGPTRerank</span>
+
+<span class="n">postprocessor</span> <span class="o">=</span> <span class="n">RankGPTRerank</span><span class="p">(</span><span class="n">top_n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="n">OpenAI</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-3.5-turbo-16k&quot;</span><span class="p">))</span>
+
+<span class="n">postprocessor</span><span class="o">.</span><span class="n">postprocess_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+</code></pre></div>
+<p>完整笔记本指南参见<a href="../../../../examples/node_postprocessor/rankGPT/">此处</a>。</p>
+<h2 id="colbert-reranker">Colbert Reranker<a class="headerlink" href="#colbert-reranker" title="Permanent link">#</a></h2>
+<p>使用Colbert V2模型作为重新排序器，根据查询令牌和段落令牌之间的细粒度相似度重新排序文档。返回前N个排名节点。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.postprocessor.colbert_rerank</span> <span class="kn">import</span> <span class="n">ColbertRerank</span>
+
+<span class="n">colbert_reranker</span> <span class="o">=</span> <span class="n">ColbertRerank</span><span class="p">(</span>
+    <span class="n">top_n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;colbert-ir/colbertv2.0&quot;</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="o">=</span><span class="s2">&quot;colbert-ir/colbertv2.0&quot;</span><span class="p">,</span>
+    <span class="n">keep_retrieval_score</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">(</span>
+    <span class="n">similarity_top_k</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">node_postprocessors</span><span class="o">=</span><span class="p">[</span><span class="n">colbert_reranker</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">query_str</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>完整笔记本指南参见<a href="../../../../examples/node_postprocessor/ColbertRerank/">此处</a>。</p>
+<h2 id="rankllm">rankLLM<a class="headerlink" href="#rankllm" title="Permanent link">#</a></h2>
+<p>使用 <a href="https://github.com/castorini/rank_llm">rankLLM</a> 中的模型对文档进行重新排序。返回前 N 个排名最高的节点。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.postprocessor.rankllm_rerank</span> <span class="kn">import</span> <span class="n">RankLLMRerank</span>
+
+<span class="c1"># RankZephyr 重排序器，返回前5个候选结果</span>
+<span class="n">reranker</span> <span class="o">=</span> <span class="n">RankLLMRerank</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;rank_zephyr&quot;</span><span class="p">,</span> <span class="n">top_n</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">reranker</span><span class="o">.</span><span class="n">postprocess_nodes</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+</code></pre></div>
+<p>完整示例可参考<a href="../../../../examples/node_postprocessor/rankLLM/">此笔记本</a>。</p>
+<h2 id="_2">所有笔记本<a class="headerlink" href="#_2" title="Permanent link">#</a></h2>
+<ul>
+<li><a href="../../../../examples/node_postprocessor/OptimizerDemo/">句子优化器</a></li>
+<li><a href="../../../../examples/node_postprocessor/CohereRerank/">Cohere 重排序</a></li>
+<li><a href="../../../../examples/node_postprocessor/LLMReranker-Lyft-10k/">LLM 重排序 Lyft 10k</a></li>
+<li><a href="../../../../examples/node_postprocessor/LLMReranker-Gatsby/">LLM 重排序 Gatsby</a></li>
+<li><a href="../../../../examples/node_postprocessor/RecencyPostprocessorDemo/">时效性</a></li>
+<li><a href="../../../../examples/node_postprocessor/TimeWeightedPostprocessorDemo/">时间加权</a></li>
+<li><a href="../../../../examples/node_postprocessor/PII/">PII</a></li>
+<li><a href="../../../../examples/node_postprocessor/PrevNextPostprocessorDemo/">前后文</a></li>
+<li><a href="../../../../examples/node_postprocessor/MetadataReplacementDemo/">元数据替换</a></li>
+<li><a href="../../../../examples/node_postprocessor/LongContextReorder/">长文本重排序</a></li>
+<li><a href="../../../../examples/node_postprocessor/rankGPT/">RankGPT</a></li>
+<li><a href="../../../../examples/node_postprocessor/ColbertRerank/">Colbert 重排序</a></li>
+<li><a href="../../../../examples/node_postprocessor/JinaRerank/">JinaAI 重排序</a></li>
+<li><a href="../../../../examples/cookbooks/mixedbread_reranker/">MixedBread 重排序</a></li>
+<li><a href="../../../../examples/node_postprocessor/rankLLM/">RankLLM</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+       
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: 节点后处理器">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                节点后处理器
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../response_synthesizers/" class="md-footer__link md-footer__link--next" aria-label="Next: 响应合成器">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                响应合成器
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <readthedocs-flyout position="bottom-left"></readthedocs-flyout>
+      
+    </div>
+  </div>
+</footer>
+      
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", "GTM-WWRFB36R");
+</script>
+<!-- End Google Tag Manager -->
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.instant", "navigation.prune", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+        <script src="../../../../javascript/runllm.js"></script>
+      
+        <script src="../../../../javascript/algolia.js"></script>
+      
+    
+  </body>
+</html>

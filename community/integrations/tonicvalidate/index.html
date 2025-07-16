@@ -1,0 +1,1449 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.llamaindex.ai/en/stable/community/integrations/tonicvalidate/">
+      
+      
+      
+      
+      <link rel="icon" href="../../../_static/assets/LlamaLogoBrowserTab.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>Tonic Validate - LlamaIndex</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../css/style.css">
+    
+      <link rel="stylesheet" href="../../../css/algolia.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BYVB1ZVE6J"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BYVB1ZVE6J",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BYVB1ZVE6J",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tonic-validate" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="LlamaIndex" class="md-header__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LlamaIndex
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Tonic Validate
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="purple"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      
+
+<!-- Search interface -->
+<div id="docsearch"></div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../.." class="md-tabs__link">
+          
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../understanding/" class="md-tabs__link">
+          
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../use_cases/" class="md-tabs__link">
+          
+  
+    
+  
+  Use Cases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../examples/" class="md-tabs__link">
+          
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../module_guides/" class="md-tabs__link">
+          
+  
+    
+  
+  Component Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../optimizing/production_rag/" class="md-tabs__link">
+          
+  
+    
+  
+  Advanced Topics
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../api_reference/" class="md-tabs__link">
+          
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../" class="md-tabs__link">
+          
+  
+    
+  
+  Open-Source Community
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-tabs__link">
+        
+  
+    
+  
+  LlamaCloud
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="LlamaIndex" class="md-nav__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    LlamaIndex
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../.." class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../understanding/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Learn
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../use_cases/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Use Cases
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../examples/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Examples
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../module_guides/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Component Guides
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../optimizing/production_rag/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Advanced Topics
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../api_reference/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Open-Source Community
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LlamaCloud
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tonic-validate_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tonic Validate 是什么
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tonic-validate_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      如何使用 Tonic Validate
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="如何使用 Tonic Validate">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      安装配置
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      单问题评估示例
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      批量问题评估
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      结果上传至 UI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      端到端示例
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      更多文档
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="tonic-validate">Tonic Validate<a class="headerlink" href="#tonic-validate" title="Permanent link">#</a></h1>
+<h2 id="tonic-validate_1">Tonic Validate 是什么<a class="headerlink" href="#tonic-validate_1" title="Permanent link">#</a></h2>
+<p>Tonic Validate 是一款面向检索增强生成（RAG）系统开发者的工具，用于评估系统性能。您可以使用 Tonic Validate 对 LlamaIndex 配置进行一次性性能抽查，也可将其集成到现有 CI/CD 系统（如 Github Actions）中。Tonic Validate 包含两个组成部分：</p>
+<ol>
+<li>开源 SDK</li>
+<li><a href="https://validate.tonic.ai/">Web 用户界面</a></li>
+</ol>
+<p>您可以选择单独使用 SDK 而不使用 Web UI。SDK 包含评估 RAG 系统所需的全部工具。Web UI 的作用是在 SDK 基础上提供可视化层，让您能更直观地了解系统性能，而非仅查看原始数据。</p>
+<p>如需使用 Web UI，请访问<a href="https://validate.tonic.ai/">此处</a>注册免费账户。</p>
+<h2 id="tonic-validate_2">如何使用 Tonic Validate<a class="headerlink" href="#tonic-validate_2" title="Permanent link">#</a></h2>
+<h3 id="_1">安装配置<a class="headerlink" href="#_1" title="Permanent link">#</a></h3>
+<p>通过以下命令安装 Tonic Validate：</p>
+<div class="highlight"><pre><span></span><code>pip install tonic-validate
+</code></pre></div>
+<p>使用 Tonic Validate 需提供 OpenAI 密钥，因为评分计算依赖后端 LLM。可通过设置环境变量 <code>OPENAI_API_KEY</code> 来配置：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;put-your-openai-api-key-here&quot;</span>
+</code></pre></div>
+<p>如需将结果上传至 UI，请确保设置从 <a href="https://validate.tonic.ai/">Web UI</a> 账户获取的 API 密钥。未注册账户可前往<a href="https://validate.tonic.ai/">此处</a>注册。获取 API 密钥后通过环境变量设置：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;TONIC_VALIDATE_API_KEY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;put-your-validate-api-key-here&quot;</span>
+</code></pre></div>
+<h3 id="_2">单问题评估示例<a class="headerlink" href="#_2" title="Permanent link">#</a></h3>
+<p>本例展示问题与参考答案不匹配的情况，检索到的两个上下文块中有一个包含正确答案：</p>
+<div class="highlight"><pre><span></span><code><span class="n">question</span> <span class="o">=</span> <span class="s2">&quot;What makes Sam Altman a good founder?&quot;</span>
+<span class="n">reference_answer</span> <span class="o">=</span> <span class="s2">&quot;He is smart and has a great force of will.&quot;</span>
+<span class="n">llm_answer</span> <span class="o">=</span> <span class="s2">&quot;He is a good founder because he is smart.&quot;</span>
+<span class="n">retrieved_context_list</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Sam Altman is a good founder. He is very smart.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;What makes Sam Altman such a good founder is his great force of will.&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</code></pre></div>
+<p>答案相似度评分（0-5分）衡量 LLM 答案与参考答案的匹配程度。本例中未完全匹配，故得分非满分5分：</p>
+<div class="highlight"><pre><span></span><code><span class="n">answer_similarity_evaluator</span> <span class="o">=</span> <span class="n">AnswerSimilarityEvaluator</span><span class="p">()</span>
+<span class="n">score</span> <span class="o">=</span> <span class="k">await</span> <span class="n">answer_similarity_evaluator</span><span class="o">.</span><span class="n">aevaluate</span><span class="p">(</span>
+    <span class="n">question</span><span class="p">,</span>
+    <span class="n">llm_answer</span><span class="p">,</span>
+    <span class="n">retrieved_context_list</span><span class="p">,</span>
+    <span class="n">reference_response</span><span class="o">=</span><span class="n">reference_answer</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+<span class="c1"># &gt;&gt; EvaluationResult(query=&#39;What makes Sam Altman a good founder?&#39;, contexts=[&#39;Sam Altman is a good founder. He is very smart.&#39;, &#39;What makes Sam Altman such a good founder is his great force of will.&#39;], response=&#39;He is a good founder because he is smart.&#39;, passing=None, feedback=None, score=4.0, pairwise_source=None, invalid_result=False, invalid_reason=None)</span>
+</code></pre></div>
+<p>答案一致性评分（0.0-1.0）检测答案是否包含检索上下文外的信息。本例答案完全来自上下文，故得1分：</p>
+<div class="highlight"><pre><span></span><code><span class="n">answer_consistency_evaluator</span> <span class="o">=</span> <span class="n">AnswerConsistencyEvaluator</span><span class="p">()</span>
+
+
+<span class="n">score</span> <span class="o">=</span> <span class="k">await</span> <span class="n">answer_consistency_evaluator</span><span class="o">.</span><span class="n">aevaluate</span><span class="p">(</span>
+    <span class="n">question</span><span class="p">,</span> <span class="n">llm_answer</span><span class="p">,</span> <span class="n">retrieved_context_list</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+<span class="c1"># &gt;&gt; EvaluationResult(query=&#39;What makes Sam Altman a good founder?&#39;, contexts=[&#39;Sam Altman is a good founder. He is very smart.&#39;, &#39;What makes Sam Altman such a good founder is his great force of will.&#39;], response=&#39;He is a good founder because he is smart.&#39;, passing=None, feedback=None, score=1.0, pairwise_source=None, invalid_result=False, invalid_reason=None)</span>
+</code></pre></div>
+<p>增强准确率衡量答案包含检索上下文的百分比。本例包含50%上下文，故得0.5分：</p>
+<div class="highlight"><pre><span></span><code><span class="n">augmentation_accuracy_evaluator</span> <span class="o">=</span> <span class="n">AugmentationAccuracyEvaluator</span><span class="p">()</span>
+
+
+<span class="n">score</span> <span class="o">=</span> <span class="k">await</span> <span class="n">augmentation_accuracy_evaluator</span><span class="o">.</span><span class="n">aevaluate</span><span class="p">(</span>
+    <span class="n">question</span><span class="p">,</span> <span class="n">llm_answer</span><span class="p">,</span> <span class="n">retrieved_context_list</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+<span class="c1"># &gt;&gt; EvaluationResult(query=&#39;What makes Sam Altman a good founder?&#39;, contexts=[&#39;Sam Altman is a good founder. He is very smart.&#39;, &#39;What makes Sam Altman such a good founder is his great force of will.&#39;], response=&#39;He is a good founder because he is smart.&#39;, passing=None, feedback=None, score=0.5, pairwise_source=None, invalid_result=False, invalid_reason=None)</span>
+</code></pre></div>
+<p>增强精确率检测相关检索内容是否进入答案。本例两个上下文均相关但仅一个被采用，故得0.5分：</p>
+<div class="highlight"><pre><span></span><code><span class="n">augmentation_precision_evaluator</span> <span class="o">=</span> <span class="n">AugmentationPrecisionEvaluator</span><span class="p">()</span>
+
+
+<span class="n">score</span> <span class="o">=</span> <span class="k">await</span> <span class="n">augmentation_precision_evaluator</span><span class="o">.</span><span class="n">aevaluate</span><span class="p">(</span>
+    <span class="n">question</span><span class="p">,</span> <span class="n">llm_answer</span><span class="p">,</span> <span class="n">retrieved_context_list</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+<span class="c1"># &gt;&gt; EvaluationResult(query=&#39;What makes Sam Altman a good founder?&#39;, contexts=[&#39;Sam Altman is a good founder. He is very smart.&#39;, &#39;What makes Sam Altman such a good founder is his great force of will.&#39;], response=&#39;He is a good founder because he is smart.&#39;, passing=None, feedback=None, score=0.5, pairwise_source=None, invalid_result=False, invalid_reason=None)</span>
+</code></pre></div>
+<p>检索精确率衡量检索上下文与问题的相关度。本例两个上下文均相关，故得1.0分：</p>
+<div class="highlight"><pre><span></span><code><span class="n">retrieval_precision_evaluator</span> <span class="o">=</span> <span class="n">RetrievalPrecisionEvaluator</span><span class="p">()</span>
+
+
+<span class="n">score</span> <span class="o">=</span> <span class="k">await</span> <span class="n">retrieval_precision_evaluator</span><span class="o">.</span><span class="n">aevaluate</span><span class="p">(</span>
+    <span class="n">question</span><span class="p">,</span> <span class="n">llm_answer</span><span class="p">,</span> <span class="n">retrieved_context_list</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+<span class="c1"># &gt;&gt; EvaluationResult(query=&#39;What makes Sam Altman a good founder?&#39;, contexts=[&#39;Sam Altman is a good founder. He is very smart.&#39;, &#39;What makes Sam Altman such a good founder is his great force of will.&#39;], response=&#39;He is a good founder because he is smart.&#39;, passing=None, feedback=None, score=1.0, pairwise_source=None, invalid_result=False, invalid_reason=None)</span>
+</code></pre></div>
+<p>TonicValidateEvaluator 可一次性计算所有指标：</p>
+<div class="highlight"><pre><span></span><code><span class="n">tonic_validate_evaluator</span> <span class="o">=</span> <span class="n">TonicValidateEvaluator</span><span class="p">()</span>
+
+
+<span class="n">scores</span> <span class="o">=</span> <span class="k">await</span> <span class="n">tonic_validate_evaluator</span><span class="o">.</span><span class="n">aevaluate</span><span class="p">(</span>
+    <span class="n">question</span><span class="p">,</span>
+    <span class="n">llm_answer</span><span class="p">,</span>
+    <span class="n">retrieved_context_list</span><span class="p">,</span>
+    <span class="n">reference_response</span><span class="o">=</span><span class="n">reference_answer</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">scores</span><span class="o">.</span><span class="n">score_dict</span><span class="p">)</span>
+<span class="c1"># &gt;&gt; {</span>
+<span class="c1">#     &#39;answer_consistency&#39;: 1.0,</span>
+<span class="c1">#     &#39;answer_similarity&#39;: 4.0,</span>
+<span class="c1">#     &#39;augmentation_accuracy&#39;: 0.5,</span>
+<span class="c1">#     &#39;augmentation_precision&#39;: 0.5,</span>
+<span class="c1">#     &#39;retrieval_precision&#39;: 1.0</span>
+<span class="c1"># }</span>
+</code></pre></div>
+<h3 id="_3">批量问题评估<a class="headerlink" href="#_3" title="Permanent link">#</a></h3>
+<p>通过 TonicValidateEvaluator 可评估多个查询，生成可上传至 <a href="https://validate.tonic.ai">Tonic Validate UI</a> 的 Run 对象：</p>
+<div class="highlight"><pre><span></span><code><span class="n">questions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;What is the capital of France?&quot;</span><span class="p">,</span> <span class="s2">&quot;What is the capital of Spain?&quot;</span><span class="p">]</span>
+<span class="n">reference_answers</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Paris&quot;</span><span class="p">,</span> <span class="s2">&quot;Madrid&quot;</span><span class="p">]</span>
+<span class="n">llm_answer</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Paris&quot;</span><span class="p">,</span> <span class="s2">&quot;Madrid&quot;</span><span class="p">]</span>
+<span class="n">retrieved_context_lists</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;Paris is the capital and most populous city of France.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Paris, France&#39;s capital, is a major European city and a global center for art, fashion, gastronomy and culture.&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;Madrid is the capital and largest city of Spain.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Madrid, Spain&#39;s central capital, is a city of elegant boulevards and expansive, manicured parks such as the Buen Retiro.&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">]</span>
+
+
+<span class="n">tonic_validate_evaluator</span> <span class="o">=</span> <span class="n">TonicValidateEvaluator</span><span class="p">()</span>
+
+
+<span class="n">scores</span> <span class="o">=</span> <span class="k">await</span> <span class="n">tonic_validate_evaluator</span><span class="o">.</span><span class="n">aevaluate_run</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">questions</span><span class="p">],</span> <span class="p">[</span><span class="n">llm_answers</span><span class="p">],</span> <span class="p">[</span><span class="n">retrieved_context_lists</span><span class="p">],</span> <span class="p">[</span><span class="n">reference_answers</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">scores</span><span class="o">.</span><span class="n">run_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scores</span><span class="p">)</span>
+<span class="c1"># &gt;&gt; {</span>
+<span class="c1">#     &#39;answer_consistency&#39;: 1.0,</span>
+<span class="c1">#     &#39;answer_similarity&#39;: 3.0,</span>
+<span class="c1">#     &#39;augmentation_accuracy&#39;: 0.5,</span>
+<span class="c1">#     &#39;augmentation_precision&#39;: 0.5,</span>
+<span class="c1">#     &#39;retrieval_precision&#39;: 1.0</span>
+<span class="c1"># }</span>
+</code></pre></div>
+<h3 id="ui">结果上传至 UI<a class="headerlink" href="#ui" title="Permanent link">#</a></h3>
+<p>上传前请确保已按<a href="#setting-up-tonic-validate">安装配置</a>设置 <code>TONIC_VALIDATE_API_KEY</code> 并创建 UI 项目。初始化 API 后上传结果：</p>
+<div class="highlight"><pre><span></span><code><span class="n">validate_api</span> <span class="o">=</span> <span class="n">ValidateApi</span><span class="p">()</span>
+<span class="n">project_id</span> <span class="o">=</span> <span class="s2">&quot;your-project-id&quot;</span>
+<span class="n">validate_api</span><span class="o">.</span><span class="n">upload_run</span><span class="p">(</span><span class="n">project_id</span><span class="p">,</span> <span class="n">scores</span><span class="p">)</span>
+</code></pre></div>
+<p>即可在 Tonic Validate UI 查看结果！</p>
+<p><img alt="Tonic Validate 图表" src="../../../_static/integrations/TonicValidate-Graph.png" /></p>
+<h3 id="_4">端到端示例<a class="headerlink" href="#_4" title="Permanent link">#</a></h3>
+<p>以下展示与 Llama Index 的集成使用。首先通过 CLI 下载数据集：</p>
+<div class="highlight"><pre><span></span><code>llamaindex-cli<span class="w"> </span>download-llamadataset<span class="w"> </span>EvaluatingLlmSurveyPaperDataset<span class="w"> </span>--download-dir<span class="w"> </span>./data
+</code></pre></div>
+<p>创建 <code>llama.py</code> 文件并初始化 Llama Index：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">SimpleDirectoryReader</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">VectorStoreIndex</span>
+
+
+<span class="n">documents</span> <span class="o">=</span> <span class="n">SimpleDirectoryReader</span><span class="p">(</span><span class="n">input_dir</span><span class="o">=</span><span class="s2">&quot;./data/source_files&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span><span class="n">documents</span><span class="o">=</span><span class="n">documents</span><span class="p">)</span>
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span>
+</code></pre></div>
+<p>加载测试问题集：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.llama_dataset</span> <span class="kn">import</span> <span class="n">LabelledRagDataset</span>
+
+<span class="n">rag_dataset</span> <span class="o">=</span> <span class="n">LabelledRagDataset</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="s2">&quot;./data/rag_dataset.json&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># 仅测试10个问题以避免耗时过长</span>
+<span class="n">questions</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">query</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">rag_dataset</span><span class="o">.</span><span class="n">examples</span><span class="p">][:</span><span class="mi">10</span><span class="p">]</span>
+<span class="n">reference_answers</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">reference_answer</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">rag_dataset</span><span class="o">.</span><span class="n">examples</span><span class="p">][</span>
+    <span class="p">:</span><span class="mi">10</span>
+<span class="p">]</span>
+</code></pre></div>
+<p>获取 Llama Index 响应：</p>
+<div class="highlight"><pre><span></span><code><span class="n">llm_answers</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">retrieved_context_lists</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">question</span> <span class="ow">in</span> <span class="n">questions</span><span class="p">:</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
+    <span class="n">context_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">source_nodes</span><span class="p">]</span>
+    <span class="n">retrieved_context_lists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">context_list</span><span class="p">)</span>
+    <span class="n">llm_answers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">response</span><span class="p">)</span>
+</code></pre></div>
+<p>执行评估：</p>
+<div class="highlight"><pre><span></span><code>from tonic_validate.metrics import AnswerSimilarityMetric
+from llama_index.evaluation.tonic_validate import TonicValidateEvaluator
+
+
+tonic_validate_evaluator = TonicValidateEvaluator(
+    metrics=[AnswerSimilarityMetric()], model_evaluator=&quot;gpt-4-1106-preview&quot;
+)
+
+scores = tonic_validate_evaluator.evaluate_run(
+    questions, retrieved_context_lists, reference_answers, llm_answers
+)
+print(scores.overall_scores)
+</code></pre></div>
+<p>上传评估结果：</p>
+<div class="highlight"><pre><span></span><code><span class="n">validate_api</span> <span class="o">=</span> <span class="n">ValidateApi</span><span class="p">()</span>
+<span class="n">project_id</span> <span class="o">=</span> <span class="s2">&quot;your-project-id&quot;</span>
+<span class="n">validate_api</span><span class="o">.</span><span class="n">upload_run</span><span class="p">(</span><span class="n">project_id</span><span class="p">,</span> <span class="n">run</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="_5">更多文档<a class="headerlink" href="#_5" title="Permanent link">#</a></h2>
+<p>除本文档外，您可访问 <a href="https://github.com/TonicAI/tonic_validate">Tonic Validate 的 GitHub 页面</a>获取关于 API 使用的更多说明。</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+       
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <readthedocs-flyout position="bottom-left"></readthedocs-flyout>
+      
+    </div>
+  </div>
+</footer>
+      
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", "GTM-WWRFB36R");
+</script>
+<!-- End Google Tag Manager -->
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.prune", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+        <script src="../../../javascript/runllm.js"></script>
+      
+        <script src="../../../javascript/algolia.js"></script>
+      
+    
+  </body>
+</html>

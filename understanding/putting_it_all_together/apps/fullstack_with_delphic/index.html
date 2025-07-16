@@ -1,0 +1,3016 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.llamaindex.ai/en/stable/understanding/putting_it_all_together/apps/fullstack_with_delphic/">
+      
+      
+        <link rel="prev" href="../fullstack_app_guide/">
+      
+      
+        <link rel="next" href="../">
+      
+      
+      <link rel="icon" href="../../../../_static/assets/LlamaLogoBrowserTab.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>使用 Delphic 构建全栈 LlamaIndex Web 应用的指南 - LlamaIndex</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../../css/style.css">
+    
+      <link rel="stylesheet" href="../../../../css/algolia.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BYVB1ZVE6J"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BYVB1ZVE6J",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BYVB1ZVE6J",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#delphic-llamaindex-web" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="LlamaIndex" class="md-header__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LlamaIndex
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              使用 Delphic 构建全栈 LlamaIndex Web 应用的指南
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="purple"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      
+
+<!-- Search interface -->
+<div id="docsearch"></div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../.." class="md-tabs__link">
+          
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../" class="md-tabs__link">
+          
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../use_cases/" class="md-tabs__link">
+          
+  
+    
+  
+  Use Cases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../examples/" class="md-tabs__link">
+          
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../module_guides/" class="md-tabs__link">
+          
+  
+    
+  
+  Component Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../optimizing/production_rag/" class="md-tabs__link">
+          
+  
+    
+  
+  Advanced Topics
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../api_reference/" class="md-tabs__link">
+          
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../community/integrations/" class="md-tabs__link">
+          
+  
+    
+  
+  Open-Source Community
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-tabs__link">
+        
+  
+    
+  
+  LlamaCloud
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="LlamaIndex" class="md-nav__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    LlamaIndex
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../.." class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Learn
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Learn
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../using_llms/using_llms/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Using LLMs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../agent/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Building agents
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../workflows/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Building Workflows
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../rag/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Building a RAG pipeline
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../extraction/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Structured Data Extraction
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tracing_and_debugging/tracing_and_debugging/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tracing and Debugging
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../evaluating/evaluating/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Evaluating
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_9" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Putting it all Together
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_9" id="__nav_2_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_9">
+            <span class="md-nav__icon md-icon"></span>
+            Putting it all Together
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_9_2" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Full-stack web application
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_9_2" id="__nav_2_9_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_9_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_9_2">
+            <span class="md-nav__icon md-icon"></span>
+            Full-stack web application
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fullstack_app_guide/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    使用 LLamaIndex 构建全栈 Web 应用指南
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    使用 Delphic 构建全栈 LlamaIndex Web 应用的指南
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    使用 Delphic 构建全栈 LlamaIndex Web 应用的指南
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      我们将构建什么
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      架构概述
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      系统要求
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#django" class="md-nav__link">
+    <span class="md-ellipsis">
+      Django 后端
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Django 后端">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      项目目录概览
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      数据库模型
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#django-ninja-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Django Ninja API
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websocket" class="md-nav__link">
+    <span class="md-ellipsis">
+      WebSocket 简介
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websocket_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      WebSocket 处理器
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="WebSocket 处理器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#websocket_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      WebSocket 连接监听器
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websocket_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      WebSocket 断开监听器
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websocket_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      WebSocket 接收监听器
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#react" class="md-nav__link">
+    <span class="md-ellipsis">
+      React 前端
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="React 前端">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      概述
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      前端项目结构
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      从后端获取集合
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      显示集合
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      聊天视图组件
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="聊天视图组件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#websocket_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      聊天 WebSocket 客户端
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      渲染聊天消息
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      部署
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="部署">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      先决条件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      构建与部署
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用应用
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="使用应用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      用户设置
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../q_and_a/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Q&A Patterns
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../chatbots/building_a_chatbot/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Chatbots
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../structured_data/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Structured data
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../../use_cases/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Use Cases
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../../examples/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Examples
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../../module_guides/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Component Guides
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../../optimizing/production_rag/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Advanced Topics
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../../api_reference/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../../community/integrations/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Open-Source Community
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LlamaCloud
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      我们将构建什么
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      架构概述
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      系统要求
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#django" class="md-nav__link">
+    <span class="md-ellipsis">
+      Django 后端
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Django 后端">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      项目目录概览
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      数据库模型
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#django-ninja-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Django Ninja API
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websocket" class="md-nav__link">
+    <span class="md-ellipsis">
+      WebSocket 简介
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websocket_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      WebSocket 处理器
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="WebSocket 处理器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#websocket_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      WebSocket 连接监听器
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websocket_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      WebSocket 断开监听器
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websocket_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      WebSocket 接收监听器
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#react" class="md-nav__link">
+    <span class="md-ellipsis">
+      React 前端
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="React 前端">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      概述
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      前端项目结构
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      从后端获取集合
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      显示集合
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      聊天视图组件
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="聊天视图组件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#websocket_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      聊天 WebSocket 客户端
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      渲染聊天消息
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      部署
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="部署">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      先决条件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      构建与部署
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用应用
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="使用应用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      用户设置
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="delphic-llamaindex-web">使用 Delphic 构建全栈 LlamaIndex Web 应用的指南<a class="headerlink" href="#delphic-llamaindex-web" title="Permanent link">#</a></h1>
+<p>本指南将引导您使用 <a href="https://github.com/JSv4/Delphic">Delphic</a> 这个生产就绪的 Web 应用启动模板与 LlamaIndex 进行集成。所有代码示例均可在 <a href="https://github.com/JSv4/Delphic">Delphic</a> 代码库中找到。</p>
+<h2 id="_1">我们将构建什么<a class="headerlink" href="#_1" title="Permanent link">#</a></h2>
+<p>以下是 Delphic 开箱即用功能的快速演示：</p>
+<p>https://user-images.githubusercontent.com/5049984/233236432-aa4980b6-a510-42f3-887a-81485c9644e6.mp4</p>
+<h2 id="_2">架构概述<a class="headerlink" href="#_2" title="Permanent link">#</a></h2>
+<p>Delphic 利用 LlamaIndex Python 库，让用户能够创建自己的文档集合，并通过响应式前端进行查询。</p>
+<p>我们选择的技术栈提供了响应迅速、健壮的混合技术方案，能够：(1) 编排复杂的 Python 处理任务，(2) 提供现代化响应式前端，(3) 构建可扩展的安全后端。</p>
+<p>核心技术栈包括：</p>
+<ol>
+<li><a href="https://www.djangoproject.com/">Django</a></li>
+<li><a href="https://channels.readthedocs.io/en/stable/">Django Channels</a></li>
+<li><a href="https://django-ninja.rest-framework.com/">Django Ninja</a></li>
+<li><a href="https://redis.io/">Redis</a></li>
+<li><a href="https://docs.celeryq.dev/en/stable/getting-started/introduction.html">Celery</a></li>
+<li><a href="https://gpt-index.readthedocs.io/en/latest/">LlamaIndex</a></li>
+<li><a href="https://python.langchain.com/en/latest/index.html">Langchain</a></li>
+<li><a href="https://github.com/facebook/react">React</a></li>
+<li>Docker &amp; Docker Compose</li>
+</ol>
+<p>得益于这个基于超级稳定的 Django Web 框架构建的现代化技术栈，Delphic 启动应用提供了流畅的开发体验，内置认证和用户管理，异步向量存储处理，以及基于 WebSocket 的查询连接以实现响应式 UI。此外，我们的前端使用 TypeScript 构建，基于 MUI React 框架，提供了响应式现代化用户界面。</p>
+<h2 id="_3">系统要求<a class="headerlink" href="#_3" title="Permanent link">#</a></h2>
+<p>Celery 无法在 Windows 上运行。虽然可能通过 Windows Subsystem for Linux 部署，但相关配置已超出本教程范围。因此我们建议仅在 Linux 或 OSX 系统上跟随本教程操作。部署应用需要安装 Docker 和 Docker Compose。本地开发需要 node 版本管理器 (nvm)。</p>
+<h2 id="django">Django 后端<a class="headerlink" href="#django" title="Permanent link">#</a></h2>
+<h3 id="_4">项目目录概览<a class="headerlink" href="#_4" title="Permanent link">#</a></h3>
+<p>Delphic 应用采用符合 Django 项目惯例的结构化后端目录组织。在代码库根目录的 <code>./delphic</code> 子文件夹中，主要包含：</p>
+<ol>
+<li><code>contrib</code>：包含对 Django 内置 <code>contrib</code> 应用的自定义修改或扩展</li>
+<li>
+<p><code>indexes</code>：包含与文档索引和 LLM 集成相关的核心功能，具体包括：</p>
+</li>
+<li>
+<p><code>admin.py</code>：应用的 Django 管理配置</p>
+</li>
+<li><code>apps.py</code>：应用配置</li>
+<li><code>models.py</code>：包含应用的数据库模型</li>
+<li><code>migrations</code>：包含应用数据库模式迁移的目录</li>
+<li><code>signals.py</code>：定义应用的信号</li>
+<li>
+<p><code>tests.py</code>：应用单元测试</p>
+</li>
+<li>
+<p><code>tasks</code>：包含使用 Celery 进行异步处理的任务。<code>index_tasks.py</code> 文件包含创建向量索引的任务</p>
+</li>
+<li><code>users</code>：专用于用户管理的目录</li>
+<li><code>utils</code>：包含应用通用的工具模块和函数，如自定义存储后端、路径辅助工具和集合相关实用程序</li>
+</ol>
+<h3 id="_5">数据库模型<a class="headerlink" href="#_5" title="Permanent link">#</a></h3>
+<p>Delphic 应用有两个核心模型：<code>Document</code> 和 <code>Collection</code>。这些模型代表了应用在使用 LLM 索引和查询文档时处理的核心实体。它们定义在 <a href="https://github.com/JSv4/Delphic/blob/main/delphic/indexes/models.py"><code>./delphic/indexes/models.py</code></a>。</p>
+<ol>
+<li>
+<p><code>Collection</code>：</p>
+</li>
+<li>
+<p><code>api_key</code>：外键，将集合与 API 密钥关联，帮助将任务与源 API 密钥关联</p>
+</li>
+<li><code>title</code>：字符字段，提供集合标题</li>
+<li><code>description</code>：文本字段，提供集合描述</li>
+<li><code>status</code>：字符字段，存储集合的处理状态，使用 <code>CollectionStatus</code> 枚举</li>
+<li><code>created</code>：日期时间字段，记录集合创建时间</li>
+<li><code>modified</code>：日期时间字段，记录集合最后修改时间</li>
+<li><code>model</code>：文件字段，存储与集合关联的模型</li>
+<li>
+<p><code>processing</code>：布尔字段，指示集合当前是否正在处理</p>
+</li>
+<li>
+<p><code>Document</code>：</p>
+</li>
+<li>
+<p><code>collection</code>：外键，将文档与集合关联，表示文档与集合的关系</p>
+</li>
+<li><code>file</code>：文件字段，存储上传的文档文件</li>
+<li><code>description</code>：文本字段，提供文档描述</li>
+<li><code>created</code>：日期时间字段，记录文档创建时间</li>
+<li><code>modified</code>：日期时间字段，记录文档最后修改时间</li>
+</ol>
+<p>这些模型为文档集合及其通过 LlamaIndex 创建的索引提供了坚实基础。</p>
+<h3 id="django-ninja-api">Django Ninja API<a class="headerlink" href="#django-ninja-api" title="Permanent link">#</a></h3>
+<p>Django Ninja 是一个基于 Django 和 Python 3.7+ 类型提示的 Web API 框架。它通过 Python 类型提示自动生成输入验证、序列化和文档，提供了一种简单直观的 API 端点定义方式。</p>
+<p>在 Delphic 代码库中，<a href="https://github.com/JSv4/Delphic/blob/main/config/api/endpoints.py"><code>./config/api/endpoints.py</code></a> 文件包含了 API 路由和端点逻辑。以下是 <code>endpoints.py</code> 文件中各端点的功能说明：</p>
+<ol>
+<li>
+<p><code>/heartbeat</code>：一个简单的 GET 端点，用于检查 API 是否正常运行。若 API 可访问则返回 <code>True</code>。该端点对 Kubernetes 部署特别有用，可用于容器健康检查。</p>
+</li>
+<li>
+<p><code>/collections/create</code>：POST 端点，用于创建新的 <code>Collection</code>。接收表单参数如 <code>title</code>、<code>description</code> 和文件列表 <code>files</code>。创建新集合并为每个文件生成 <code>Document</code> 实例，同时调度 Celery 任务创建索引。</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nd">@collections_router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/create&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">create_collection</span><span class="p">(</span>
+    <span class="n">request</span><span class="p">,</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Form</span><span class="p">(</span><span class="o">...</span><span class="p">),</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Form</span><span class="p">(</span><span class="o">...</span><span class="p">),</span>
+    <span class="n">files</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">UploadedFile</span><span class="p">]</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="o">...</span><span class="p">),</span>
+<span class="p">):</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;auth&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">request</span><span class="o">.</span><span class="n">auth</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="k">await</span> <span class="n">key</span>
+
+    <span class="n">collection_instance</span> <span class="o">=</span> <span class="n">Collection</span><span class="p">(</span>
+        <span class="n">api_key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+        <span class="n">status</span><span class="o">=</span><span class="n">CollectionStatusEnum</span><span class="o">.</span><span class="n">QUEUED</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">await</span> <span class="n">sync_to_async</span><span class="p">(</span><span class="n">collection_instance</span><span class="o">.</span><span class="n">save</span><span class="p">)()</span>
+
+    <span class="k">for</span> <span class="n">uploaded_file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+        <span class="n">doc_data</span> <span class="o">=</span> <span class="n">uploaded_file</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">doc_file</span> <span class="o">=</span> <span class="n">ContentFile</span><span class="p">(</span><span class="n">doc_data</span><span class="p">,</span> <span class="n">uploaded_file</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">document</span> <span class="o">=</span> <span class="n">Document</span><span class="p">(</span><span class="n">collection</span><span class="o">=</span><span class="n">collection_instance</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">doc_file</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">sync_to_async</span><span class="p">(</span><span class="n">document</span><span class="o">.</span><span class="n">save</span><span class="p">)()</span>
+
+    <span class="n">create_index</span><span class="o">.</span><span class="n">si</span><span class="p">(</span><span class="n">collection_instance</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">apply_async</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="k">await</span> <span class="n">sync_to_async</span><span class="p">(</span><span class="n">CollectionModelSchema</span><span class="p">)(</span><span class="o">...</span><span class="p">)</span>
+</code></pre></div>
+<ol>
+<li><code>/collections/query</code>：POST 端点，用于通过 LLM 查询文档集合。接收包含 <code>collection_id</code> 和 <code>query_str</code> 的 JSON 载荷，返回查询结果。虽然聊天 GUI 中实际使用 WebSocket（见下文），但可通过该 REST 端点构建应用查询特定集合。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nd">@collections_router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+    <span class="s2">&quot;/query&quot;</span><span class="p">,</span>
+    <span class="n">response</span><span class="o">=</span><span class="n">CollectionQueryOutput</span><span class="p">,</span>
+    <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Ask a question of a document collection&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">query_collection_view</span><span class="p">(</span>
+    <span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">,</span> <span class="n">query_input</span><span class="p">:</span> <span class="n">CollectionQueryInput</span>
+<span class="p">):</span>
+    <span class="n">collection_id</span> <span class="o">=</span> <span class="n">query_input</span><span class="o">.</span><span class="n">collection_id</span>
+    <span class="n">query_str</span> <span class="o">=</span> <span class="n">query_input</span><span class="o">.</span><span class="n">query_str</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">query_collection</span><span class="p">(</span><span class="n">collection_id</span><span class="p">,</span> <span class="n">query_str</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;response&quot;</span><span class="p">:</span> <span class="n">response</span><span class="p">}</span>
+</code></pre></div>
+<ol>
+<li><code>/collections/available</code>：GET 端点，返回用户 API 密钥创建的所有集合列表。输出通过 <code>CollectionModelSchema</code> 序列化。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nd">@collections_router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="s2">&quot;/available&quot;</span><span class="p">,</span>
+    <span class="n">response</span><span class="o">=</span><span class="nb">list</span><span class="p">[</span><span class="n">CollectionModelSchema</span><span class="p">],</span>
+    <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Get a list of all of the collections created with my api_key&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">get_my_collections_view</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">):</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;auth&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">request</span><span class="o">.</span><span class="n">auth</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="k">await</span> <span class="n">key</span>
+
+    <span class="n">collections</span> <span class="o">=</span> <span class="n">Collection</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">[{</span><span class="o">...</span><span class="p">}</span> <span class="k">async</span> <span class="k">for</span> <span class="n">collection</span> <span class="ow">in</span> <span class="n">collections</span><span class="p">]</span>
+</code></pre></div>
+<ol>
+<li><code>/collections/{collection_id}/add_file</code>：POST 端点，向现有集合添加文件。接收路径参数 <code>collection_id</code> 和表单参数 <code>file</code>、<code>description</code>，将文件添加为关联该集合的 <code>Document</code> 实例。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nd">@collections_router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+    <span class="s2">&quot;/</span><span class="si">{collection_id}</span><span class="s2">/add_file&quot;</span><span class="p">,</span> <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Add a file to a collection&quot;</span>
+<span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">add_file_to_collection</span><span class="p">(</span>
+    <span class="n">request</span><span class="p">,</span>
+    <span class="n">collection_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">file</span><span class="p">:</span> <span class="n">UploadedFile</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="o">...</span><span class="p">),</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Form</span><span class="p">(</span><span class="o">...</span><span class="p">),</span>
+<span class="p">):</span>
+    <span class="n">collection</span> <span class="o">=</span> <span class="k">await</span> <span class="n">sync_to_async</span><span class="p">(</span><span class="n">Collection</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">)(</span><span class="nb">id</span><span class="o">=</span><span class="n">collection_id</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="websocket">WebSocket 简介<a class="headerlink" href="#websocket" title="Permanent link">#</a></h3>
+<p>WebSocket 是一种通信协议，支持客户端与服务器通过单一长连接进行双向全双工通信。该协议设计为通过 HTTP/HTTPS 相同端口（80/443）工作，并使用类似握手流程建立连接。连接建立后，数据可以"帧"形式双向传输，无需像传统 HTTP 请求那样重复建立连接。</p>
+<p>使用 WebSocket 的优势包括（尤其适用于需要长时间加载但运行快速的代码场景）：</p>
+<ol>
+<li><strong>性能</strong>：消除多次连接开销，降低延迟</li>
+<li><strong>效率</strong>：支持实时通信，无需轮询，资源利用率更高</li>
+<li><strong>扩展性</strong>：可处理大量并发连接，适合高并发应用</li>
+</ol>
+<p>Delphic 应用采用 WebSocket 是因为 LLM 模型加载内存成本高。通过 WebSocket 连接可保持模型常驻内存，使后续请求无需重复加载即可快速处理。</p>
+<p>ASGI 配置文件 <a href="https://github.com/JSv4/Delphic/blob/main/config/asgi.py"><code>./config/asgi.py</code></a> 使用 Django Channels 的 <code>ProtocolTypeRouter</code> 按协议类型路由连接。这里定义了两类协议：
+- "http"：使用标准 Django ASGI 应用处理 HTTP 请求
+- "websocket"：通过自定义 <code>TokenAuthMiddleware</code> 认证连接，其内部 <code>URLRouter</code> 定义了处理文档集合查询的 <code>CollectionQueryConsumer</code> WebSocket 路由</p>
+<div class="highlight"><pre><span></span><code><span class="n">application</span> <span class="o">=</span> <span class="n">ProtocolTypeRouter</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;http&quot;</span><span class="p">:</span> <span class="n">get_asgi_application</span><span class="p">(),</span>
+        <span class="s2">&quot;websocket&quot;</span><span class="p">:</span> <span class="n">TokenAuthMiddleware</span><span class="p">(</span>
+            <span class="n">URLRouter</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">re_path</span><span class="p">(</span>
+                        <span class="sa">r</span><span class="s2">&quot;ws/collections/(?P&lt;collection_id&gt;\w+)/query/$&quot;</span><span class="p">,</span>
+                        <span class="n">CollectionQueryConsumer</span><span class="o">.</span><span class="n">as_asgi</span><span class="p">(),</span>
+                    <span class="p">),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">),</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>该配置允许客户端通过 WebSocket 高效查询文档集合，无需为每个请求重新加载模型。</p>
+<h3 id="websocket_1">WebSocket 处理器<a class="headerlink" href="#websocket_1" title="Permanent link">#</a></h3>
+<p><a href="https://github.com/JSv4/Delphic/blob/main/config/api/websockets/queries.py"><code>config/api/websockets/queries.py</code></a> 中的 <code>CollectionQueryConsumer</code> 类继承自 Django Channels 的 <code>AsyncWebsocketConsumer</code>，负责处理文档集合查询的 WebSocket 连接，包含三个核心方法：</p>
+<ol>
+<li><code>connect</code>：WebSocket 握手时调用</li>
+<li><code>disconnect</code>：连接关闭时调用</li>
+<li><code>receive</code>：接收到消息时调用</li>
+</ol>
+<h4 id="websocket_2">WebSocket 连接监听器<a class="headerlink" href="#websocket_2" title="Permanent link">#</a></h4>
+<p><code>connect</code> 方法负责建立连接，从路径提取集合 ID，加载集合模型并接受连接：</p>
+<div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collection_id</span> <span class="o">=</span> <span class="n">extract_connection_id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scope</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="k">await</span> <span class="n">load_collection_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">collection_id</span><span class="p">)</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+
+    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="mi">4000</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">pass</span>
+</code></pre></div>
+<h4 id="websocket_3">WebSocket 断开监听器<a class="headerlink" href="#websocket_3" title="Permanent link">#</a></h4>
+<p>当前 <code>disconnect</code> 方法为空实现，因为连接关闭时无需执行额外操作。</p>
+<h4 id="websocket_4">WebSocket 接收监听器<a class="headerlink" href="#websocket_4" title="Permanent link">#</a></h4>
+<p><code>receive</code> 方法负责处理来自 WebSocket 的传入消息。它会接收传入消息，进行解码，然后使用提供的查询语句查询已加载的集合模型。随后将响应格式化为 Markdown 字符串，并通过 WebSocket 连接发送回客户端。</p>
+<div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">receive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text_data</span><span class="p">):</span>
+    <span class="n">text_data_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">text_data</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">query_str</span> <span class="o">=</span> <span class="n">text_data_json</span><span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">]</span>
+        <span class="n">modified_query_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Please return a nicely formatted markdown string to this request:</span><span class="se">\n\n</span><span class="si">{</span><span class="n">query_str</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">query_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">modified_query_str</span><span class="p">)</span>
+
+        <span class="n">markdown_response</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;## Response</span><span class="se">\n\n</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">source_nodes</span><span class="p">:</span>
+            <span class="n">markdown_sources</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;## Sources</span><span class="se">\n\n</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">get_formatted_sources</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">markdown_sources</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="n">formatted_response</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">markdown_response</span><span class="si">}{</span><span class="n">markdown_sources</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;response&quot;</span><span class="p">:</span> <span class="n">formatted_response</span><span class="p">},</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
+                <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;No index loaded for this connection.&quot;</span><span class="p">},</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+</code></pre></div>
+<p>要加载集合模型，需使用 <code>load_collection_model</code> 函数，该函数位于 <a href="https://github.com/JSv4/Delphic/blob/main/delphic/utils/collections.py"><code>delphic/utils/collections.py</code></a>。此函数会获取具有给定集合 ID 的集合对象，检查是否存在该集合模型的 JSON 文件，若不存在则创建。随后设置 <code>LLM</code> 和 <code>Settings</code>，并使用缓存文件加载 <code>VectorStoreIndex</code>。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">Settings</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">load_collection_model</span><span class="p">(</span><span class="n">collection_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectorStoreIndex</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    从缓存或数据库加载集合模型，并返回索引。</span>
+
+<span class="sd">    参数：</span>
+<span class="sd">        collection_id (Union[str, int]): 集合模型实例的 ID。</span>
+
+<span class="sd">    返回：</span>
+<span class="sd">        VectorStoreIndex: 加载的索引。</span>
+
+<span class="sd">    此函数执行以下步骤：</span>
+<span class="sd">    1. 获取具有给定 collection_id 的 Collection 对象。</span>
+<span class="sd">    2. 检查是否存在名为 &#39;/cache/model_{collection_id}.json&#39; 的 JSON 文件。</span>
+<span class="sd">    3. 若 JSON 文件不存在，则从 Collection.model 的 FileField 加载 JSON 并保存到 &#39;/cache/model_{collection_id}.json&#39;。</span>
+<span class="sd">    4. 使用 cache_file_path 调用 VectorStoreIndex.load_from_disk。</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># 获取 Collection 对象</span>
+    <span class="n">collection</span> <span class="o">=</span> <span class="k">await</span> <span class="n">Collection</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">aget</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">collection_id</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;load_collection_model() - loaded collection </span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># 确保存在模型</span>
+    <span class="k">if</span> <span class="n">collection</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;load_collection_model() - Setup local json index file&quot;</span><span class="p">)</span>
+
+        <span class="c1"># 检查 JSON 文件是否存在</span>
+        <span class="n">cache_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">BASE_DIR</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;cache&quot;</span>
+        <span class="n">cache_file_path</span> <span class="o">=</span> <span class="n">cache_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;model_</span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2">.json&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cache_file_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">cache_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">collection</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">model_file</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">cache_file_path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span>
+                    <span class="s2">&quot;w+&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span>
+                <span class="p">)</span> <span class="k">as</span> <span class="n">cache_file</span><span class="p">:</span>
+                    <span class="n">cache_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">model_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+
+        <span class="c1"># 定义 LLM</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;load_collection_model() - Setup Settings with tokens </span><span class="si">{</span><span class="n">settings</span><span class="o">.</span><span class="n">MAX_TOKENS</span><span class="si">}</span><span class="s2"> and &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;model </span><span class="si">{</span><span class="n">settings</span><span class="o">.</span><span class="n">MODEL_NAME</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="n">Settings</span><span class="o">.</span><span class="n">llm</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span>
+            <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-3.5-turbo&quot;</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">512</span>
+        <span class="p">)</span>
+
+        <span class="c1"># 调用 VectorStoreIndex.load_from_disk</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;load_collection_model() - Load llama index&quot;</span><span class="p">)</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">load_from_disk</span><span class="p">(</span>
+            <span class="n">cache_file_path</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;load_collection_model() - Llamaindex loaded and ready for query...&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;load_collection_model() - collection </span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> has no model!&quot;</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No model exists for this collection!&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">index</span>
+</code></pre></div>
+<h2 id="react">React 前端<a class="headerlink" href="#react" title="Permanent link">#</a></h2>
+<h3 id="_6">概述<a class="headerlink" href="#_6" title="Permanent link">#</a></h3>
+<p>我们选择在 Delphic 项目的前端中使用 TypeScript、React 和 Material-UI (MUI)，原因如下：首先，作为最受欢迎的前端框架（React）的最受欢迎的组件库（MUI），这一选择使得该项目能够面向庞大的开发者社区。其次，React 目前是一个稳定且普遍受欢迎的框架，它通过虚拟 DOM 提供了有价值的抽象，同时仍然相对稳定，并且在我们看来相当容易学习，这再次提高了其可访问性。</p>
+<h3 id="_7">前端项目结构<a class="headerlink" href="#_7" title="Permanent link">#</a></h3>
+<p>前端代码位于仓库的 <a href="https://github.com/JSv4/Delphic/tree/main/frontend"><code>/frontend</code></a> 目录中，React 相关组件位于 <code>/frontend/src</code>。你会注意到 <code>frontend</code> 目录中有一个 DockerFile 和几个与配置前端 Web 服务器相关的文件夹和文件——<a href="https://www.nginx.com/">nginx</a>。</p>
+<p><code>/frontend/src/App.tsx</code> 文件是应用程序的入口点。它定义了主要组件，如登录表单、抽屉布局和集合创建模态框。这些主要组件会根据用户是否登录以及是否有认证令牌来条件渲染。</p>
+<p>DrawerLayout2 组件定义在 <code>DrawerLayour2.tsx</code> 文件中。该组件管理应用程序的布局，并提供导航和主要内容区域。</p>
+<p>由于应用程序相对简单，我们可以不使用复杂的状态管理解决方案（如 Redux），而仅使用 React 的 useState 钩子。</p>
+<h3 id="_8">从后端获取集合<a class="headerlink" href="#_8" title="Permanent link">#</a></h3>
+<p>登录用户的可用集合会在 DrawerLayout2 组件中获取并显示。该过程可分为以下步骤：</p>
+<ol>
+<li>初始化状态变量：</li>
+</ol>
+<div class="highlight"><pre><span></span><code>const [collections, setCollections] = useState&lt;CollectionModelSchema[]&gt;([]);
+const [loading, setLoading] = useState(true);
+</code></pre></div>
+<p>这里我们初始化了两个状态变量：<code>collections</code> 用于存储集合列表，<code>loading</code> 用于跟踪集合是否正在获取中。</p>
+<ol>
+<li>通过 <code>fetchCollections()</code> 函数为登录用户获取集合：</li>
+</ol>
+<div class="highlight"><pre><span></span><code>const
+fetchCollections = async () = &gt; {
+try {
+const accessToken = localStorage.getItem(&quot;accessToken&quot;);
+if (accessToken) {
+const response = await getMyCollections(accessToken);
+setCollections(response.data);
+}
+} catch (error) {
+console.error(error);
+} finally {
+setLoading(false);
+}
+};
+</code></pre></div>
+<p><code>fetchCollections</code> 函数通过调用 <code>getMyCollections</code> API 函数并传入用户的访问令牌，获取登录用户的集合。随后用获取的数据更新 <code>collections</code> 状态，并将 <code>loading</code> 状态设为 <code>false</code> 以表示获取完成。</p>
+<h3 id="_9">显示集合<a class="headerlink" href="#_9" title="Permanent link">#</a></h3>
+<p>最新集合会以如下方式显示在抽屉中：</p>
+<div class="highlight"><pre><span></span><code>&lt; List &gt;
+{collections.map((collection) = &gt; (
+    &lt; div key={collection.id} &gt;
+    &lt; ListItem disablePadding &gt;
+    &lt; ListItemButton
+    disabled={
+    collection.status != = CollectionStatus.COMPLETE | |
+    !collection.has_model
+    }
+    onClick={() = &gt; handleCollectionClick(collection)}
+selected = {
+    selectedCollection &amp; &amp;
+    selectedCollection.id == = collection.id
+}
+&gt;
+&lt; ListItemText
+primary = {collection.title} / &gt;
+          {collection.status == = CollectionStatus.RUNNING ? (
+    &lt; CircularProgress
+    size={24}
+    style={{position: &quot;absolute&quot;, right: 16}}
+    / &gt;
+): null}
+&lt; / ListItemButton &gt;
+    &lt; / ListItem &gt;
+        &lt; / div &gt;
+))}
+&lt; / List &gt;
+</code></pre></div>
+<p>你会注意到集合的 <code>ListItemButton</code> 的 <code>disabled</code> 属性会根据集合状态是否为 <code>CollectionStatus.COMPLETE</code> 或集合是否有模型（<code>!collection.has_model</code>）来设置。如果任一条件为真，按钮将被禁用，防止用户选择未完成或无模型的集合。当 CollectionStatus 为 RUNNING 时，我们还会在按钮上显示一个加载转轮。</p>
+<p>在单独的 <code>useEffect</code> 钩子中，我们会检查 <code>collections</code> 状态中是否有集合的状态为 <code>CollectionStatus.RUNNING</code> 或 <code>CollectionStatus.QUEUED</code>。如果有，我们会设置一个间隔，每 15 秒（15000 毫秒）重复调用 <code>fetchCollections</code> 函数以更新集合状态。这样，应用程序会定期检查已完成的集合，并在处理完成后相应地更新 UI。</p>
+<div class="highlight"><pre><span></span><code>useEffect(() = &gt; {
+    let
+interval: NodeJS.Timeout;
+if (
+    collections.some(
+        (collection) = &gt;
+collection.status == = CollectionStatus.RUNNING | |
+collection.status == = CollectionStatus.QUEUED
+)
+) {
+    interval = setInterval(() = &gt; {
+    fetchCollections();
+}, 15000);
+}
+return () = &gt; clearInterval(interval);
+}, [collections]);
+</code></pre></div>
+<h3 id="_10">聊天视图组件<a class="headerlink" href="#_10" title="Permanent link">#</a></h3>
+<p><code>frontend/src/chat/ChatView.tsx</code> 中的 <code>ChatView</code> 组件负责处理和显示用户与集合交互的聊天界面。该组件会建立 WebSocket 连接以实时与服务器通信，发送和接收消息。</p>
+<p><code>ChatView</code> 组件的关键功能包括：</p>
+<ol>
+<li>建立并管理与服务器的 WebSocket 连接。</li>
+<li>以聊天形式显示用户和服务器的消息。</li>
+<li>处理用户输入以向服务器发送消息。</li>
+<li>根据从服务器接收的消息更新消息状态和 UI。</li>
+<li>显示连接状态和错误，例如加载消息、连接服务器或加载集合时遇到的错误。</li>
+</ol>
+<p>所有这些功能共同为用户提供了与所选集合交互的非常流畅、低延迟的体验。</p>
+<h4 id="websocket_5">聊天 WebSocket 客户端<a class="headerlink" href="#websocket_5" title="Permanent link">#</a></h4>
+<p><code>ChatView</code> 组件中的 WebSocket 连接用于建立客户端与服务器之间的实时通信。WebSocket 连接的建立和管理方式如下：</p>
+<p>首先初始化 WebSocket 引用：</p>
+<div class="highlight"><pre><span></span><code>const websocket = useRef&lt;WebSocket | null&gt;(null);
+</code></pre></div>
+<p>使用 <code>useRef</code> 创建了一个 <code>websocket</code> 引用，该引用将保存用于通信的 WebSocket 对象。<code>useRef</code> 是 React 中的一个钩子，允许创建在多次渲染间持久存在的可变引用对象。当需要持有对可变对象（如 WebSocket 连接）的引用而不引发不必要的重新渲染时，这个特性尤其有用。</p>
+<p>在 <code>ChatView</code> 组件中，WebSocket 连接需要在组件生命周期内建立并保持，且连接状态变化时不应触发重新渲染。通过使用 <code>useRef</code>，可以确保 WebSocket 连接作为引用保存，组件仅在发生实际状态变更（如更新消息或显示错误）时才会重新渲染。</p>
+<p><code>setupWebsocket</code> 函数负责建立 WebSocket 连接并设置事件处理器来处理不同的 WebSocket 事件。</p>
+<p>完整的 <code>setupWebsocket</code> 函数如下：</p>
+<div class="highlight"><pre><span></span><code>const setupWebsocket = () =&gt; {
+  setConnecting(true);
+  // 此处创建新的 WebSocket 对象，URL 包含所选集合的 ID 和用户认证令牌
+  websocket.current = new WebSocket(
+    `ws://localhost:8000/ws/collections/${selectedCollection.id}/query/?token=${authToken}`,
+  );
+
+  websocket.current.onopen = (event) =&gt; {
+    //...
+  };
+
+  websocket.current.onmessage = (event) =&gt; {
+    //...
+  };
+
+  websocket.current.onclose = (event) =&gt; {
+    //...
+  };
+
+  websocket.current.onerror = (event) =&gt; {
+    //...
+  };
+
+  return () =&gt; {
+    websocket.current?.close();
+  };
+};
+</code></pre></div>
+<p>注意我们在多处根据 WebSocket 客户端的信息触发了 GUI 更新。</p>
+<p>当组件首次打开并尝试建立连接时，会触发 <code>onopen</code> 监听器。在回调中，组件更新状态以反映连接已建立，清除之前的错误，并标记没有消息等待响应：</p>
+<div class="highlight"><pre><span></span><code>websocket.current.onopen = (event) =&gt; {
+  setError(false);
+  setConnecting(false);
+  setAwaitingMessage(false);
+
+  console.log(&quot;WebSocket connected:&quot;, event);
+};
+</code></pre></div>
+<p>当通过 WebSocket 连接从服务器接收到新消息时，会触发 <code>onmessage</code>。在回调中，解析接收到的数据，并用服务器的新消息更新 <code>messages</code> 状态：</p>
+<div class="highlight"><pre><span></span><code>websocket.current.onmessage = (event) =&gt; {
+  const data = JSON.parse(event.data);
+  console.log(&quot;WebSocket message received:&quot;, data);
+  setAwaitingMessage(false);
+
+  if (data.response) {
+    // 用服务器的新消息更新消息状态
+    setMessages((prevMessages) =&gt; [
+      ...prevMessages,
+      {
+        sender_id: &quot;server&quot;,
+        message: data.response,
+        timestamp: new Date().toLocaleTimeString(),
+      },
+    ]);
+  }
+};
+</code></pre></div>
+<p>当 WebSocket 连接关闭时，会触发 <code>onclose</code>。在回调中，组件检查特定的关闭代码（<code>4000</code>）以显示警告提示，并相应更新组件状态。同时记录关闭事件：</p>
+<div class="highlight"><pre><span></span><code>websocket.current.onclose = (event) =&gt; {
+  if (event.code === 4000) {
+    toast.warning(
+      &quot;所选集合的模型不可用。是否已正确创建？&quot;,
+    );
+    setError(true);
+    setConnecting(false);
+    setAwaitingMessage(false);
+  }
+  console.log(&quot;WebSocket closed:&quot;, event);
+};
+</code></pre></div>
+<p>最后，当 WebSocket 连接发生错误时，会触发 <code>onerror</code>。在回调中，组件更新状态以反映错误，并记录错误事件：</p>
+<div class="highlight"><pre><span></span><code>websocket.current.onerror = (event) =&gt; {
+  setError(true);
+  setConnecting(false);
+  setAwaitingMessage(false);
+
+  console.error(&quot;WebSocket error:&quot;, event);
+};
+</code></pre></div>
+<h4 id="_11">渲染聊天消息<a class="headerlink" href="#_11" title="Permanent link">#</a></h4>
+<p>在 <code>ChatView</code> 组件中，布局通过 CSS 样式和 Material-UI 组件确定。主布局采用 <code>flex</code> 显示和列向 <code>flexDirection</code>，确保容器内容垂直排列。</p>
+<p>布局包含三个主要部分：</p>
+<ol>
+<li>聊天消息区域：占据大部分可用空间，显示用户与服务器交换的消息列表。设置 <code>overflow-y</code> 为 <code>auto</code>，允许内容溢出时滚动。每条消息使用 <code>ChatMessage</code> 组件渲染，等待服务器响应时使用 <code>ChatMessageLoading</code> 组件显示加载状态。</li>
+<li>分隔线：使用 Material-UI 的 <code>Divider</code> 组件分隔消息区域和输入区域，形成清晰的视觉区分。</li>
+<li>输入区域：位于底部，允许用户输入和发送消息。包含 Material-UI 的 <code>TextField</code> 组件，设置为最多 2 行的多行输入。输入区域还包括发送消息的 <code>Button</code> 组件。用户可点击"发送"按钮或按键盘"Enter"键发送消息。</li>
+</ol>
+<p><code>ChatView</code> 组件接受的用户输入是用户在 <code>TextField</code> 中输入的文本消息。组件处理这些文本输入并通过 WebSocket 连接发送至服务器。</p>
+<h2 id="_12">部署<a class="headerlink" href="#_12" title="Permanent link">#</a></h2>
+<h3 id="_13">先决条件<a class="headerlink" href="#_13" title="Permanent link">#</a></h3>
+<p>部署应用需要安装 Docker 和 Docker Compose。如果您使用 Ubuntu 或其他常见 Linux 发行版，DigitalOcean 提供
+<a href="https://www.digitalocean.com/community/tutorial_collections/how-to-install-and-use-docker">优秀的 Docker 教程</a> 和
+<a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04">Docker Compose 教程</a>。
+如果这些不适用，请参考 <a href="https://docs.docker.com/engine/install/">官方 Docker 文档</a>。</p>
+<h3 id="_14">构建与部署<a class="headerlink" href="#_14" title="Permanent link">#</a></h3>
+<p>本项目基于 django-cookiecutter 框架，可轻松部署至虚拟机并配置为特定域名提供 HTTPS 服务。不过相关配置较为复杂——这并非本项目自身原因，而是因为证书配置、DNS设置等本身属于较为繁琐的专题。</p>
+<p>出于本指南的目的，我们仅演示本地运行方式。未来可能会发布生产环境部署指南。在此期间，建议先参阅 <a href="https://cookiecutter-django.readthedocs.io/en/latest/deployment-with-docker.html">Django Cookiecutter 项目文档</a> 作为入门参考。</p>
+<p>本指南假设您的目标是运行应用程序以供使用。若需进行开发，通常不应使用 <code>--profiles fullstack</code> 参数启动 compose 堆栈，而应通过 node 开发服务器启动 React 前端。</p>
+<p>部署步骤如下：</p>
+<p>首先克隆仓库：
+<div class="highlight"><pre><span></span><code>git clone https://github.com/yourusername/delphic.git
+</code></pre></div></p>
+<p>进入项目目录：
+<div class="highlight"><pre><span></span><code>cd delphic
+</code></pre></div></p>
+<p>复制示例环境文件：
+<div class="highlight"><pre><span></span><code>mkdir -p ./.envs/.local/
+cp -a ./docs/sample_envs/local/.frontend ./frontend
+cp -a ./docs/sample_envs/local/.django ./.envs/.local
+cp -a ./docs/sample_envs/local/.postgres ./.envs/.local
+</code></pre></div></p>
+<p>编辑 <code>.django</code> 和 <code>.postgres</code> 配置文件，填入您的 OpenAI API 密钥并为数据库用户设置独立密码。您还可在 .django 文件中设置响应令牌上限或切换使用的 OpenAI 模型（支持 GPT4，前提是您已获得访问权限）。</p>
+<p>使用 <code>--profiles fullstack</code> 参数构建 docker compose 堆栈：
+<div class="highlight"><pre><span></span><code>sudo docker-compose --profiles fullstack -f local.yml build
+</code></pre></div></p>
+<p>fullstack 参数会指示 compose 从前端文件夹构建 docker 容器，该容器将与所有所需的后端容器一同启动。但构建生产版 React 容器耗时较长，因此不建议以此方式进行开发。开发环境配置请遵循 <a href="https://github.com/JSv4/Delphic#development">项目 readme.md 中的说明</a>。</p>
+<p>最后启动应用：
+<div class="highlight"><pre><span></span><code>sudo docker-compose -f local.yml up
+</code></pre></div></p>
+<p>现在通过浏览器访问 <code>localhost:3000</code> 即可查看前端界面，开始本地使用 Delphic 应用。</p>
+<h2 id="_15">使用应用<a class="headerlink" href="#_15" title="Permanent link">#</a></h2>
+<h3 id="_16">用户设置<a class="headerlink" href="#_16" title="Permanent link">#</a></h3>
+<p>当前阶段要使用本应用（未来可能会开放部分模型给未认证用户共享），您需要登录账号。可使用超级用户或普通用户，但首先需要通过控制台创建超级用户：</p>
+<p><strong>为何要设置 Django 超级用户？</strong> Django 超级用户拥有应用程序的所有权限，可管理系统各项功能，包括创建、修改和删除用户、数据集及其他数据。设置超级用户能让您全面掌控应用。</p>
+<p><strong>创建 Django 超级用户步骤：</strong></p>
+<p>1 执行以下命令创建超级用户：
+<div class="highlight"><pre><span></span><code>sudo docker-compose -f local.yml run django python manage.py createsuperuser
+</code></pre></div></p>
+<p>2 根据提示输入超级用户的用户名、电子邮箱和密码。</p>
+<p><strong>通过 Django 管理员界面创建其他用户：</strong></p>
+<ol>
+<li>按照部署指南在本地启动 Delphic 应用</li>
+<li>在浏览器中访问 <code>http://localhost:8000/admin</code> 进入 Django 管理界面</li>
+<li>使用先前创建的超级用户凭证登录</li>
+<li>在"认证与授权"部分点击"Users"</li>
+<li>点击右上角"Add user +"按钮</li>
+<li>输入新用户所需信息（如用户名和密码），点击"Save"创建用户</li>
+<li>如需授予新用户额外权限或设为超级用户，在用户列表中点击其用户名，滚动至"Permissions"部分进行配置后保存更改</li>
+</ol>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+       
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../fullstack_app_guide/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 使用 LLamaIndex 构建全栈 Web 应用指南">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                使用 LLamaIndex 构建全栈 Web 应用指南
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--next" aria-label="Next: 全栈 Web 应用">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                全栈 Web 应用
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <readthedocs-flyout position="bottom-left"></readthedocs-flyout>
+      
+    </div>
+  </div>
+</footer>
+      
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", "GTM-WWRFB36R");
+</script>
+<!-- End Google Tag Manager -->
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.instant", "navigation.prune", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+        <script src="../../../../javascript/runllm.js"></script>
+      
+        <script src="../../../../javascript/algolia.js"></script>
+      
+    
+  </body>
+</html>

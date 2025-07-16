@@ -1,0 +1,2346 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.llamaindex.ai/en/stable/understanding/putting_it_all_together/chatbots/building_a_chatbot/">
+      
+      
+        <link rel="prev" href="../../q_and_a/terms_definitions_tutorial/">
+      
+      
+        <link rel="next" href="../../structured_data/">
+      
+      
+      <link rel="icon" href="../../../../_static/assets/LlamaLogoBrowserTab.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>如何构建聊天机器人 - LlamaIndex</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../../css/style.css">
+    
+      <link rel="stylesheet" href="../../../../css/algolia.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BYVB1ZVE6J"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BYVB1ZVE6J",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BYVB1ZVE6J",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="LlamaIndex" class="md-header__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LlamaIndex
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              如何构建聊天机器人
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="purple"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      
+
+<!-- Search interface -->
+<div id="docsearch"></div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../.." class="md-tabs__link">
+          
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../" class="md-tabs__link">
+          
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../use_cases/" class="md-tabs__link">
+          
+  
+    
+  
+  Use Cases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../examples/" class="md-tabs__link">
+          
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../module_guides/" class="md-tabs__link">
+          
+  
+    
+  
+  Component Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../optimizing/production_rag/" class="md-tabs__link">
+          
+  
+    
+  
+  Advanced Topics
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../api_reference/" class="md-tabs__link">
+          
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../community/integrations/" class="md-tabs__link">
+          
+  
+    
+  
+  Open-Source Community
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-tabs__link">
+        
+  
+    
+  
+  LlamaCloud
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="LlamaIndex" class="md-nav__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    LlamaIndex
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../.." class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Learn
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Learn
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../using_llms/using_llms/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Using LLMs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../agent/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Building agents
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../workflows/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Building Workflows
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../rag/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Building a RAG pipeline
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../extraction/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Structured Data Extraction
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tracing_and_debugging/tracing_and_debugging/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tracing and Debugging
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../evaluating/evaluating/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Evaluating
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_9" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Putting it all Together
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_9" id="__nav_2_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_9">
+            <span class="md-nav__icon md-icon"></span>
+            Putting it all Together
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../apps/fullstack_app_guide/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Full-stack web application
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../q_and_a/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Q&A Patterns
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_9_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_9_4" id="__nav_2_9_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Chatbots
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_9_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_9_4">
+            <span class="md-nav__icon md-icon"></span>
+            Chatbots
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    如何构建聊天机器人
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    如何构建聊天机器人
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      背景
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      准备工作
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      数据摄取
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      为每年设置向量索引
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-k" class="md-nav__link">
+    <span class="md-ellipsis">
+      设置子问题查询引擎以综合跨 10-K 文件的答案
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      设置聊天机器人代理
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      测试代理
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      设置聊天机器人循环
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../structured_data/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Structured data
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../../use_cases/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Use Cases
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../../examples/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Examples
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../../module_guides/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Component Guides
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../../optimizing/production_rag/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Advanced Topics
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../../api_reference/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../../community/integrations/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Open-Source Community
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LlamaCloud
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      背景
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      准备工作
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      数据摄取
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      为每年设置向量索引
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-k" class="md-nav__link">
+    <span class="md-ellipsis">
+      设置子问题查询引擎以综合跨 10-K 文件的答案
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      设置聊天机器人代理
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      测试代理
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      设置聊天机器人循环
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="_1">如何构建聊天机器人<a class="headerlink" href="#_1" title="Permanent link">#</a></h1>
+<p>LlamaIndex 充当您的数据与大型语言模型（LLMs）之间的桥梁，提供一套工具包，使您能够围绕数据建立查询接口，以执行各种任务，例如问答和摘要生成。</p>
+<p>在本教程中，我们将引导您使用<a href="https://gpt-index.readthedocs.io/en/stable/core_modules/agent_modules/agents/root.html">数据代理</a>构建一个上下文增强的聊天机器人。该代理由 LLM 驱动，能够智能地执行数据相关任务。最终成果是一个配备 LlamaIndex 提供的数据接口工具的聊天机器人代理，用于回答关于您数据的查询。</p>
+<p><strong>注意</strong>：本教程基于最初关于在 SEC 10-K 文件上创建查询接口的工作 - <a href="https://medium.com/@jerryjliu98/how-unstructured-and-llamaindex-can-help-bring-the-power-of-llms-to-your-own-data-3657d063e30d">点击此处查看</a>。</p>
+<h3 id="_2">背景<a class="headerlink" href="#_2" title="Permanent link">#</a></h3>
+<p>在本指南中，我们将构建一个"10-K 聊天机器人"，使用来自 Dropbox 的原始 UBER 10-K HTML 文件。用户可以与聊天机器人交互，询问与 10-K 文件相关的问题。</p>
+<h3 id="_3">准备工作<a class="headerlink" href="#_3" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">openai</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;sk-...&quot;</span>
+<span class="n">openai</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">nest_asyncio</span>
+
+<span class="n">nest_asyncio</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="_4">数据摄取<a class="headerlink" href="#_4" title="Permanent link">#</a></h3>
+<p>首先下载 2019-2022 年的原始 10-k 文件。</p>
+<div class="highlight"><pre><span></span><code># 注意：代码示例假设您在 Jupyter notebook 中操作
+# 下载文件
+!mkdir data
+!wget &quot;https://www.dropbox.com/s/948jr9cfs7fgj99/UBER.zip?dl=1&quot; -O data/UBER.zip
+!unzip data/UBER.zip -d data
+</code></pre></div>
+<p>为了将 HTML 文件解析为格式化文本，我们使用 <a href="https://github.com/Unstructured-IO/unstructured">Unstructured</a> 库。借助 <a href="https://llamahub.ai/">LlamaHub</a>，我们可以直接与 Unstructured 集成，允许将任何文本转换为 LlamaIndex 可以摄取的 Document 格式。</p>
+<p>首先安装必要的包：</p>
+<div class="highlight"><pre><span></span><code>!pip install llama-hub unstructured
+</code></pre></div>
+<p>然后我们可以使用 <code>UnstructuredReader</code> 将 HTML 文件解析为 <code>Document</code> 对象列表。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.readers.file</span> <span class="kn">import</span> <span class="n">UnstructuredReader</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">years</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2022</span><span class="p">,</span> <span class="mi">2021</span><span class="p">,</span> <span class="mi">2020</span><span class="p">,</span> <span class="mi">2019</span><span class="p">]</span>
+
+<span class="n">loader</span> <span class="o">=</span> <span class="n">UnstructuredReader</span><span class="p">()</span>
+<span class="n">doc_set</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">all_docs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
+    <span class="n">year_docs</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span>
+        <span class="n">file</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;./data/UBER/UBER_</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">.html&quot;</span><span class="p">),</span> <span class="n">split_documents</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="c1"># 将年份元数据插入每个文档</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">year_docs</span><span class="p">:</span>
+        <span class="n">d</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="n">year</span><span class="p">}</span>
+    <span class="n">doc_set</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">year_docs</span>
+    <span class="n">all_docs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">year_docs</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="_5">为每年设置向量索引<a class="headerlink" href="#_5" title="Permanent link">#</a></h3>
+<p>我们首先为每年设置一个向量索引。每个向量索引允许我们询问关于特定年份 10-K 文件的问题。</p>
+<p>我们构建每个索引并将其保存到磁盘。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 初始化简单向量索引</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">VectorStoreIndex</span><span class="p">,</span> <span class="n">StorageContext</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">Settings</span>
+
+<span class="n">Settings</span><span class="o">.</span><span class="n">chunk_size</span> <span class="o">=</span> <span class="mi">512</span>
+<span class="n">index_set</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
+    <span class="n">storage_context</span> <span class="o">=</span> <span class="n">StorageContext</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">()</span>
+    <span class="n">cur_index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span>
+        <span class="n">doc_set</span><span class="p">[</span><span class="n">year</span><span class="p">],</span>
+        <span class="n">storage_context</span><span class="o">=</span><span class="n">storage_context</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">index_set</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">cur_index</span>
+    <span class="n">storage_context</span><span class="o">.</span><span class="n">persist</span><span class="p">(</span><span class="n">persist_dir</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;./storage/</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>要从磁盘加载索引，执行以下操作：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 从磁盘加载索引</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">load_index_from_storage</span>
+
+<span class="n">index_set</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
+    <span class="n">storage_context</span> <span class="o">=</span> <span class="n">StorageContext</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span>
+        <span class="n">persist_dir</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;./storage/</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="n">cur_index</span> <span class="o">=</span> <span class="n">load_index_from_storage</span><span class="p">(</span>
+        <span class="n">storage_context</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">index_set</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">cur_index</span>
+</code></pre></div>
+<h3 id="10-k">设置子问题查询引擎以综合跨 10-K 文件的答案<a class="headerlink" href="#10-k" title="Permanent link">#</a></h3>
+<p>由于我们可以访问 4 年的文档，我们可能不仅想询问特定年份 10-K 文档的问题，还想询问需要分析所有 10-K 文件的问题。</p>
+<p>为了解决这个问题，我们可以使用<a href="https://gpt-index.readthedocs.io/en/stable/examples/query_engine/sub_question_query_engine.html">子问题查询引擎</a>。它将查询分解为子查询，每个子查询由单独的向量索引回答，然后综合结果以回答整体查询。</p>
+<p>LlamaIndex 提供了一些围绕索引（和查询引擎）的包装器，以便它们可以被查询引擎和代理使用。首先我们为每个向量索引定义一个 <code>QueryEngineTool</code>。
+每个工具都有一个名称和描述；这些是 LLM 代理用来决定选择哪个工具的信息。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core.tools</span> <span class="kn">import</span> <span class="n">QueryEngineTool</span><span class="p">,</span> <span class="n">ToolMetadata</span>
+
+<span class="n">individual_query_engine_tools</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">QueryEngineTool</span><span class="p">(</span>
+        <span class="n">query_engine</span><span class="o">=</span><span class="n">index_set</span><span class="p">[</span><span class="n">year</span><span class="p">]</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">(),</span>
+        <span class="n">metadata</span><span class="o">=</span><span class="n">ToolMetadata</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;vector_index_</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;当您想回答关于 Uber </span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2"> 年 SEC 10-K 的查询时非常有用&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span>
+<span class="p">]</span>
+</code></pre></div>
+<p>现在我们可以创建子问题查询引擎，它将允许我们综合跨 10-K 文件的答案。我们传入上面定义的 <code>individual_query_engine_tools</code>，以及一个用于运行子查询的 <code>llm</code>。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.llms.openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+<span class="kn">from</span> <span class="nn">llama_index.core.query_engine</span> <span class="kn">import</span> <span class="n">SubQuestionQueryEngine</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">SubQuestionQueryEngine</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span>
+    <span class="n">query_engine_tools</span><span class="o">=</span><span class="n">individual_query_engine_tools</span><span class="p">,</span>
+    <span class="n">llm</span><span class="o">=</span><span class="n">OpenAI</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-3.5-turbo&quot;</span><span class="p">),</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="_6">设置聊天机器人代理<a class="headerlink" href="#_6" title="Permanent link">#</a></h3>
+<p>我们使用 LlamaIndex 数据代理来设置外部聊天机器人代理，该代理可以访问一组工具。具体来说，我们将使用 OpenAIAgent，它利用了 OpenAI API 的函数调用功能。我们希望使用之前为每个索引（对应特定年份）定义的单独工具，以及为我们上面定义的子问题查询引擎的工具。</p>
+<p>首先我们为子问题查询引擎定义一个 <code>QueryEngineTool</code>：</p>
+<div class="highlight"><pre><span></span><code><span class="n">query_engine_tool</span> <span class="o">=</span> <span class="n">QueryEngineTool</span><span class="p">(</span>
+    <span class="n">query_engine</span><span class="o">=</span><span class="n">query_engine</span><span class="p">,</span>
+    <span class="n">metadata</span><span class="o">=</span><span class="n">ToolMetadata</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;sub_question_query_engine&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;当您想回答需要分析 Uber 多个 SEC 10-K 文档的查询时非常有用&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>然后，我们将上面定义的工具合并为代理的单个工具列表：</p>
+<div class="highlight"><pre><span></span><code><span class="n">tools</span> <span class="o">=</span> <span class="n">individual_query_engine_tools</span> <span class="o">+</span> <span class="p">[</span><span class="n">query_engine_tool</span><span class="p">]</span>
+</code></pre></div>
+<p>最后，我们调用 <code>OpenAIAgent.from_tools</code> 创建代理，传入上面定义的工具列表。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.agent.openai</span> <span class="kn">import</span> <span class="n">OpenAIAgent</span>
+
+<span class="n">agent</span> <span class="o">=</span> <span class="n">OpenAIAgent</span><span class="o">.</span><span class="n">from_tools</span><span class="p">(</span><span class="n">tools</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="_7">测试代理<a class="headerlink" href="#_7" title="Permanent link">#</a></h3>
+<p>我们现在可以用各种查询测试代理。</p>
+<p>如果我们用一个简单的"hello"查询测试它，代理不会使用任何工具。</p>
+<div class="highlight"><pre><span></span><code><span class="n">response</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span><span class="s2">&quot;hi, i am bob&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>你好 Bob！今天我能帮您什么吗？
+</code></pre></div>
+<p>如果我们用一个关于特定年份 10-k 的查询测试它，代理将使用相关的向量索引工具。</p>
+<div class="highlight"><pre><span></span><code><span class="n">response</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span>
+    <span class="s2">&quot;2020 年 Uber 面临的最大风险因素有哪些？&quot;</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>=== 调用函数 ===
+调用函数：vector_index_2020 参数：{
+  &quot;input&quot;: &quot;biggest risk factors&quot;
+}
+获得输出：上下文中提到的最大风险因素包括：
+1. COVID-19 大流行及其缓解措施对业务的负面影响。
+2. 司机可能被重新分类为雇员、工人或准雇员而非独立承包商。
+3. 移动、配送和物流行业的激烈竞争，存在低成本替代方案和资金充足的竞争对手。
+4. 需要降低票价或服务费并提供司机激励和消费者折扣以保持竞争力。
+5. 遭受重大损失和实现盈利的不确定性。
+6. 无法吸引或维持关键数量的平台用户的风险。
+7. 与工作场所文化和前瞻性方法相关的运营、合规和文化挑战。
+8. 国际投资的潜在负面影响和在外国开展业务的挑战。
+9. 与运营和合规挑战、本地化、法律法规、竞争、社会接受度、技术兼容性、不当商业行为、责任不确定性、管理国际运营、货币波动、现金交易、税务后果和支付欺诈相关的风险。
+========================
+2020 年 Uber 面临的一些最大风险因素包括：
+
+1. COVID-19 大流行及其缓解措施对业务的负面影响。
+2. 司机可能被重新分类为雇员、工人或准雇员而非独立承包商。
+3. 移动、配送和物流行业的激烈竞争，存在低成本替代方案和资金充足的竞争对手。
+4. 需要降低票价或服务费并提供司机激励和消费者折扣以保持竞争力。
+5. 遭受重大损失和实现盈利的不确定性。
+6. 无法吸引或维持关键数量的平台用户的风险。
+7. 与工作场所文化和前瞻性方法相关的运营、合规和文化挑战。
+8. 国际投资的潜在负面影响和在外国开展业务的挑战。
+9. 与运营和合规挑战、本地化、法律法规、竞争、社会接受度、技术兼容性、不当商业行为、责任不确定性、管理国际运营、货币波动、现金交易、税务后果和支付欺诈相关的风险。
+
+这些风险因素突出了 Uber 在 2020 年面临的挑战和不确定性。
+</code></pre></div>
+<p>最后，如果我们用一个查询来比较/对比不同年份的风险因素，代理将使用子问题查询引擎工具。</p>
+<div class="highlight"><pre><span></span><code><span class="n">cross_query_str</span> <span class="o">=</span> <span class="s2">&quot;比较/对比 Uber 10-K 中描述的不同年份的风险因素。用项目符号回答。&quot;</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span><span class="n">cross_query_str</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>=== 调用函数 ===
+调用函数：sub_question_query_engine 参数：{
+  &quot;input&quot;: &quot;Compare/contrast the risk factors described in the Uber 10-K across years&quot;
+}
+生成了 4 个子问题。
+[vector_index_2022] Q: 2022 年 Uber SEC 10-K 中描述的风险因素有哪些？
+[vector_index_2021] Q: 2021 年 Uber SEC 10-K 中描述的风险因素有哪些？
+[vector_index_2020] Q: 2020 年 Uber SEC 10-K 中描述的风险因素有哪些？
+[vector_index_2019] Q: 2019 年 Uber SEC 10-K 中描述的风险因素有哪些？
+[vector_index_2021] A: 2021 年 Uber SEC 10-K 中描述的风险因素包括 COVID-19 大流行对其业务的负面影响、司机可能被重新分类为雇员而非独立承包商、移动、配送和物流行业的激烈竞争、需要降低票价和提供激励以保持竞争力、公司遭受的重大损失、吸引和维持关键数量平台用户的重要性，以及关于司机分类的持续法律挑战。
+[vector_index_2020] A: 2020 年 Uber SEC 10-K 中描述的风险因素包括 COVID-19 大流行对其业务的负面影响、司机可能被重新分类为雇员、移动、配送和物流行业的激烈竞争、需要降低票价或服务费以保持竞争力、重大损失和实现盈利的不确定性、吸引和保留关键数量的司机和用户的重要性，以及与其工作场所文化和运营合规相关的挑战。
+[vector_index_2022] A: 2022 年 Uber SEC 10-K 中描述的风险因素包括如果司机被分类为雇员而非独立承包商可能对其业务产生的负面影响、移动、配送和物流行业的高度竞争性、需要降低票价或服务费以在某些市场保持竞争力、公司历史上的重大损失和未来运营费用增加的预期，以及如果他们无法吸引或维持关键数量的司机、消费者、商家、托运人和承运人对其平台的潜在影响。
+[vector_index_2019] A: 2019 年 Uber SEC 10-K 中描述的风险因素包括在伦敦失去运营许可证、由于监管不确定性导致的业务和运营模式的复杂性、Other Bets 部门其他产品可能面临的额外法规、关于自动驾驶汽车开发和部署的法律法规的演变，以及全球范围内越来越多的数据保护和隐私法律。此外，Uber 还涉及法律程序、诉讼、索赔和政府调查，这些可能给管理层和员工带来负担，并伴随辩护成本或不利裁决。
+获得输出：Uber 10-K 报告中描述的风险因素包括司机可能被重新分类为雇员而非独立承包商、移动、配送和物流行业的激烈竞争、需要降低票价和提供激励以保持竞争力、公司遭受的重大损失、吸引和维持关键数量平台用户的重要性，以及关于司机分类的持续法律挑战。此外，每年的报告中还提到了一些特定的风险因素，例如 2020 年和 2021 年 COVID-19 大流行的负面影响、2019 年在伦敦失去运营许可证，以及 2019 年关于自动驾驶汽车法律法规的演变。总体而言，虽然提到的风险因素有一些相似之处，但也有因年份而异的具体因素。
+========================
+=== 调用函数 ===
+调用函数：vector_index_2022 参数：{
+  &quot;input&quot;: &quot;risk factors&quot;
+}
+获得输出：上下文中提到的一些风险因素包括如果司机被分类为雇员而非独立承包商可能对业务产生的负面影响、移动、配送和物流行业的高度竞争性、需要降低票价或服务费以保持竞争力、公司历史上的重大损失和运营费用增加的预期、未来大流行或疾病爆发对业务和财务结果的影响，以及经济状况及其对消费者可自由支配支出的影响可能对业务造成的损害。
+========================
+=== 调用函数 ===
+调用函数：vector_index_2021 参数：{
+  &quot;input&quot;: &quot;risk factors&quot;
+}
+获得输出：COVID-19 大流行和缓解大流行的行动已经并可能继续对我们部分业务产生负面影响。如果司机被分类为雇员、工人或准雇员而非独立承包商，我们的业务将受到负面影响。移动、配送和物流行业竞争激烈，存在几十年来可用的成熟且低成本的替代方案、低进入门槛、低转换成本，以及几乎每个主要地理区域都有资金充足的竞争对手。为了在某些市场保持竞争力，我们过去曾降低并可能继续降低票价或服务费，并且我们过去曾提供并可能继续提供大量司机激励和消费者折扣与促销。自成立以来，我们已遭受重大损失，包括在美国和其他主要市场。我们预计在可预见的未来我们的运营费用将显著增加，我们可能无法实现或保持盈利。如果我们无法吸引或维持关键数量的司机、消费者、商家、托运人和承运人，无论是由于竞争还是其他因素，我们的平台对平台用户的吸引力将降低。
+========================
+=== 调用函数 ===
+调用函数：vector_index_2020 参数：{
+  &quot;input&quot;: &quot;risk factors&quot;
+}
+获得输出：上下文中提到的风险因素包括 COVID-19 大流行对业务的负面影响、司机可能被重新分类为雇员、移动、配送和物流行业的高度竞争性、需要降低票价或服务费以保持竞争力、公司历史上的重大损失和潜在未来费用、吸引和维持关键数量平台用户的重要性，以及公司面临的运营和文化挑战。
+========================
+=== 调用函数 ===
+调用函数：vector_index_2019 参数：{
+  &quot;input&quot;: &quot;risk factors&quot;
+}
+获得输出：上下文中提到的风险因素包括与当地公司的竞争、社会接受度的不同水平、技术兼容性问题、暴露于不当商业行为、法律不确定性、管理国际运营的困难、货币汇率波动、管理当地货币的法规、税务后果、财务会计负担、实施财务系统的困难、进出口限制、政治和经济不稳定、公共卫生问题、知识产权保护减少、对少数股权附属公司的影响力有限，以及监管复杂性。这些风险因素可能对公司的国际运营、业务、财务状况和运营结果产生不利影响。
+========================
+以下是 Uber 10-K 报告中描述的不同年份风险因素的比较：
+
+2022 年风险因素：
+- 如果司机被分类为雇员而非独立承包商可能产生的负面影响。
+- 移动、配送和物流行业的高度竞争性。
+- 需要降低票价或服务费以保持竞争力。
+- 历史上的重大损失和运营费用增加的预期。
+- 未来大流行或疾病爆发对业务和财务结果的影响。
+- 经济状况及其对消费者可自由支配支出的影响可能对业务造成的损害。
+
+2021 年风险因素：
+- COVID-19 大流行及其缓解措施对业务的负面影响。
+- 司机可能被重新分类为雇员而非独立承包商。
+- 移动、配送和物流行业的高度竞争性。
+- 需要降低票价或服务费并提供激励以保持竞争力。
+- 历史上的重大损失和实现盈利的不确定性。
+- 吸引和维持关键数量平台用户的重要性。
+
+2020 年风险因素：
+- COVID-19 大流行对业务的负面影响。
+- 司机可能被重新分类为雇员。
+- 移动、配送和物流行业的高度竞争性。
+- 需要降低票价或服务费以保持竞争力。
+- 历史上的重大损失和潜在未来费用。
+- 吸引和维持关键数量平台用户的重要性。
+- 公司面临的运营和文化挑战。
+
+2019 年风险因素：
+- 与当地公司的竞争。
+- 社会接受度的不同水平。
+- 技术兼容性问题。
+- 暴露于不当商业行为。
+- 法律不确定性。
+- 管理国际运营的困难。
+- 货币汇率波动。
+- 管理当地货币的法规。
+- 税务后果。
+- 财务会计负担。
+- 实施财务系统的困难。
+- 进出口限制。
+- 政治和经济不稳定。
+- 公共卫生问题。
+- 知识产权保护减少。
+- 对少数股权附属公司的影响力有限。
+- 监管复杂性。
+
+这些比较突出了 Uber 在不同年份面临的共同和独特的风险因素。
+</code></pre></div>
+<h3 id="_8">设置聊天机器人循环<a class="headerlink" href="#_8" title="Permanent link">#</a></h3>
+<p>现在我们已经设置好了聊天机器人，只需几个步骤就可以设置一个基本的交互循环，与我们的 SEC 增强聊天机器人聊天！</p>
+<div class="highlight"><pre><span></span><code><span class="n">agent</span> <span class="o">=</span> <span class="n">OpenAIAgent</span><span class="o">.</span><span class="n">from_tools</span><span class="p">(</span><span class="n">tools</span><span class="p">)</span>  <span class="c1"># 默认 verbose=False</span>
+
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">text_input</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;用户: &quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">text_input</span> <span class="o">==</span> <span class="s2">&quot;exit&quot;</span><span class="p">:</span>
+        <span class="k">break</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span><span class="n">text_input</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;代理: </span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>以下是循环运行的示例：</p>
+<p>```
+用户:  2022 年针对 Uber 的法律诉讼有哪些？
+代理: 2022 年，Uber 面临了几项法律诉讼。一些值得注意的包括：</p>
+<ol>
+<li>
+<p>针对第 22 号提案的请愿：在加利福尼亚州提交了一份请愿书，声称将基于应用程序的司机分类为独立承包商的第 22 号提案违宪。</p>
+</li>
+<li>
+<p>马萨诸塞州总检察长的诉讼：马萨诸塞州总检察长对 Uber 提起诉讼，声称司机应被分类为雇员并有权获得工资和劳动法保护。</p>
+</li>
+<li>
+<p>纽约总检察长的指控：纽约总检察长对 Uber 提出指控，涉及司机的错误分类和相关就业违规行为。</p>
+</li>
+<li>
+<p>瑞士社会保障裁决：瑞士社会保障裁决将 Uber 司机分类为雇员，这可能对 Uber 在瑞士的运营产生影响。</p>
+</li>
+<li>
+<p>澳大利亚的集体诉讼：Uber 在澳大利亚面临集体诉讼，指控该公司共谋损害出租车、租赁汽车和豪华轿车行业的参与者。</p>
+</li>
+</ol>
+<p>需要注意的是，</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+       
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../q_and_a/terms_definitions_tutorial/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 术语与定义提取指南">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                术语与定义提取指南
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../structured_data/" class="md-footer__link md-footer__link--next" aria-label="Next: 结构化数据">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                结构化数据
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <readthedocs-flyout position="bottom-left"></readthedocs-flyout>
+      
+    </div>
+  </div>
+</footer>
+      
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", "GTM-WWRFB36R");
+</script>
+<!-- End Google Tag Manager -->
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.instant", "navigation.prune", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+        <script src="../../../../javascript/runllm.js"></script>
+      
+        <script src="../../../../javascript/algolia.js"></script>
+      
+    
+  </body>
+</html>

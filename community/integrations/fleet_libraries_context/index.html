@@ -1,0 +1,1352 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.llamaindex.ai/en/stable/community/integrations/fleet_libraries_context/">
+      
+      
+      
+      
+      <link rel="icon" href="../../../_static/assets/LlamaLogoBrowserTab.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>Fleet Context 嵌入 - 为 Llamaindex 库构建混合搜索引擎 - LlamaIndex</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../css/style.css">
+    
+      <link rel="stylesheet" href="../../../css/algolia.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BYVB1ZVE6J"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BYVB1ZVE6J",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BYVB1ZVE6J",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#fleet-context-llamaindex" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="LlamaIndex" class="md-header__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LlamaIndex
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Fleet Context 嵌入 - 为 Llamaindex 库构建混合搜索引擎
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="purple"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      
+
+<!-- Search interface -->
+<div id="docsearch"></div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../.." class="md-tabs__link">
+          
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../understanding/" class="md-tabs__link">
+          
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../use_cases/" class="md-tabs__link">
+          
+  
+    
+  
+  Use Cases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../examples/" class="md-tabs__link">
+          
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../module_guides/" class="md-tabs__link">
+          
+  
+    
+  
+  Component Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../optimizing/production_rag/" class="md-tabs__link">
+          
+  
+    
+  
+  Advanced Topics
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../api_reference/" class="md-tabs__link">
+          
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../" class="md-tabs__link">
+          
+  
+    
+  
+  Open-Source Community
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-tabs__link">
+        
+  
+    
+  
+  LlamaCloud
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="LlamaIndex" class="md-nav__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    LlamaIndex
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../.." class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../understanding/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Learn
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../use_cases/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Use Cases
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../examples/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Examples
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../module_guides/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Component Guides
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../optimizing/production_rag/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Advanced Topics
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../api_reference/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Open-Source Community
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LlamaCloud
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      前置准备
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fleet-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      从 Fleet Context 下载嵌入向量
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#llamaindex-pinecone" class="md-nav__link">
+    <span class="md-ellipsis">
+      为 LlamaIndex 创建 Pinecone 混合搜索索引
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pinecone" class="md-nav__link">
+    <span class="md-ellipsis">
+      批量上传向量至 Pinecone
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#llamaindex-pinecone_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      在 LlamaIndex 中构建 Pinecone 向量存储
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      执行索引查询！
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="fleet-context-llamaindex">Fleet Context 嵌入 - 为 Llamaindex 库构建混合搜索引擎<a class="headerlink" href="#fleet-context-llamaindex" title="Permanent link">#</a></h1>
+<p>本指南将使用 Fleet Context 下载 LlamaIndex 文档的嵌入向量，并基于此构建一个稠密/稀疏向量混合检索引擎。</p>
+<p><br><br></p>
+<h2 id="_1">前置准备<a class="headerlink" href="#_1" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code>!pip install llama-index
+!pip install --upgrade fleet-context
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>import os
+import openai
+
+os.environ[&quot;OPENAI_API_KEY&quot;] = &quot;sk-...&quot; # 在此处添加你的API密钥!
+openai.api_key = os.environ[&quot;OPENAI_API_KEY&quot;]
+</code></pre></div>
+<p><br><br></p>
+<h2 id="fleet-context">从 Fleet Context 下载嵌入向量<a class="headerlink" href="#fleet-context" title="Permanent link">#</a></h2>
+<p>我们将使用 Fleet Context 下载 LlamaIndex 全部文档的嵌入向量（约12k个文本块，100MB内容）。通过指定库名称作为参数，你可以下载1220个主流库中任意一个的嵌入数据。完整支持库列表可在页面底部<a href="https://fleet.so/context">此处</a>查看。</p>
+<p>选择 Fleet 是因为其嵌入处理流程保留了多项提升检索与生成质量的关键信息，包括：页面位置（用于重排序）、块类型（类/函数/属性等）、父章节等。更多细节可参阅其<a href="https://github.com/fleet-ai/context/tree/main">Github页面</a>。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">context</span> <span class="kn">import</span> <span class="n">download_embeddings</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">download_embeddings</span><span class="p">(</span><span class="s2">&quot;llamaindex&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>输出</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="m">100</span>%<span class="p">|</span>██████████<span class="p">|</span><span class="w"> </span><span class="m">83</span>.7M/83.7M<span class="w"> </span><span class="o">[</span><span class="m">00</span>:03&lt;<span class="m">00</span>:00,<span class="w"> </span><span class="m">27</span>.4MiB/s<span class="o">]</span>
+<span class="w">                                         </span>id<span class="w">  </span><span class="se">\</span>
+<span class="w">    </span><span class="m">0</span><span class="w">  </span>e268e2a1-9193-4e7b-bb9b-7a4cb88fc735
+<span class="w">    </span><span class="m">1</span><span class="w">  </span>e495514b-1378-4696-aaf9-44af948de1a1
+<span class="w">    </span><span class="m">2</span><span class="w">  </span>e804f616-7db0-4455-9a06-49dd275f3139
+<span class="w">    </span><span class="m">3</span><span class="w">  </span>eb85c854-78f1-4116-ae08-53b2a2a9fa41
+<span class="w">    </span><span class="m">4</span><span class="w">  </span>edfc116e-cf58-4118-bad4-c4bc0ca1495e
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># 展示部分元数据示例</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">][</span><span class="mi">8000</span><span class="p">][</span><span class="s1">&#39;text&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+</code></pre></div>
+<p><strong>输出</strong>:</p>
+<div class="highlight"><pre><span></span><code>classmethod<span class="w"> </span>from_dict<span class="o">(</span>data:<span class="w"> </span>Dict<span class="o">[</span>str,<span class="w"> </span>Any<span class="o">]</span>,<span class="w"> </span>kwargs:<span class="w"> </span>Any<span class="o">)</span><span class="w"> </span>→<span class="w"> </span>Self<span class="w"> </span>classmethod<span class="w"> </span>from_json<span class="o">(</span>data_str:<span class="w"> </span>str,<span class="w"> </span>kwargs:<span class="w"> </span>Any<span class="o">)</span><span class="w"> </span>→<span class="w"> </span>Self<span class="w"> </span>classmethod<span class="w"> </span>from_orm<span class="o">(</span>obj:<span class="w"> </span>Any<span class="o">)</span><span class="w"> </span>→<span class="w"> </span>Model<span class="w"> </span>json<span class="o">(</span>,<span class="w"> </span>include:<span class="w"> </span>Optional<span class="o">[</span>Union<span class="o">[</span>AbstractSetIntStr,<span class="w"> </span>MappingIntStrAny<span class="o">]]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>None,<span class="w"> </span>exclude:<span class="w"> </span>Optional<span class="o">[</span>Union<span class="o">[</span>AbstractSetIntStr,<span class="w"> </span>MappingIntStrAny<span class="o">]]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>None,<span class="w"> </span>by_alias:<span class="w"> </span><span class="nv">bool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>False,<span class="w"> </span>skip_defaults:<span class="w"> </span>Optional<span class="o">[</span>bool<span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>None,<span class="w"> </span>exclude_unset:<span class="w"> </span><span class="nv">bool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>False,<span class="w"> </span>exclude_defaults:<span class="w"> </span><span class="nv">bool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>False,<span class="w"> </span>exclude_none:<span class="w"> </span><span class="nv">bool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>False,<span class="w"> </span>encoder:<span class="w"> </span>Optional<span class="o">[</span>Callable<span class="o">[[</span>Any<span class="o">]</span>,<span class="w"> </span>Any<span class="o">]]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>None,<span class="w"> </span>models_as_dict:<span class="w"> </span><span class="nv">bool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>True*,<span class="w"> </span>dumps_kwargs:<span class="w"> </span>Any<span class="o">)</span><span class="w"> </span>→<span class="w"> </span>unicode<span class="w"> </span>Generate<span class="w"> </span>a<span class="w"> </span>JSON<span class="w"> </span>representation<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>model,<span class="w"> </span>include<span class="w"> </span>and<span class="w"> </span>exclude<span class="w"> </span>arguments<span class="w"> </span>as<span class="w"> </span>per<span class="w"> </span>dict<span class="o">()</span>.
+</code></pre></div>
+<p><br><br></p>
+<h2 id="llamaindex-pinecone">为 LlamaIndex 创建 Pinecone 混合搜索索引<a class="headerlink" href="#llamaindex-pinecone" title="Permanent link">#</a></h2>
+<p>我们将创建 Pinecone 索引并上传向量，以实现稀疏向量与稠密向量的混合检索。开始前请确保已注册<a href="https://pinecone.io">Pinecone账户</a>。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">stream</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">handlers</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">(</span><span class="n">stream</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">))</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pinecone</span>
+
+<span class="n">api_key</span> <span class="o">=</span> <span class="s2">&quot;...&quot;</span>  <span class="c1"># 在此处添加你的Pinecone API密钥</span>
+<span class="n">pinecone</span><span class="o">.</span><span class="n">init</span><span class="p">(</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span> <span class="n">environment</span><span class="o">=</span><span class="s2">&quot;us-east-1-aws&quot;</span>
+<span class="p">)</span>  <span class="c1"># 在此处添加你的数据库区域</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Fleet Context 使用 OpenAI 的 text-embedding-ada-002 模型（1536维）</span>
+
+<span class="c1"># 注意：Pinecone要求混合搜索使用点积相似度</span>
+<span class="n">pinecone</span><span class="o">.</span><span class="n">create_index</span><span class="p">(</span>
+    <span class="s2">&quot;quickstart-fleet-context&quot;</span><span class="p">,</span>
+    <span class="n">dimension</span><span class="o">=</span><span class="mi">1536</span><span class="p">,</span>
+    <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;dotproduct&quot;</span><span class="p">,</span>
+    <span class="n">pod_type</span><span class="o">=</span><span class="s2">&quot;p1&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">pinecone</span><span class="o">.</span><span class="n">describe_index</span><span class="p">(</span>
+    <span class="s2">&quot;quickstart-fleet-context&quot;</span>
+<span class="p">)</span>  <span class="c1"># 确保已在pinecone创建索引</span>
+</code></pre></div>
+<p><br></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.vector_stores.pinecone</span> <span class="kn">import</span> <span class="n">PineconeVectorStore</span>
+
+<span class="n">pinecone_index</span> <span class="o">=</span> <span class="n">pinecone</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="s2">&quot;quickstart-fleet-context&quot;</span><span class="p">)</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">PineconeVectorStore</span><span class="p">(</span><span class="n">pinecone_index</span><span class="p">,</span> <span class="n">add_sparse_vector</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<p><br><br></p>
+<h2 id="pinecone">批量上传向量至 Pinecone<a class="headerlink" href="#pinecone" title="Permanent link">#</a></h2>
+<p>Pinecone 建议每次上传100个向量。我们将在调整数据格式后执行此操作。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+
+
+<span class="k">def</span> <span class="nf">chunks</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;将可迭代对象分割为指定批次大小的辅助函数&quot;&quot;&quot;</span>
+    <span class="n">it</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+    <span class="n">chunk</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">islice</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">))</span>
+    <span class="k">while</span> <span class="n">chunk</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">chunk</span>
+        <span class="n">chunk</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">islice</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">))</span>
+
+
+<span class="c1"># 生成包含(id, vector, metadata, sparse_values)的生成器</span>
+<span class="n">data_generator</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;metadata&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;sparse_values&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;sparse_values&quot;</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">(),</span>
+<span class="p">)</span>
+
+<span class="c1"># 每次上传100个向量</span>
+<span class="k">for</span> <span class="n">ids_vectors_chunk</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">(</span><span class="n">data_generator</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;正在上传 </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ids_vectors_chunk</span><span class="p">)</span><span class="si">}</span><span class="s2"> 个向量...&quot;</span><span class="p">)</span>
+    <span class="n">pinecone_index</span><span class="o">.</span><span class="n">upsert</span><span class="p">(</span><span class="n">vectors</span><span class="o">=</span><span class="n">ids_vectors_chunk</span><span class="p">)</span>
+</code></pre></div>
+<p><br><br></p>
+<h2 id="llamaindex-pinecone_1">在 LlamaIndex 中构建 Pinecone 向量存储<a class="headerlink" href="#llamaindex-pinecone_1" title="Permanent link">#</a></h2>
+<p>最后，我们将通过 LlamaIndex 构建 Pinecone 向量存储并进行查询。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">VectorStoreIndex</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_vector_store</span><span class="p">(</span><span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">)</span>
+</code></pre></div>
+<p><br><br></p>
+<h2 id="_2">执行索引查询！<a class="headerlink" href="#_2" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">(</span>
+    <span class="n">vector_store_query_mode</span><span class="o">=</span><span class="s2">&quot;hybrid&quot;</span><span class="p">,</span> <span class="n">similarity_top_k</span><span class="o">=</span><span class="mi">8</span>
+<span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;如何使用 llama_index 的 SimpleDirectoryReader&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;b&gt;</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s2">&lt;/b&gt;&quot;</span><span class="p">))</span>
+</code></pre></div>
+<p><strong>输出</strong>:</p>
+<div class="highlight"><pre><span></span><code>&lt;b&gt;要使用llama_index中的SimpleDirectoryReader，需要先从llama_index库导入该类。导入后，通过提供目录路径作为参数创建SimpleDirectoryReader实例，然后对该实例调用<span class="sb">`</span>load_data<span class="o">()</span><span class="sb">`</span>方法即可加载指定目录中的文档。&lt;/b&gt;
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+       
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <readthedocs-flyout position="bottom-left"></readthedocs-flyout>
+      
+    </div>
+  </div>
+</footer>
+      
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", "GTM-WWRFB36R");
+</script>
+<!-- End Google Tag Manager -->
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.prune", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+        <script src="../../../javascript/runllm.js"></script>
+      
+        <script src="../../../javascript/algolia.js"></script>
+      
+    
+  </body>
+</html>

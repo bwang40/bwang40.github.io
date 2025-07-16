@@ -1,0 +1,1746 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.llamaindex.ai/en/stable/community/integrations/vector_stores/">
+      
+      
+      
+      
+      <link rel="icon" href="../../../_static/assets/LlamaLogoBrowserTab.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>使用向量存储 - LlamaIndex</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../css/style.css">
+    
+      <link rel="stylesheet" href="../../../css/algolia.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-BYVB1ZVE6J"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-BYVB1ZVE6J",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-BYVB1ZVE6J",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="LlamaIndex" class="md-header__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LlamaIndex
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              使用向量存储
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="purple"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      
+
+<!-- Search interface -->
+<div id="docsearch"></div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../.." class="md-tabs__link">
+          
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../understanding/" class="md-tabs__link">
+          
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../use_cases/" class="md-tabs__link">
+          
+  
+    
+  
+  Use Cases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../examples/" class="md-tabs__link">
+          
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../module_guides/" class="md-tabs__link">
+          
+  
+    
+  
+  Component Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../optimizing/production_rag/" class="md-tabs__link">
+          
+  
+    
+  
+  Advanced Topics
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../api_reference/" class="md-tabs__link">
+          
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../" class="md-tabs__link">
+          
+  
+    
+  
+  Open-Source Community
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-tabs__link">
+        
+  
+    
+  
+  LlamaCloud
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="LlamaIndex" class="md-nav__button md-logo" aria-label="LlamaIndex" data-md-component="logo">
+      
+  <img src="../../../_static/assets/LlamaSquareBlack.svg" alt="logo">
+
+    </a>
+    LlamaIndex
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../.." class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../understanding/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Learn
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../use_cases/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Use Cases
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../examples/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Examples
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../module_guides/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Component Guides
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../optimizing/production_rag/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Advanced Topics
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../../../api_reference/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Open-Source Community
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://docs.cloud.llamaindex.ai/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LlamaCloud
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用向量存储作为索引
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      向量存储示例
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="_1">使用向量存储<a class="headerlink" href="#_1" title="Permanent link">#</a></h1>
+<p>LlamaIndex 提供了与向量存储/向量数据库的多种集成方式：</p>
+<ol>
+<li>LlamaIndex 可以直接将向量存储作为索引使用。与其他索引类型一样，这种索引可以存储文档并用于回答查询。</li>
+<li>LlamaIndex 能够从向量存储加载数据，这与使用其他数据连接器类似。这些数据随后可用于 LlamaIndex 的数据结构中。</li>
+</ol>
+<h2 id="_2">使用向量存储作为索引<a class="headerlink" href="#_2" title="Permanent link">#</a></h2>
+<p>LlamaIndex 支持将不同向量存储作为 <code>VectorStoreIndex</code> 的后端存储方案。</p>
+<ul>
+<li>阿里云开放搜索 (<code>AlibabaCloudOpenSearchStore</code>)。<a href="https://help.aliyun.com/zh/open-search/vector-search-edition">快速入门</a></li>
+<li>Amazon Neptune - Neptune Analytics (<code>NeptuneAnalyticsVectorStore</code>)。<a href="https://docs.aws.amazon.com/neptune-analytics/latest/userguide/vector-similarity.html">在Neptune Analytics中使用向量相似度</a></li>
+<li>通过CQL连接的Apache Cassandra®和Astra DB (<code>CassandraVectorStore</code>)。<a href="https://cassandra.apache.org/doc/stable/cassandra/getting_started/installing.html">安装指南</a> <a href="https://docs.datastax.com/en/astra-serverless/docs/vector-search/overview.html">快速入门</a></li>
+<li>Astra DB (<code>AstraDBVectorStore</code>)。<a href="https://docs.datastax.com/en/astra/home/astra.html">快速入门</a></li>
+<li>AWS Document DB (<code>AWSDocDbVectorStore</code>)。<a href="https://docs.aws.amazon.com/documentdb/latest/developerguide/get-started-guide.html">快速入门</a></li>
+<li>Azure AI搜索 (<code>AzureAISearchVectorStore</code>)。<a href="https://learn.microsoft.com/en-us/azure/search/search-get-started-vector">快速入门</a></li>
+<li>Azure Cosmos DB Mongo vCore (<code>AzureCosmosDBMongoDBVectorSearch</code>)。<a href="https://learn.microsoft.com/en-us/azure/cosmos-db/mongodb/vcore/vector-search?tabs=diskann">快速入门</a></li>
+<li>Azure Cosmos DB NoSql (<code>AzureCosmosDBNoSqlVectorSearch</code>)。<a href="https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/vector-search">快速入门</a></li>
+<li>Chroma (<code>ChromaVectorStore</code>) <a href="https://docs.trychroma.com/getting-started">安装指南</a></li>
+<li>ClickHouse (<code>ClickHouseVectorStore</code>) <a href="https://clickhouse.com/docs/en/install">安装指南</a></li>
+<li>Couchbase (<code>CouchbaseSearchVectorStore</code>) <a href="https://www.couchbase.com/products/capella/">安装指南</a></li>
+<li>DashVector (<code>DashVectorStore</code>)。<a href="https://help.aliyun.com/document_detail/2510230.html">安装指南</a></li>
+<li>DeepLake (<code>DeepLakeVectorStore</code>) <a href="https://docs.deeplake.ai/en/latest/Installation.html">安装指南</a></li>
+<li>DocArray (<code>DocArrayHnswVectorStore</code>, <code>DocArrayInMemoryVectorStore</code>)。<a href="https://github.com/docarray/docarray#installation">安装/Python客户端</a></li>
+<li>Elasticsearch (<code>ElasticsearchStore</code>) <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html">安装指南</a></li>
+<li>Epsilla (<code>EpsillaVectorStore</code>) <a href="https://epsilla-inc.gitbook.io/epsilladb/quick-start">安装/快速入门</a></li>
+<li>Faiss (<code>FaissVectorStore</code>)。<a href="https://github.com/facebookresearch/faiss/blob/main/INSTALL.md">安装指南</a></li>
+<li>Google AlloyDB for PostgreSQL (<code>AlloyDBVectorStore</code>)。<a href="https://github.com/googleapis/llama-index-alloydb-pg-python/blob/main/samples/llama_index_vector_store.ipynb">快速入门</a></li>
+<li>Google Cloud SQL for PostgreSQL (<code>PostgresVectorStore</code>)。<a href="https://github.com/googleapis/llama-index-cloud-sql-pg-python/blob/main/samples/llama_index_vector_store.ipynb">快速入门</a></li>
+<li>Hnswlib (<code>HnswlibVectorStore</code>)。<a href="https://github.com/nmslib/hnswlib?tab=readme-ov-file#bindings-installation">安装指南</a></li>
+<li>txtai (<code>TxtaiVectorStore</code>)。<a href="https://neuml.github.io/txtai/install/">安装指南</a></li>
+<li>Jaguar (<code>JaguarVectorStore</code>)。<a href="http://www.jaguardb.com/docsetup.html">安装指南</a></li>
+<li>Lantern (<code>LanternVectorStore</code>)。<a href="https://docs.lantern.dev/get-started/overview">快速入门</a></li>
+<li>MariaDB (<code>MariaDBVectorStore</code>)。<a href="https://mariadb.com/kb/en/vector-overview/">MariaDB向量概述</a></li>
+<li>Milvus (<code>MilvusVectorStore</code>)。<a href="https://milvus.io/docs">安装指南</a></li>
+<li>MongoDB Atlas (<code>MongoDBAtlasVectorSearch</code>)。<a href="https://www.mongodb.com/atlas/database">安装/快速入门</a></li>
+<li>MyScale (<code>MyScaleVectorStore</code>)。<a href="https://docs.myscale.com/en/quickstart/">快速入门</a>。<a href="https://docs.myscale.com/en/python-client/">安装/Python客户端</a></li>
+<li>Neo4j (<code>Neo4jVectorIndex</code>)。<a href="https://neo4j.com/docs/operations-manual/current/installation/">安装指南</a></li>
+<li>OceanBase (<code>OceanBaseVectorStore</code>)。<a href="https://github.com/oceanbase/oceanbase">OceanBase概述</a>。<a href="../../../examples/vector_stores/OceanBaseVectorStore/">快速入门</a>。<a href="https://github.com/oceanbase/pyobvector">Python客户端</a></li>
+<li>Opensearch (<code>OpensearchVectorStore</code>) <a href="https://opensearch.org/platform/search/vector-database.html">Opensearch作为向量数据库</a>。<a href="https://opensearch.org/docs/latest/search-plugins/knn/index/">快速入门</a></li>
+<li>Pinecone (<code>PineconeVectorStore</code>)。<a href="https://docs.pinecone.io/docs/quickstart">安装/快速入门</a></li>
+<li>Qdrant (<code>QdrantVectorStore</code>) <a href="https://qdrant.tech/documentation/install/">安装指南</a> <a href="https://qdrant.tech/documentation/install/#python-client">Python客户端</a></li>
+<li>LanceDB (<code>LanceDBVectorStore</code>) <a href="https://lancedb.github.io/lancedb/basic/">安装/快速入门</a></li>
+<li>Redis (<code>RedisVectorStore</code>)。<a href="https://redis.io/docs/latest/operate/oss_and_stack/install/install-stack/">安装指南</a></li>
+<li>Relyt (<code>RelytVectorStore</code>)。<a href="https://docs.relyt.cn/docs/vector-engine/">快速入门</a></li>
+<li>Supabase (<code>SupabaseVectorStore</code>)。<a href="https://supabase.github.io/vecs/api/">快速入门</a></li>
+<li>Tablestore (<code>Tablestore</code>)。<a href="https://www.aliyun.com/product/ots">Tablestore概述</a>。<a href="../../../examples/vector_stores/TablestoreDemo/">快速入门</a>。<a href="https://github.com/aliyun/aliyun-tablestore-python-sdk">Python客户端</a></li>
+<li>TiDB (<code>TiDBVectorStore</code>)。<a href="../../../examples/vector_stores/TiDBVector/">快速入门</a>。<a href="https://tidb.cloud/ai">安装指南</a>。<a href="https://github.com/pingcap/tidb-vector-python">Python客户端</a></li>
+<li>TimeScale (<code>TimescaleVectorStore</code>)。<a href="https://github.com/timescale/python-vector">安装指南</a></li>
+<li>Upstash (<code>UpstashVectorStore</code>)。<a href="https://upstash.com/docs/vector/overall/getstarted">快速入门</a></li>
+<li>Vertex AI向量搜索 (<code>VertexAIVectorStore</code>)。<a href="https://cloud.google.com/vertex-ai/docs/vector-search/quickstart">快速入门</a></li>
+<li>Weaviate (<code>WeaviateVectorStore</code>)。<a href="https://weaviate.io/developers/weaviate/installation">安装指南</a>。<a href="https://weaviate.io/developers/weaviate/client-libraries/python">Python客户端</a></li>
+<li>WordLift (<code>WordliftVectorStore</code>)。<a href="https://docs.wordlift.io/llm-connectors/wordlift-vector-store/">快速入门</a>。<a href="https://pypi.org/project/wordlift-client/">Python客户端</a></li>
+<li>Zep (<code>ZepVectorStore</code>)。<a href="https://docs.getzep.com/deployment/quickstart/">安装指南</a>。<a href="https://docs.getzep.com/sdk/">Python客户端</a></li>
+<li>Zilliz (<code>MilvusVectorStore</code>)。<a href="https://zilliz.com/doc/quick_start">快速入门</a></li>
+</ul>
+<p>详细API参考文档请<a href="../../../api_reference/storage/vector_store/">查看此处</a>。</p>
+<p>与LlamaIndex中的其他索引（树状索引、关键词表、列表）类似，<code>VectorStoreIndex</code>可以在任何文档集合上构建。我们在索引中使用向量存储来存储输入文本块的嵌入向量。</p>
+<p>构建完成后，该索引可用于查询。</p>
+<p><strong>默认向量存储索引构建/查询</strong></p>
+<p>默认情况下，<code>VectorStoreIndex</code>使用内存中的<code>SimpleVectorStore</code>，它作为默认存储上下文的一部分被初始化。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">VectorStoreIndex</span><span class="p">,</span> <span class="n">SimpleDirectoryReader</span>
+
+<span class="c1"># 加载文档并构建索引</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="n">SimpleDirectoryReader</span><span class="p">(</span><span class="s2">&quot;../paul_graham_essay/data&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+
+<span class="c1"># 查询索引</span>
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;作者成长过程中做了什么？&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>自定义向量存储索引构建/查询</strong></p>
+<p>我们可以按以下方式查询自定义向量存储：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">VectorStoreIndex</span><span class="p">,</span>
+    <span class="n">SimpleDirectoryReader</span><span class="p">,</span>
+    <span class="n">StorageContext</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.deeplake</span> <span class="kn">import</span> <span class="n">DeepLakeVectorStore</span>
+
+<span class="c1"># 构建向量存储并自定义存储上下文</span>
+<span class="n">storage_context</span> <span class="o">=</span> <span class="n">StorageContext</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span>
+    <span class="n">vector_store</span><span class="o">=</span><span class="n">DeepLakeVectorStore</span><span class="p">(</span><span class="n">dataset_path</span><span class="o">=</span><span class="s2">&quot;&lt;dataset_path&gt;&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># 加载文档并构建索引</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="n">SimpleDirectoryReader</span><span class="p">(</span><span class="s2">&quot;../paul_graham_essay/data&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span>
+    <span class="n">documents</span><span class="p">,</span> <span class="n">storage_context</span><span class="o">=</span><span class="n">storage_context</span>
+<span class="p">)</span>
+
+<span class="c1"># 查询索引</span>
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;作者成长过程中做了什么？&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>下面我们展示更多如何构建我们支持的各种向量存储的示例。</p>
+<p><strong>阿里云开放搜索</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.vector_stores.alibabacloud_opensearch</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AlibabaCloudOpenSearchStore</span><span class="p">,</span>
+    <span class="n">AlibabaCloudOpenSearchConfig</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">AlibabaCloudOpenSearchConfig</span><span class="p">(</span>
+    <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;***&quot;</span><span class="p">,</span>
+    <span class="n">instance_id</span><span class="o">=</span><span class="s2">&quot;***&quot;</span><span class="p">,</span>
+    <span class="n">username</span><span class="o">=</span><span class="s2">&quot;your_username&quot;</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;your_password&quot;</span><span class="p">,</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="s2">&quot;llama&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">AlibabaCloudOpenSearchStore</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Google AlloyDB for PostgreSQL</strong></p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>llama-index
+pip<span class="w"> </span>install<span class="w"> </span>llama-index-alloydb-pg
+pip<span class="w"> </span>install<span class="w"> </span>llama-index-llms-vertex
+gcloud<span class="w"> </span>services<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>aiplatform.googleapis.com
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index_alloydb_pg</span> <span class="kn">import</span> <span class="n">AlloyDBEngine</span><span class="p">,</span> <span class="n">AlloyDBVectorStore</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">Settings</span>
+<span class="kn">from</span> <span class="nn">llama_index.embeddings.vertex</span> <span class="kn">import</span> <span class="n">VertexTextEmbedding</span>
+<span class="kn">from</span> <span class="nn">llama_index.llms.vertex</span> <span class="kn">import</span> <span class="n">Vertex</span>
+<span class="kn">import</span> <span class="nn">google.auth</span>
+
+<span class="c1"># 替换为您自己的AlloyDB信息</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">AlloyDBEngine</span><span class="o">.</span><span class="n">from_instance</span><span class="p">(</span>
+    <span class="n">project_id</span><span class="o">=</span><span class="n">PROJECT_ID</span><span class="p">,</span>
+    <span class="n">region</span><span class="o">=</span><span class="n">REGION</span><span class="p">,</span>
+    <span class="n">cluster</span><span class="o">=</span><span class="n">CLUSTER</span><span class="p">,</span>
+    <span class="n">instance</span><span class="o">=</span><span class="n">INSTANCE</span><span class="p">,</span>
+    <span class="n">database</span><span class="o">=</span><span class="n">DATABASE</span><span class="p">,</span>
+    <span class="n">user</span><span class="o">=</span><span class="n">USER</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="n">PASSWORD</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">engine</span><span class="o">.</span><span class="n">init_vector_store_table</span><span class="p">(</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="n">TABLE_NAME</span><span class="p">,</span>
+    <span class="n">vector_size</span><span class="o">=</span><span class="mi">768</span><span class="p">,</span>  <span class="c1"># VertexAI模型(textembedding-gecko@latest)的向量维度</span>
+<span class="p">)</span>
+
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">AlloyDBVectorStore</span><span class="o">.</span><span class="n">create_sync</span><span class="p">(</span>
+    <span class="n">engine</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="n">TABLE_NAME</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Amazon Neptune - Neptune Analytics</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.vector_stores.neptune</span> <span class="kn">import</span> <span class="n">NeptuneAnalyticsVectorStore</span>
+
+<span class="n">graph_identifier</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="n">embed_dim</span> <span class="o">=</span> <span class="mi">1536</span>
+
+<span class="n">neptune_vector_store</span> <span class="o">=</span> <span class="n">NeptuneAnalyticsVectorStore</span><span class="p">(</span>
+    <span class="n">graph_identifier</span><span class="o">=</span><span class="n">graph_identifier</span><span class="p">,</span> <span class="n">embedding_dimension</span><span class="o">=</span><span class="mi">1536</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Apache Cassandra®</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.vector_stores.cassandra</span> <span class="kn">import</span> <span class="n">CassandraVectorStore</span>
+<span class="kn">import</span> <span class="nn">cassio</span>
+
+<span class="c1"># 通过CQL使用Astra DB云实例：</span>
+<span class="n">cassio</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">database_id</span><span class="o">=</span><span class="s2">&quot;1234abcd-...&quot;</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="s2">&quot;AstraCS:...&quot;</span><span class="p">)</span>
+
+<span class="c1"># 对于Cassandra集群：</span>
+<span class="kn">from</span> <span class="nn">cassandra.cluster</span> <span class="kn">import</span> <span class="n">Cluster</span>
+
+<span class="n">cluster</span> <span class="o">=</span> <span class="n">Cluster</span><span class="p">([</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">])</span>
+<span class="n">cassio</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">session</span><span class="o">=</span><span class="n">cluster</span><span class="o">.</span><span class="n">connect</span><span class="p">(),</span> <span class="n">keyspace</span><span class="o">=</span><span class="s2">&quot;my_keyspace&quot;</span><span class="p">)</span>
+
+<span class="c1"># 在上述`cassio.init(...)`之后，创建向量存储：</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">CassandraVectorStore</span><span class="p">(</span>
+    <span class="n">table</span><span class="o">=</span><span class="s2">&quot;cass_v_table&quot;</span><span class="p">,</span> <span class="n">embedding_dimension</span><span class="o">=</span><span class="mi">1536</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Astra DB</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.vector_stores.astra_db</span> <span class="kn">import</span> <span class="n">AstraDBVectorStore</span>
+
+<span class="n">astra_db_store</span> <span class="o">=</span> <span class="n">AstraDBVectorStore</span><span class="p">(</span>
+    <span class="n">token</span><span class="o">=</span><span class="s2">&quot;AstraCS:xY3b...&quot;</span><span class="p">,</span>  <span class="c1"># 您的Astra DB令牌</span>
+    <span class="n">api_endpoint</span><span class="o">=</span><span class="s2">&quot;https://012...abc-us-east1.apps.astra.datastax.com&quot;</span><span class="p">,</span>  <span class="c1"># 您的Astra DB API端点</span>
+    <span class="n">collection_name</span><span class="o">=</span><span class="s2">&quot;astra_v_table&quot;</span><span class="p">,</span>  <span class="c1"># 您选择的表名</span>
+    <span class="n">embedding_dimension</span><span class="o">=</span><span class="mi">1536</span><span class="p">,</span>  <span class="c1"># 使用的嵌入模型的嵌入维度</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Azure认知搜索</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">azure.core.credentials</span> <span class="kn">import</span> <span class="n">AzureKeyCredential</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.azureaisearch</span> <span class="kn">import</span> <span class="n">AzureAISearchVectorStore</span>
+
+<span class="n">search_service_api_key</span> <span class="o">=</span> <span class="s2">&quot;YOUR-AZURE-SEARCH-SERVICE-ADMIN-KEY&quot;</span>
+<span class="n">search_service_endpoint</span> <span class="o">=</span> <span class="s2">&quot;YOUR-AZURE-SEARCH-SERVICE-ENDPOINT&quot;</span>
+<span class="n">search_service_api_version</span> <span class="o">=</span> <span class="s2">&quot;2023-11-01&quot;</span>
+<span class="n">credential</span> <span class="o">=</span> <span class="n">AzureKeyCredential</span><span class="p">(</span><span class="n">search_service_api_key</span><span class="p">)</span>
+
+<span class="c1"># 要使用的索引名称</span>
+<span class="n">index_name</span> <span class="o">=</span> <span class="s2">&quot;llamaindex-vector-demo&quot;</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">SearchIndexClient</span><span class="p">(</span>
+    <span class="n">endpoint</span><span class="o">=</span><span class="n">search_service_endpoint</span><span class="p">,</span>
+    <span class="n">credential</span><span class="o">=</span><span class="n">credential</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">AzureAISearchVectorStore</span><span class="p">(</span>
+    <span class="n">search_or_index_client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+    <span class="n">index_name</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span>
+    <span class="n">embedding_dimensionality</span><span class="o">=</span><span class="mi">1536</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Azure CosmosDB Mongo vCore</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pymongo</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.azurecosmosmongo</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AzureCosmosDBMongoDBVectorSearch</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># 使用您的Azure CosmosDB MongoDB URI设置连接字符串</span>
+<span class="n">connection_string</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;YOUR_AZURE_COSMOSDB_MONGODB_URI&quot;</span><span class="p">)</span>
+<span class="n">mongodb_client</span> <span class="o">=</span> <span class="n">pymongo</span><span class="o">.</span><span class="n">MongoClient</span><span class="p">(</span><span class="n">connection_string</span><span class="p">)</span>
+
+<span class="c1"># 创建AzureCosmosDBMongoDBVectorSearch实例</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">AzureCosmosDBMongoDBVectorSearch</span><span class="p">(</span>
+    <span class="n">mongodb_client</span><span class="o">=</span><span class="n">mongodb_client</span><span class="p">,</span>
+    <span class="n">db_name</span><span class="o">=</span><span class="s2">&quot;demo_vectordb&quot;</span><span class="p">,</span>
+    <span class="n">collection_name</span><span class="o">=</span><span class="s2">&quot;paul_graham_essay&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Azure CosmosDB NoSql</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">azure.cosmos</span> <span class="kn">import</span> <span class="n">CosmosClient</span><span class="p">,</span> <span class="n">PartitionKey</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.azurecosmosnosql</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AzureCosmosDBNoSqlVectorSearch</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">URL</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;AZURE_COSMOSDB_URI&quot;</span><span class="p">)</span>
+<span class="n">KEY</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;AZURE_COSMOSDB_KEY&quot;</span><span class="p">)</span>
+<span class="n">database_name</span> <span class="o">=</span> <span class="s2">&quot;test_database&quot;</span>
+<span class="n">container_name</span> <span class="o">=</span> <span class="s2">&quot;test_container&quot;</span>
+<span class="n">test_client</span> <span class="o">=</span> <span class="n">CosmosClient</span><span class="p">(</span><span class="n">URL</span><span class="p">,</span> <span class="n">credential</span><span class="o">=</span><span class="n">KEY</span><span class="p">)</span>
+
+<span class="n">indexing_policy</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;indexingMode&quot;</span><span class="p">:</span> <span class="s2">&quot;consistent&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;includedPaths&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;/*&quot;</span><span class="p">}],</span>
+    <span class="s2">&quot;excludedPaths&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="s1">&#39;/&quot;_etag&quot;/?&#39;</span><span class="p">}],</span>
+    <span class="s2">&quot;vectorIndexes&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;/embedding&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;quantizedFlat&quot;</span><span class="p">}],</span>
+<span class="p">}</span>
+
+<span class="n">vector_embedding_policy</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;vectorEmbeddings&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;/embedding&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;dataType&quot;</span><span class="p">:</span> <span class="s2">&quot;float32&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;distanceFunction&quot;</span><span class="p">:</span> <span class="s2">&quot;cosine&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;dimensions&quot;</span><span class="p">:</span> <span class="mi">1536</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">partition_key</span> <span class="o">=</span> <span class="n">PartitionKey</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/id&quot;</span><span class="p">)</span>
+<span class="n">cosmos_container_properties_test</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;partition_key&quot;</span><span class="p">:</span> <span class="n">partition_key</span><span class="p">}</span>
+<span class="n">cosmos_database_properties_test</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">AzureCosmosDBNoSqlVectorSearch</span><span class="p">(</span>
+    <span class="n">cosmos_client</span><span class="o">=</span><span class="n">test_client</span><span class="p">,</span>
+    <span class="n">vector_embedding_policy</span><span class="o">=</span><span class="n">vector_embedding_policy</span><span class="p">,</span>
+    <span class="n">indexing_policy</span><span class="o">=</span><span class="n">indexing_policy</span><span class="p">,</span>
+    <span class="n">database_name</span><span class="o">=</span><span class="n">database_name</span><span class="p">,</span>
+    <span class="n">container_name</span><span class="o">=</span><span class="n">container_name</span><span class="p">,</span>
+    <span class="n">cosmos_database_properties</span><span class="o">=</span><span class="n">cosmos_database_properties_test</span><span class="p">,</span>
+    <span class="n">cosmos_container_properties</span><span class="o">=</span><span class="n">cosmos_container_properties_test</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Chroma</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">chromadb</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.chroma</span> <span class="kn">import</span> <span class="n">ChromaVectorStore</span>
+
+<span class="c1"># 创建Chroma客户端</span>
+<span class="c1"># EphemeralClient完全在内存中运行，PersistentClient也会保存到磁盘</span>
+<span class="n">chroma_client</span> <span class="o">=</span> <span class="n">chromadb</span><span class="o">.</span><span class="n">EphemeralClient</span><span class="p">()</span>
+<span class="n">chroma_collection</span> <span class="o">=</span> <span class="n">chroma_client</span><span class="o">.</span><span class="n">create_collection</span><span class="p">(</span><span class="s2">&quot;quickstart&quot;</span><span class="p">)</span>
+
+<span class="c1"># 构建向量存储</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">ChromaVectorStore</span><span class="p">(</span>
+    <span class="n">chroma_collection</span><span class="o">=</span><span class="n">chroma_collection</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>ClickHouse</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">clickhouse_connect</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores</span> <span class="kn">import</span> <span class="n">ClickHouseVectorStore</span>
+
+<span class="c1"># 创建ClickHouse客户端</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">clickhouse_connect</span><span class="o">.</span><span class="n">get_client</span><span class="p">(</span>
+    <span class="n">host</span><span class="o">=</span><span class="s2">&quot;YOUR_CLUSTER_HOST&quot;</span><span class="p">,</span>
+    <span class="n">port</span><span class="o">=</span><span class="mi">8123</span><span class="p">,</span>
+    <span class="n">username</span><span class="o">=</span><span class="s2">&quot;YOUR_USERNAME&quot;</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;YOUR_CLUSTER_PASSWORD&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># 构建向量存储</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">ClickHouseVectorStore</span><span class="p">(</span><span class="n">clickhouse_client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Couchbase</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
+
+<span class="kn">from</span> <span class="nn">couchbase.auth</span> <span class="kn">import</span> <span class="n">PasswordAuthenticator</span>
+<span class="kn">from</span> <span class="nn">couchbase.cluster</span> <span class="kn">import</span> <span class="n">Cluster</span>
+<span class="kn">from</span> <span class="nn">couchbase.options</span> <span class="kn">import</span> <span class="n">ClusterOptions</span>
+
+<span class="c1"># 创建Couchbase集群对象</span>
+<span class="n">auth</span> <span class="o">=</span> <span class="n">PasswordAuthenticator</span><span class="p">(</span><span class="s2">&quot;DATABASE_USERNAME&quot;</span><span class="p">,</span> <span class="s2">&quot;DATABASE_PASSWORD&quot;</span><span class="p">)</span>
+<span class="n">options</span> <span class="o">=</span> <span class="n">ClusterOptions</span><span class="p">(</span><span class="n">auth</span><span class="p">)</span>
+<span class="n">cluster</span> <span class="o">=</span> <span class="n">Cluster</span><span class="p">(</span><span class="s2">&quot;CLUSTER_CONNECTION_STRING&quot;</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+
+<span class="c1"># 等待集群准备就绪</span>
+<span class="n">cluster</span><span class="o">.</span><span class="n">wait_until_ready</span><span class="p">(</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># 创建向量存储</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">CouchbaseSearchVectorStore</span><span class="p">(</span>
+    <span class="n">cluster</span><span class="o">=</span><span class="n">cluster</span><span class="p">,</span>
+    <span class="n">bucket_name</span><span class="o">=</span><span class="s2">&quot;BUCKET_NAME&quot;</span><span class="p">,</span>
+    <span class="n">scope_name</span><span class="o">=</span><span class="s2">&quot;SCOPE_NAME&quot;</span><span class="p">,</span>
+    <span class="n">collection_name</span><span class="o">=</span><span class="s2">&quot;COLLECTION_NAME&quot;</span><span class="p">,</span>
+    <span class="n">index_name</span><span class="o">=</span><span class="s2">&quot;SEARCH_INDEX_NAME&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>DashVector</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">dashvector</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.dashvector</span> <span class="kn">import</span> <span class="n">DashVectorStore</span>
+
+<span class="c1"># 初始化dashvector客户端</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">dashvector</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;your-dashvector-api-key&quot;</span><span class="p">,</span>
+    <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;your-dashvector-cluster-endpoint&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># 创建DashVector集合</span>
+<span class="n">client</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;quickstart&quot;</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="mi">1536</span><span class="p">)</span>
+<span class="n">collection</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;quickstart&quot;</span><span class="p">)</span>
+
+<span class="c1"># 构建向量存储</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">DashVectorStore</span><span class="p">(</span><span class="n">collection</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>DeepLake</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">getpath</span>
+<span class="kn">from</span> <span class="nn">llama_index.vector_stores.deeplake</span> <span class="kn">import</span> <span class="n">DeepLakeVectorStore</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">getpath</span><span class="o">.</span><span class="n">getpath</span><span class="p">(</span><span class="s2">&quot;OPENAI_API_KEY: &quot;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;ACTIVELOOP_TOKEN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">getpath</span><span class="o">.</span><span class="n">getpath</span><span class="p">(</span><span class="s2">&quot;ACTIVELOOP_TOKEN: &quot;</span><span class="p">)</span>
+<span class="n">dataset_path</span> <span class="o">=</span> <span class="s2">&quot;hub://adilkhan/paul_graham_essay&quot;</span>
+
+<span class="c1"># 构建向量存储</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">DeepLakeVectorStore</span><span class="p">(</span><span class="n">dataset_path</span><span class="o">=</span><span class="n">dataset_path</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>DocArray</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.vector_stores.docarray</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DocArrayHnsw</span>
+
+<span class="c1">## 使用数据连接器从向量存储加载数据</span>
+
+<span class="n">LlamaIndex</span> <span class="n">支持从海量数据源加载数据</span><span class="err">。</span><span class="n">更多详情及API文档请参阅</span><span class="p">[</span><span class="n">数据连接器</span><span class="p">](</span><span class="o">../../</span><span class="n">module_guides</span><span class="o">/</span><span class="n">loading</span><span class="o">/</span><span class="n">connector</span><span class="o">/</span><span class="n">modules</span><span class="o">.</span><span class="n">md</span><span class="p">)</span><span class="err">。</span>
+
+<span class="n">AlloyDB</span> <span class="n">同时存储文档和向量</span><span class="err">。</span>
+<span class="n">本教程展示同步接口的使用方式</span><span class="err">，</span><span class="n">所有同步方法均有对应的异步版本</span><span class="err">。</span>
+<span class="n">以下是使用</span> <span class="n">AlloyDB</span> <span class="n">的示例</span><span class="err">：</span>
+
+<span class="err">```</span><span class="n">bash</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">llama</span><span class="o">-</span><span class="n">index</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">llama</span><span class="o">-</span><span class="n">index</span><span class="o">-</span><span class="n">alloydb</span><span class="o">-</span><span class="n">pg</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">SummaryIndex</span>
+<span class="kn">from</span> <span class="nn">llama_index_alloydb_pg</span> <span class="kn">import</span> <span class="n">AlloyDBEngine</span><span class="p">,</span> <span class="n">AlloyDBReader</span>
+
+<span class="n">engine</span> <span class="o">=</span> <span class="n">AlloyDBEngine</span><span class="o">.</span><span class="n">from_instance</span><span class="p">(</span>
+    <span class="n">project_id</span><span class="o">=</span><span class="n">PROJECT_ID</span><span class="p">,</span>
+    <span class="n">region</span><span class="o">=</span><span class="n">REGION</span><span class="p">,</span>
+    <span class="n">cluster</span><span class="o">=</span><span class="n">CLUSTER</span><span class="p">,</span>
+    <span class="n">instance</span><span class="o">=</span><span class="n">INSTANCE</span><span class="p">,</span>
+    <span class="n">database</span><span class="o">=</span><span class="n">DATABASE</span><span class="p">,</span>
+    <span class="n">user</span><span class="o">=</span><span class="n">USER</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="n">PASSWORD</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">reader</span> <span class="o">=</span> <span class="n">AlloyDBReader</span><span class="o">.</span><span class="n">create_sync</span><span class="p">(</span>
+    <span class="n">engine</span><span class="p">,</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="n">TABLE_NAME</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+
+<span class="n">index</span> <span class="o">=</span> <span class="n">SummaryIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;&lt;query_text&gt;&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;b&gt;</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s2">&lt;/b&gt;&quot;</span><span class="p">))</span>
+</code></pre></div>
+<p>Google Cloud SQL for PostgreSQL 同时存储文档和向量。
+本教程展示同步接口的使用方式，所有同步方法均有对应的异步版本。
+以下是使用 Cloud SQL for PostgreSQL 的示例：</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>llama-index
+pip<span class="w"> </span>install<span class="w"> </span>llama-index-cloud-sql-pg
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">SummaryIndex</span>
+<span class="kn">from</span> <span class="nn">llama_index_cloud_sql_pg</span> <span class="kn">import</span> <span class="n">PostgresEngine</span><span class="p">,</span> <span class="n">PostgresReader</span>
+
+<span class="n">engine</span> <span class="o">=</span> <span class="n">PostgresEngine</span><span class="o">.</span><span class="n">from_instance</span><span class="p">(</span>
+    <span class="n">project_id</span><span class="o">=</span><span class="n">PROJECT_ID</span><span class="p">,</span>
+    <span class="n">region</span><span class="o">=</span><span class="n">REGION</span><span class="p">,</span>
+    <span class="n">instance</span><span class="o">=</span><span class="n">INSTANCE</span><span class="p">,</span>
+    <span class="n">database</span><span class="o">=</span><span class="n">DATABASE</span><span class="p">,</span>
+    <span class="n">user</span><span class="o">=</span><span class="n">USER</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="n">PASSWORD</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">reader</span> <span class="o">=</span> <span class="n">PostgresReader</span><span class="o">.</span><span class="n">create_sync</span><span class="p">(</span>
+    <span class="n">engine</span><span class="p">,</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="n">TABLE_NAME</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+
+<span class="n">index</span> <span class="o">=</span> <span class="n">SummaryIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;&lt;query_text&gt;&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;b&gt;</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s2">&lt;/b&gt;&quot;</span><span class="p">))</span>
+</code></pre></div>
+<p>Chroma 同时存储文档和向量。以下是使用 Chroma 的示例：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.readers.chroma</span> <span class="kn">import</span> <span class="n">ChromaReader</span>
+<span class="kn">from</span> <span class="nn">llama_index.core</span> <span class="kn">import</span> <span class="n">SummaryIndex</span>
+
+<span class="c1"># Chroma读取器从持久化的Chroma集合加载数据</span>
+<span class="c1"># 需要指定集合名称和持久化目录</span>
+<span class="n">reader</span> <span class="o">=</span> <span class="n">ChromaReader</span><span class="p">(</span>
+    <span class="n">collection_name</span><span class="o">=</span><span class="s2">&quot;chroma_collection&quot;</span><span class="p">,</span>
+    <span class="n">persist_directory</span><span class="o">=</span><span class="s2">&quot;examples/data_connectors/chroma_collection&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">query_vector</span> <span class="o">=</span> <span class="p">[</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+
+<span class="n">documents</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span>
+    <span class="n">collection_name</span><span class="o">=</span><span class="s2">&quot;demo&quot;</span><span class="p">,</span> <span class="n">query_vector</span><span class="o">=</span><span class="n">query_vector</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">5</span>
+<span class="p">)</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">SummaryIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+
+<span class="n">query_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_query_engine</span><span class="p">()</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">query_engine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;&lt;query_text&gt;&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;b&gt;</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s2">&lt;/b&gt;&quot;</span><span class="p">))</span>
+</code></pre></div>
+<p>Qdrant 同样存储文档和向量。以下是使用 Qdrant 的示例：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.readers.qdrant</span> <span class="kn">import</span> <span class="n">QdrantReader</span>
+
+<span class="n">reader</span> <span class="o">=</span> <span class="n">QdrantReader</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">)</span>
+
+<span class="c1"># query_vector是查询向量的嵌入表示</span>
+<span class="c1"># 示例query_vector</span>
+<span class="c1"># query_vector = [0.3, 0.3, 0.3, 0.3, ...]</span>
+
+<span class="n">query_vector</span> <span class="o">=</span> <span class="p">[</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+
+<span class="c1"># 注意：必填参数为collection_name和query_vector</span>
+<span class="c1"># 更多细节请参阅Python客户端：https;//github.com/qdrant/qdrant_client</span>
+
+<span class="n">documents</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span>
+    <span class="n">collection_name</span><span class="o">=</span><span class="s2">&quot;demo&quot;</span><span class="p">,</span> <span class="n">query_vector</span><span class="o">=</span><span class="n">query_vector</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">5</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>注意：由于 Weaviate 可以存储文档和向量的混合对象，用户可以选择显式指定 <code>class_name</code> 和 <code>properties</code> 来查询文档，也可以选择指定原始 GraphQL 查询。用法示例如下：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 选项1：指定class_name和properties</span>
+
+<span class="c1"># 1) 使用class_name和properties加载数据</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span>
+    <span class="n">class_name</span><span class="o">=</span><span class="s2">&quot;&lt;class_name&gt;&quot;</span><span class="p">,</span>
+    <span class="n">properties</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;property1&quot;</span><span class="p">,</span> <span class="s2">&quot;property2&quot;</span><span class="p">,</span> <span class="s2">&quot;...&quot;</span><span class="p">],</span>
+    <span class="n">separate_documents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># 2) GraphQL查询示例</span>
+<span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">{</span>
+<span class="s2">    Get {</span>
+<span class="s2">        &lt;class_name&gt; {</span>
+<span class="s2">            &lt;property1&gt;</span>
+<span class="s2">            &lt;property2&gt;</span>
+<span class="s2">        }</span>
+<span class="s2">    }</span>
+<span class="s2">}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">documents</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span><span class="n">graphql_query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">separate_documents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<p>注意：Pinecone 和 Faiss 数据加载器假定相应数据源仅存储向量，文本内容存储在其他地方。因此这两个数据加载器都要求用户在 load_data 调用中指定 <code>id_to_text_map</code>。</p>
+<p>例如，以下是 Pinecone 数据加载器 <code>PineconeReader</code> 的使用示例：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">llama_index.readers.pinecone</span> <span class="kn">import</span> <span class="n">PineconeReader</span>
+
+<span class="n">reader</span> <span class="o">=</span> <span class="n">PineconeReader</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span> <span class="n">environment</span><span class="o">=</span><span class="s2">&quot;us-west1-gcp&quot;</span><span class="p">)</span>
+
+<span class="n">id_to_text_map</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;id1&quot;</span><span class="p">:</span> <span class="s2">&quot;text blob 1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;id2&quot;</span><span class="p">:</span> <span class="s2">&quot;text blob 2&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">query_vector</span> <span class="o">=</span> <span class="p">[</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+
+<span class="n">documents</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span>
+    <span class="n">index_name</span><span class="o">=</span><span class="s2">&quot;quickstart&quot;</span><span class="p">,</span>
+    <span class="n">id_to_text_map</span><span class="o">=</span><span class="n">id_to_text_map</span><span class="p">,</span>
+    <span class="n">top_k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">vector</span><span class="o">=</span><span class="n">query_vector</span><span class="p">,</span>
+    <span class="n">separate_documents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><a href="https://github.com/jerryjliu/llama_index/tree/main/docs/docs/examples/data_connectors">示例笔记本可在此处查看</a>。</p>
+<h2 id="_3">向量存储示例<a class="headerlink" href="#_3" title="Permanent link">#</a></h2>
+<ul>
+<li><a href="../../../examples/vector_stores/AlibabaCloudOpenSearchIndexDemo/">阿里云OpenSearch</a></li>
+<li><a href="../../../examples/vector_stores/AmazonNeptuneVectorDemo/">亚马逊Neptune - Neptune分析</a></li>
+<li><a href="../../../examples/vector_stores/AstraDBIndexDemo/">Astra DB</a></li>
+<li><a href="../../../examples/vector_stores/AsyncIndexCreationDemo/">异步索引创建</a></li>
+<li><a href="../../../examples/vector_stores/AzureAISearchIndexDemo/">Azure AI搜索</a></li>
+<li><a href="../../../examples/vector_stores/AzureCosmosDBMongoDBvCoreDemo/">Azure Cosmos DB</a></li>
+<li><a href="../../../examples/vector_stores/CassandraIndexDemo/">Caasandra</a></li>
+<li><a href="../../../examples/vector_stores/ChromaIndexDemo/">Chromadb</a></li>
+<li><a href="../../../examples/vector_stores/CouchbaseVectorStoreDemo/">Couchbase</a></li>
+<li><a href="../../../examples/vector_stores/DashvectorIndexDemo/">Dash</a></li>
+<li><a href="../../../examples/vector_stores/DeepLakeIndexDemo/">Deeplake</a></li>
+<li><a href="../../../examples/vector_stores/DocArrayHnswIndexDemo/">DocArray HNSW</a></li>
+<li><a href="../../../examples/vector_stores/DocArrayInMemoryIndexDemo/">DocArray内存存储</a></li>
+<li><a href="../../../examples/vector_stores/EpsillaIndexDemo/">Espilla</a></li>
+<li><a href="../../../examples/vector_stores/AlloyDBVectorStoreDemo/">Google AlloyDB for PostgreSQL</a></li>
+<li><a href="../../../examples/vector_stores/CloudSQLPgVectorStoreDemo/">Google Cloud SQL for PostgreSQL</a></li>
+<li><a href="../../../examples/vector_stores/LanceDBIndexDemo/">LanceDB</a></li>
+<li><a href="../../../examples/vector_stores/LanternIndexDemo/">Lantern</a></li>
+<li><a href="../../examples/vector_stores/MetalIndexDemo.ipynb">Metal</a></li>
+<li><a href="../../../examples/vector_stores/MilvusIndexDemo/">Milvus</a></li>
+<li><a href="../../../examples/vector_stores/MilvusAsyncAPIDemo/">Milvus异步API</a></li>
+<li><a href="../../../examples/vector_stores/MilvusFullTextSearchDemo/">Milvus全文搜索</a></li>
+<li><a href="../../../examples/vector_stores/MilvusHybridIndexDemo/">Milvus混合搜索</a></li>
+<li><a href="../../../examples/vector_stores/MyScaleIndexDemo/">MyScale</a></li>
+<li><a href="../../../examples/vector_stores/ElasticsearchIndexDemo/">ElsaticSearch</a></li>
+<li><a href="../../../examples/vector_stores/FaissIndexDemo/">FAISS</a></li>
+<li><a href="../../../examples/vector_stores/MongoDBAtlasVectorSearch/">MongoDB Atlas</a></li>
+<li><a href="../../../examples/vector_stores/Neo4jVectorDemo/">Neo4j</a></li>
+<li><a href="../../../examples/vector_stores/OpensearchDemo/">OpenSearch</a></li>
+<li><a href="../../../examples/vector_stores/PineconeIndexDemo/">Pinecone</a></li>
+<li><a href="../../../examples/vector_stores/PineconeIndexDemo-Hybrid/">Pinecone混合搜索</a></li>
+<li><a href="../../../examples/vector_stores/PGVectoRsDemo/">PGvectoRS</a></li>
+<li><a href="../../../examples/vector_stores/postgres/">Postgres</a></li>
+<li><a href="../../../examples/vector_stores/RedisIndexDemo/">Redis</a></li>
+<li><a href="../../../examples/vector_stores/QdrantIndexDemo/">Qdrant</a></li>
+<li><a href="../../../examples/vector_stores/qdrant_hybrid/">Qdrant混合搜索</a></li>
+<li><a href="../../../examples/vector_stores/RocksetIndexDemo/">Rockset</a></li>
+<li><a href="../../../examples/vector_stores/SimpleIndexDemo/">简单索引</a></li>
+<li><a href="../../../examples/vector_stores/SupabaseVectorIndexDemo/">Supabase</a></li>
+<li><a href="../../../examples/vector_stores/TablestoreDemo/">表格存储</a></li>
+<li><a href="../../../examples/vector_stores/TairIndexDemo/">Tair</a></li>
+<li><a href="../../../examples/vector_stores/TencentVectorDBIndexDemo/">腾讯向量数据库</a></li>
+<li><a href="../../../examples/vector_stores/Timescalevector/">Timesacle</a></li>
+<li><a href="../../../examples/vector_stores/UpstashVectorDemo/">Upstash</a></li>
+<li><a href="../../../examples/vector_stores/WeaviateIndexDemo/">Weaviate</a></li>
+<li><a href="../../../examples/vector_stores/WeaviateIndexDemo-Hybrid/">Weaviate混合搜索</a></li>
+<li><a href="../../../examples/vector_stores/WordLiftDemo/">WordLift</a></li>
+<li><a href="../../../examples/vector_stores/ZepIndexDemo/">Zep</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+       
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <readthedocs-flyout position="bottom-left"></readthedocs-flyout>
+      
+    </div>
+  </div>
+</footer>
+      
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", "GTM-WWRFB36R");
+</script>
+<!-- End Google Tag Manager -->
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.prune", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+        <script src="../../../javascript/runllm.js"></script>
+      
+        <script src="../../../javascript/algolia.js"></script>
+      
+    
+  </body>
+</html>
